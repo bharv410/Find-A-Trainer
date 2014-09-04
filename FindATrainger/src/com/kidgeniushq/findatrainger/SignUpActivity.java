@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.ByteBuffer;
 import java.util.Calendar;
 
 import android.app.Activity;
@@ -17,6 +18,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,11 +31,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bugsense.trace.BugSenseHandler;
 import com.kidgeniushq.findatrainger.helpers.GeoCoder;
 import com.kidgeniushq.findatrainger.models.Trainer;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 public class SignUpActivity extends Activity {
 	ImageView mSelectedImage;
@@ -45,6 +50,7 @@ public class SignUpActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		BugSenseHandler.initAndStartSession(getApplicationContext(), "64fbe08c");
 		setContentView(R.layout.activity_sign_up);
 		
 		
@@ -104,8 +110,8 @@ public class SignUpActivity extends Activity {
 					Toast.LENGTH_SHORT).show();
 			return;
 		}
-		
 		if(imageBytes!=null){
+			
 			t.setImage(imageBytes);
 		}else {
 			Toast.makeText(getApplicationContext(), "Add Image",
@@ -138,13 +144,12 @@ public class SignUpActivity extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == 1
 				&& resultCode == Activity.RESULT_OK) {
-			Bitmap bitmap = getBitmapFromCameraData(data);
-			mSelectedImage.setImageBitmap(bitmap);
+			Bitmap bm = getBitmapFromCameraData(data);
+			mSelectedImage.setImageBitmap(bm);
 			
-			//convert bitmap to bytes so i can save to parse.com
-			ByteArrayOutputStream stream = new ByteArrayOutputStream();
-			bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-			imageBytes = stream.toByteArray();
+			ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.PNG, 100, stream1);
+            imageBytes = stream1.toByteArray();
 		}
 	}
 
@@ -159,55 +164,25 @@ public class SignUpActivity extends Activity {
 		cursor.close();
 		
 		//try resizing using the resizeformemory method
-		try{
-			File f = new File(picturePath);
-			return resizeForMemory(f);
-		}catch(Exception e){
-			
-		}
 		
 		
-		return BitmapFactory.decodeFile(picturePath);
+		
+		return getThumbnailBitmap(picturePath,90);
 	}
-	private Bitmap resizeForMemory(File f){
-	    Bitmap b = null;
-
-	        //Decode image size
-	    BitmapFactory.Options o = new BitmapFactory.Options();
-	    o.inJustDecodeBounds = true;
-
-	    FileInputStream fis;
-		try {
-			fis = new FileInputStream(f);
-		
-	    BitmapFactory.decodeStream(fis, null, o);
-	    fis.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-	    int scale = 1;
-	    if (o.outHeight > IMAGE_MAX_SIZE || o.outWidth > IMAGE_MAX_SIZE) {
-	        scale = (int)Math.pow(2, (int) Math.ceil(Math.log(IMAGE_MAX_SIZE / 
-	           (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
+	private Bitmap getThumbnailBitmap(final String path, final int thumbnailSize) {
+	    Bitmap bitmap;
+	    BitmapFactory.Options bounds = new BitmapFactory.Options();
+	    bounds.inJustDecodeBounds = true;
+	    BitmapFactory.decodeFile(path, bounds);
+	    if ((bounds.outWidth == -1) || (bounds.outHeight == -1)) {
+	        bitmap = null;
 	    }
-
-	    //Decode with inSampleSize
-	    BitmapFactory.Options o2 = new BitmapFactory.Options();
-	    o2.inSampleSize = scale;
-	    try {
-			fis = new FileInputStream(f);
-		
-	    b = BitmapFactory.decodeStream(fis, null, o2);
-	    fis.close();
-	    } catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	    return b;
+	    int originalSize = (bounds.outHeight > bounds.outWidth) ? bounds.outHeight
+	            : bounds.outWidth;
+	    BitmapFactory.Options opts = new BitmapFactory.Options();
+	    opts.inSampleSize = originalSize / thumbnailSize;
+	    bitmap = BitmapFactory.decodeFile(path, opts);
+	    return bitmap;
 	}
 	 private class GeoCodeThis extends AsyncTask<String, Void, double[]> {
 
@@ -235,7 +210,20 @@ public class SignUpActivity extends Activity {
 		        		trainerObject.put("aboutme", t.getAboutMe());
 		        		ParseFile chosenImage=new ParseFile("profilepic.jpg", imageBytes);
 		        		trainerObject.put("pic", chosenImage);
-		        		trainerObject.saveInBackground();
+		        		trainerObject.saveInBackground(new SaveCallback(){
+		            		public void done(ParseException e){
+		            			if(e==null){
+		            				Toast.makeText(getApplicationContext(), "Saved",
+		        	        				Toast.LENGTH_SHORT).show();
+		        	        		finish();
+		            			}else{
+		            				Toast.makeText(getApplicationContext(), "Error saving image",
+		        	        				Toast.LENGTH_SHORT).show();
+		        	        		finish();
+		            			}
+		            			
+		            			}
+		            		});
 		        		
 	            	}else if(getIntent().getStringExtra("option").contains("post")){
 	            		getSharedPreferences("findatrainersignin", 0).edit().putBoolean("my_first_time", false).commit();
@@ -247,16 +235,28 @@ public class SignUpActivity extends Activity {
 		        		trainerObject.put("aboutme", t.getAboutMe());
 		        		ParseFile chosenImage=new ParseFile("profilepic.jpg", imageBytes);
 		        		trainerObject.put("pic", chosenImage);
-		        		trainerObject.saveInBackground();
+		        		trainerObject.saveInBackground(new SaveCallback(){
+		            		public void done(ParseException e){
+		            			if(e==null){
+		            				Toast.makeText(getApplicationContext(), "Saved",
+		        	        				Toast.LENGTH_SHORT).show();
+		        	        		finish();
+		            			}else{
+		            				Toast.makeText(getApplicationContext(), "Error saving image",
+		        	        				Toast.LENGTH_SHORT).show();
+		        	        		finish();
+		            			}
+		            			
+		            			}
+		            		});
 	            	}
 	            	
 	            	
 	            	
 	            	
+	            	
 	        		
-	        		Toast.makeText(getApplicationContext(), "Saved",
-	        				Toast.LENGTH_SHORT).show();
-	        		finish();
+	        		
 	            }else{
 	            	System.out.println("Didn't find address");
 	            }
