@@ -254,10 +254,12 @@ public class SignUpActivity extends Activity {
 		            				Toast.makeText(getApplicationContext(), "Saved",
 		        	        				Toast.LENGTH_SHORT).show();
 		        	        		finish();
+		        	        		startActivity(new Intent(SignUpActivity.this,HomePageActivity.class));
 		            			}else{
 		            				Toast.makeText(getApplicationContext(), "Error saving image",
 		        	        				Toast.LENGTH_SHORT).show();
 		        	        		finish();
+		        	        		startActivity(new Intent(SignUpActivity.this,HomePageActivity.class));
 		            			}
 		            			
 		            			}
