@@ -23,12 +23,6 @@ public class HomePageActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         
-        if (android.os.Build.VERSION.SDK_INT >= 11)
-    		getActionBar().setTitle("Find a Trainer");
-        
-        
-        
-        
         if(retrieveStatus().contains("trainer")){
         	Intent i=new Intent(this,GetMoreClientsActivity.class);
 	    	startActivity(i);
@@ -38,22 +32,10 @@ public class HomePageActivity extends Activity {
 	    	startActivity(i);
         }
         
-        
-    }
-    
-    private void writeToFile(String data) {
-	    try {
-	        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput("trainerortrainee.txt", Context.MODE_PRIVATE));
-	        outputStreamWriter.write(data);
-	        outputStreamWriter.close();
-	    }
-	    catch (IOException e) {
-	        Log.e("Exception", "File write failed: " + e.toString());
-	    } 
-	}
-    public void needsATrainer(View v){
-    	writeToFile("trainee");
-    	
+        if (android.os.Build.VERSION.SDK_INT >= 11)
+    		getActionBar().setTitle("Find a Trainer");
+     }
+    public void needsATrainer(View v){    	
     	//if its the first time. set up sign up
     			if (getSharedPreferences("findatrainersignin", 0).getBoolean("my_first_time_searching", true)) {
     				Intent i=new Intent(this,SignUpActivity.class);
@@ -73,7 +55,6 @@ public class HomePageActivity extends Activity {
     		    	}
     			}
     public void isATrainer(View v){
-    	writeToFile("trainer");
     	if (getSharedPreferences("findatrainersignin", 0).getBoolean("my_first_time", true)) {
 			Intent i=new Intent(this,SignUpActivity.class);
 			i.putExtra("option", "post");
@@ -87,7 +68,6 @@ public class HomePageActivity extends Activity {
     	
     	
     }
-    
     private String retrieveStatus() {
 
 	    String ret = "";

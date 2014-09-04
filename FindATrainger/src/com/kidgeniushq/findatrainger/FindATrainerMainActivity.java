@@ -55,7 +55,8 @@ public class FindATrainerMainActivity extends ListActivity {
 			query.findInBackground(new FindCallback<ParseObject>() {
 				@Override
 				public void done(List<ParseObject> scoreList, ParseException e) {
-					if (e == null) {
+					if (e == null&&(scoreList.size()>0)) {
+						
 						//set name from parse
 			            ParseObject currentUser =scoreList.get(0);
 			            tv=(TextView)findViewById(R.id.usernameTextView);
@@ -91,7 +92,7 @@ public class FindATrainerMainActivity extends ListActivity {
 		String[] values = new String[] { "Find Local Fitness Trainers", "Favorites", "Messages",
 		        "Contact us"};
 		    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-		        android.R.layout.simple_list_item_1, values);
+		        R.layout.menulist, values);
 		    setListAdapter(adapter);
 	}
 	@Override
@@ -100,14 +101,14 @@ public class FindATrainerMainActivity extends ListActivity {
 	    
 	    switch (item) {
         case "Favorites":
-        	startActivity(new Intent(FindATrainerMainActivity.this,FavoritesActivity.class));
-            break;
+        	Toast.makeText(this, "Coming soon", Toast.LENGTH_LONG).show();
+        	break;
         case "Find Local Fitness Trainers":
         	startActivity(new Intent(FindATrainerMainActivity.this,LocalTrainersActivity.class));
             break;
         case "Messages":
-        	startActivity(new Intent(FindATrainerMainActivity.this,LocalTrainersActivity.class));
-            break;
+        	Toast.makeText(this, "Coming soon", Toast.LENGTH_LONG).show();
+        	break;
         case "Contact us":
         	emailClayton();
             break;

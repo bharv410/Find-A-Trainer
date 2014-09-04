@@ -27,6 +27,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="eu.janmuller.android.simplecropimage.CropImage" >
+        </activity>
+        <activity
             android:name=".FindATrainerMainActivity"
             android:label="@string/title_activity_find_atrainer_main" >
         </activity>

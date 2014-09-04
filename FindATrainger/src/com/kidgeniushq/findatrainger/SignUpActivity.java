@@ -1,10 +1,13 @@
 package com.kidgeniushq.findatrainger;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.ByteBuffer;
 import java.util.Calendar;
@@ -40,20 +43,20 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;
 
+import eu.janmuller.android.simplecropimage.CropImage;
+
 public class SignUpActivity extends Activity {
 	ImageView mSelectedImage;
 	byte[] imageBytes;
 	double lat,lng;
 	Trainer t;
-	
+	String picturePath;
 	private final int IMAGE_MAX_SIZE=600;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		BugSenseHandler.initAndStartSession(getApplicationContext(), "64fbe08c");
 		setContentView(R.layout.activity_sign_up);
-		
-		
 		
 		if (android.os.Build.VERSION.SDK_INT >= 11)
 		getActionBar().setTitle("Sign up!");
@@ -140,35 +143,68 @@ public class SignUpActivity extends Activity {
 				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 		startActivityForResult(i, 1);
 	}
-
+	private String getRealPathFromURI(Uri contentURI) {
+	    String result;
+	    Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
+	    if (cursor == null) { // Source is Dropbox or other similar local file path
+	        result = contentURI.getPath();
+	    } else { 
+	        cursor.moveToFirst(); 
+	        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA); 
+	        result = cursor.getString(idx);
+	        cursor.close();
+	    }
+	    return result;
+	}
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		//onactivityresult for choosing image
 		if (requestCode == 1
 				&& resultCode == Activity.RESULT_OK) {
-			Bitmap bm = getBitmapFromCameraData(data);
-			mSelectedImage.setImageBitmap(bm);
-			
-			ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.PNG, 100, stream1);
-            imageBytes = stream1.toByteArray();
+			picturePath=getRealPathFromURI(data.getData());
+            runCropImage();
 		}
-	}
+		//onactivityresult for cropping image
+		if (requestCode == 2
+				&& resultCode == Activity.RESULT_OK) {
+			picturePath = data.getStringExtra(CropImage.IMAGE_PATH);
 
-	public Bitmap getBitmapFromCameraData(Intent data) {
-		Uri selectedImage = data.getData();
-		String[] filePathColumn = { MediaStore.Images.Media.DATA };
-		Cursor cursor = getApplicationContext().getContentResolver().query(selectedImage,
-				filePathColumn, null, null, null);
-		cursor.moveToFirst();
-		int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-		String picturePath = cursor.getString(columnIndex);
-		cursor.close();
-		
-		//try resizing using the resizeformemory method
-		
-		
-		
-		return getThumbnailBitmap(picturePath,90);
+        if (picturePath == null) {
+            return;
+        }
+
+        Bitmap bitmap = getThumbnailBitmap(picturePath,240);
+        mSelectedImage.setImageBitmap(bitmap);
+        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
+      bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream1);
+      imageBytes = stream1.toByteArray();
+      try {
+		stream1.close();
+	} catch (IOException e) {
+		e.printStackTrace();
 	}
+		}
+		
+	}
+	private void runCropImage() {
+
+	    // create explicit intent
+	    Intent intent = new Intent(this, CropImage.class);
+
+	    // tell CropImage activity to look for image to crop 
+	    intent.putExtra(CropImage.IMAGE_PATH, picturePath);
+
+	    // allow CropImage activity to rescale image
+	    intent.putExtra(CropImage.SCALE, true);
+
+	    // if the aspect ratio is fixed to ratio 3/2
+	    intent.putExtra(CropImage.ASPECT_X, 4);
+	    intent.putExtra(CropImage.ASPECT_Y, 4);
+
+	    // start activity CropImage with certain request code and listen
+	    // for result
+	    startActivityForResult(intent, 2);
+	}
+	
 	private Bitmap getThumbnailBitmap(final String path, final int thumbnailSize) {
 	    Bitmap bitmap;
 	    BitmapFactory.Options bounds = new BitmapFactory.Options();
@@ -213,6 +249,8 @@ public class SignUpActivity extends Activity {
 		        		trainerObject.saveInBackground(new SaveCallback(){
 		            		public void done(ParseException e){
 		            			if(e==null){
+		            				savePersonAs("trainee");
+		            				
 		            				Toast.makeText(getApplicationContext(), "Saved",
 		        	        				Toast.LENGTH_SHORT).show();
 		        	        		finish();
@@ -226,6 +264,7 @@ public class SignUpActivity extends Activity {
 		            		});
 		        		
 	            	}else if(getIntent().getStringExtra("option").contains("post")){
+	            		savePersonAs("trainer");
 	            		getSharedPreferences("findatrainersignin", 0).edit().putBoolean("my_first_time", false).commit();
 	            		ParseObject trainerObject = new ParseObject("Trainer");
 	            		trainerObject.put("name", t.getName());
@@ -287,4 +326,15 @@ public class SignUpActivity extends Activity {
 	 // Do something with the date chosen by the user
 	 }
 }
+	 private void savePersonAs(String data) {
+		    try {
+		        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput("trainerortrainee.txt", Context.MODE_PRIVATE));
+		        outputStreamWriter.write(data);
+		        outputStreamWriter.close();
+		    }
+		    catch (IOException e) {
+		        Log.e("Exception", "File write failed: " + e.toString());
+		    } 
+		}
+	 
 }

@@ -11,6 +11,7 @@
     <RelativeLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="wrap_content"
+        android:background="#C0C0C0"
         android:layout_height="140dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
@@ -27,23 +28,24 @@
             android:layout_centerInParent="true"
             android:src="@drawable/claytonheader" />
 
-        <TextView
-            android:id="@+id/usernameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:text="Welcome Username"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/usernameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_centerHorizontal="true"
+        android:text="Welcome Username"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/relativeLayout1"
-        android:layout_below="@+id/relativeLayout1" >
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/usernameTextView" >
+
     </ListView>
 
 </RelativeLayout>
