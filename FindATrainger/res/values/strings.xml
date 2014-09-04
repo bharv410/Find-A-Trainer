@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FindATrainger</string>
+    <string name="hello_world">Coming Soon!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_find_atrainer_main">FindATrainerMainActivity</string>
+    <string name="title_activity_get_more_clients">GetMoreClientsActivity</string>
+    <string name="title_activity_favorites">FavoritesActivity</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="title_activity_local_trainers">LocalTrainersActivity</string>
+
+</resources>
