@@ -1,16 +1,19 @@
 package com.kidgeniushq.findatrainger;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.nio.ByteBuffer;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Calendar;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -18,19 +21,24 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -51,7 +59,12 @@ public class SignUpActivity extends Activity {
 	double lat,lng;
 	Trainer t;
 	String picturePath;
+	EditText editName,aboutMeEditText;
 	private final int IMAGE_MAX_SIZE=600;
+	AutoCompleteTextView autoCompView;
+	private static final String LOG_TAG = "Places log";
+	private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place/autocomplete/json";
+	private static final String API_KEY = "AIzaSyBDodh_fM-Bro-_gUNrGTZBJgKx3n3MQ6M";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,6 +76,10 @@ public class SignUpActivity extends Activity {
 		
 		Parse.initialize(this, "rW19JzkDkzkgH5ZuqDO9wgD43XIfqEdnznw8YftG", "sxRJveZXQvLlvlfWzf0949RFTyvIaJOvJeC1WtoI");
 		mSelectedImage = (ImageView) findViewById(R.id.eventPhotoImage);
+		editName = (EditText) findViewById(R.id.fullNameEditText);
+		aboutMeEditText = (EditText) findViewById(R.id.descriptBox);
+		autoCompView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
+	    autoCompView.setAdapter(new PlacesAutoCompleteAdapter(this, android.R.layout.simple_spinner_item));
 	}
 	private void writeToFile(String data) {
 	    try {
@@ -76,59 +93,47 @@ public class SignUpActivity extends Activity {
 	}
 	public void save(View v) {
 		t = new Trainer();
-		EditText editName = (EditText) findViewById(R.id.fullNameEditText);
+		
 		if (editName.getText() != null
 				&& !editName.getText().toString().equals("")) {
-			// add name if its not empty
-			t.setName(editName.getText().toString());
 			
-			//save name locally
+			t.setName(editName.getText().toString());
 			writeToFile(editName.getText().toString());
+			
 		} else {
-			Toast.makeText(getApplicationContext(), "Complete required info",
+			Toast.makeText(getApplicationContext(), "Enter your name please.",
 					Toast.LENGTH_SHORT).show();
 			return;
 		}
-//		EditText youtube = (EditText) findViewById(R.id.youtubeLinkEditText);
-//		if (youtube.getText() != null
-//				&& !youtube.getText().toString().equals("")) {
-//			// add link if its not empty
-//			t.setYoutubeLink(youtube.getText().toString());
-//		} else {
-//			Toast.makeText(getApplicationContext(), "Complete required info",
-//					Toast.LENGTH_SHORT).show();
-//			return;
-//		}
+
 
 		// must add birthday
 		// must add birthday
 
-		EditText aboutMeEditText = (EditText) findViewById(R.id.descriptBox);
+		
 		if (aboutMeEditText.getText() != null
 				&& !aboutMeEditText.getText().toString().equals("")) {
-			// add link if its not empty
+
 			t.setAboutMe(aboutMeEditText.getText().toString());
+			
 		} else {
-			Toast.makeText(getApplicationContext(), "Complete required info",
+			Toast.makeText(getApplicationContext(), "Add Fitness Goals",
 					Toast.LENGTH_SHORT).show();
 			return;
 		}
-		if(imageBytes!=null){
-			
-			t.setImage(imageBytes);
+		if(imageBytes==null){
+			useDefaultImage();
 		}else {
-			Toast.makeText(getApplicationContext(), "Add Image",
-					Toast.LENGTH_SHORT).show();
+			t.setImage(imageBytes);
 			return;
 		}
 		
-		AutoCompleteTextView locationEditText = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
-		if (locationEditText.getText() != null
-				&& !locationEditText.getText().toString().equals("")) {
-			// add address if its not empty
-			new GeoCodeThis().execute(locationEditText.getText().toString());
+		if (autoCompView.getText() != null
+				&& !autoCompView.getText().toString().equals("")) {
+			new GeoCodeThis().execute(autoCompView.getText().toString());
+			
 		} else {
-			Toast.makeText(getApplicationContext(), "Complete required info",
+			Toast.makeText(getApplicationContext(), "Add full address",
 					Toast.LENGTH_SHORT).show();
 			return;
 		}
@@ -244,6 +249,9 @@ public class SignUpActivity extends Activity {
 	            		ParseObject trainerObject = new ParseObject("Trainee");
 	            		trainerObject.put("name", t.getName());
 		        		trainerObject.put("aboutme", t.getAboutMe());
+		        		trainerObject.put("lat", lat);
+		        		trainerObject.put("lng", lng);
+		        		trainerObject.put("address", autoCompView.getText().toString());
 		        		ParseFile chosenImage=new ParseFile("profilepic.jpg", imageBytes);
 		        		trainerObject.put("pic", chosenImage);
 		        		trainerObject.saveInBackground(new SaveCallback(){
@@ -270,10 +278,10 @@ public class SignUpActivity extends Activity {
 	            		getSharedPreferences("findatrainersignin", 0).edit().putBoolean("my_first_time", false).commit();
 	            		ParseObject trainerObject = new ParseObject("Trainer");
 	            		trainerObject.put("name", t.getName());
-		        		trainerObject.put("youtubelink", "none");
 		        		trainerObject.put("lat", lat);
 		        		trainerObject.put("lng", lng);
 		        		trainerObject.put("aboutme", t.getAboutMe());
+		        		trainerObject.put("address", autoCompView.getText().toString());
 		        		ParseFile chosenImage=new ParseFile("profilepic.jpg", imageBytes);
 		        		trainerObject.put("pic", chosenImage);
 		        		trainerObject.saveInBackground(new SaveCallback(){
@@ -337,6 +345,112 @@ public class SignUpActivity extends Activity {
 		    catch (IOException e) {
 		        Log.e("Exception", "File write failed: " + e.toString());
 		    } 
+		}
+	 
+	 private void useDefaultImage(){
+		 Resources res = getResources();
+			Drawable drawable = res.getDrawable(R.drawable.signupwithnophotopic);
+			Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+			ByteArrayOutputStream stream = new ByteArrayOutputStream();
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+			byte[] bitMapData = stream.toByteArray();
+			imageBytes=bitMapData;
+			t.setImage(imageBytes);
+	 }
+	 private ArrayList<String> autocomplete(String input) {
+		    ArrayList<String> resultList = null;
+
+		    HttpURLConnection conn = null;
+		    StringBuilder jsonResults = new StringBuilder();
+		    try {
+		        StringBuilder sb = new StringBuilder(PLACES_API_BASE);
+		        sb.append("?key=" + API_KEY);
+		        sb.append("&components=country:us");
+		        sb.append("&input=" + URLEncoder.encode(input, "utf8"));
+
+		        URL url = new URL(sb.toString());
+		        conn = (HttpURLConnection) url.openConnection();
+		        InputStreamReader in = new InputStreamReader(conn.getInputStream());
+
+		        // Load the results into a StringBuilder
+		        int read;
+		        char[] buff = new char[1024];
+		        while ((read = in.read(buff)) != -1) {
+		            jsonResults.append(buff, 0, read);
+		        }
+		    } catch (MalformedURLException e) {
+		        Log.e(LOG_TAG, "Error processing Places API URL", e);
+		        return resultList;
+		    } catch (IOException e) {
+		        Log.e(LOG_TAG, "Error connecting to Places API", e);
+		        return resultList;
+		    } finally {
+		        if (conn != null) {
+		            conn.disconnect();
+		        }
+		    }
+
+		    try {
+		        // Create a JSON object hierarchy from the results
+		        JSONObject jsonObj = new JSONObject(jsonResults.toString());
+		        JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
+
+		        // Extract the Place descriptions from the results
+		        resultList = new ArrayList<String>(predsJsonArray.length());
+		        for (int i = 0; i < predsJsonArray.length(); i++) {
+		            resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
+		        }
+		    } catch (JSONException e) {
+		        Log.e(LOG_TAG, "Cannot process JSON results", e);
+		    }
+
+		    return resultList;
+		}
+	 private class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
+		    private ArrayList<String> resultList;
+
+		    public PlacesAutoCompleteAdapter(Context context, int textViewResourceId) {
+		        super(context, textViewResourceId);
+		    }
+
+		    @Override
+		    public int getCount() {
+		        return resultList.size();
+		    }
+
+		    @Override
+		    public String getItem(int index) {
+		        return resultList.get(index);
+		    }
+
+		    @Override
+		    public Filter getFilter() {
+		        Filter filter = new Filter() {
+		            @Override
+		            protected FilterResults performFiltering(CharSequence constraint) {
+		                FilterResults filterResults = new FilterResults();
+		                if (constraint != null) {
+		                    // Retrieve the autocomplete results.
+		                    resultList = autocomplete(constraint.toString());
+
+		                    // Assign the data to the FilterResults
+		                    filterResults.values = resultList;
+		                    filterResults.count = resultList.size();
+		                }
+		                return filterResults;
+		            }
+
+		            @Override
+		            protected void publishResults(CharSequence constraint, FilterResults results) {
+		                if (results != null && results.count > 0) {
+		                    notifyDataSetChanged();
+		                }
+		                else {
+		                    notifyDataSetInvalidated();
+		                }
+		            }};
+		        return filter;
+		    }
 		}
 	 
 }

@@ -89,7 +89,7 @@
                     android:ellipsize="start"
                     android:ems="10"
                     android:gravity="left"
-                    android:hint="About Me" />
+                    android:hint="Fitness Goals" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

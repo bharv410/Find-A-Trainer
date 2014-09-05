@@ -6,8 +6,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <uses-sdk
         android:minSdkVersion="13"
         android:targetSdkVersion="19" />
@@ -19,15 +20,14 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".HomePageActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="eu.janmuller.android.simplecropimage.CropImage" >
+        <activity android:name="eu.janmuller.android.simplecropimage.CropImage" >
         </activity>
         <activity
             android:name=".FindATrainerMainActivity"
@@ -48,6 +48,10 @@
         <activity
             android:name="com.kidgeniushq.traineeoptions.LocalTrainersActivity"
             android:label="@string/title_activity_local_trainers" >
+        </activity>
+        <activity
+            android:name=".TrainerActivity"
+            android:label="@string/title_activity_trainer" >
         </activity>
     </application>
 

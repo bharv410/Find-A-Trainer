@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.kidgeniushq.findatrainger.R;
+import com.kidgeniushq.findatrainger.TrainerActivity;
 import com.kidgeniushq.findatrainger.helpers.CustomListAdapter;
 import com.kidgeniushq.findatrainger.helpers.StaticVariables;
 import com.kidgeniushq.findatrainger.models.Trainer;
@@ -23,7 +26,6 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 public class LocalTrainersActivity extends ListActivity {
-	int currentLatitude, currentLongitude;
 	private CustomListAdapter adapter;
 
 	@Override
@@ -37,33 +39,40 @@ public class LocalTrainersActivity extends ListActivity {
 		Parse.initialize(this, "rW19JzkDkzkgH5ZuqDO9wgD43XIfqEdnznw8YftG",
 				"sxRJveZXQvLlvlfWzf0949RFTyvIaJOvJeC1WtoI");
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Trainer");
+		query.orderByDescending("createdAt");
 		query.findInBackground(new FindCallback<ParseObject>() {
 			@Override
 			public void done(List<ParseObject> scoreList, ParseException e) {
 				if (e == null) {
 					StaticVariables.allTrainers = new ArrayList<Trainer>();
 					Log.d("score", "Retrieved " + scoreList.size() + " scores");
+					int i = 0;
 					for (ParseObject trainer : scoreList) {
+						if (i < 5) {
+							final Trainer currentTrainer = new Trainer();
+							currentTrainer.setName(trainer.getString("name"));
+							currentTrainer.setLat(trainer.getInt("lat"));
+							currentTrainer.setLng(trainer.getInt("lng"));
+							currentTrainer.setAboutMe(trainer
+									.getString("aboutme"));
+							// get pic
+							ParseFile proPic = trainer.getParseFile("pic");
+							proPic.getDataInBackground(new GetDataCallback() {
+								public void done(byte[] data, ParseException e) {
+									if (e == null) {
 
-						final Trainer currentTrainer = new Trainer();
-						currentTrainer.setName(trainer.getString("name"));
-						currentTrainer.setLat(trainer.getInt("lat"));
-						currentTrainer.setLng(trainer.getInt("lng"));
-						// get pic
-						ParseFile proPic = trainer.getParseFile("pic");
-						proPic.getDataInBackground(new GetDataCallback() {
-							public void done(byte[] data, ParseException e) {
-								if (e == null) {
-									currentTrainer.setImage(data);
-									StaticVariables.allTrainers
-											.add(currentTrainer);
-									if (StaticVariables.allTrainers.size() == 1)
-										setListAdapter();
-									else
-										adapter.notifyDataSetChanged();
+										currentTrainer.setImage(data);
+										StaticVariables.allTrainers
+												.add(currentTrainer);
+										if (StaticVariables.allTrainers.size() == 1)
+											setListAdapter();
+										else
+											adapter.notifyDataSetChanged();
+									}
 								}
-							}
-						});
+							});
+						}
+						i++;
 					}
 				}
 			}
@@ -72,8 +81,12 @@ public class LocalTrainersActivity extends ListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		String item = StaticVariables.allTrainers.get(position).getName();
-		Toast.makeText(this, item + " selected", Toast.LENGTH_LONG).show();
+
+		StaticVariables.currentTrainer = StaticVariables.allTrainers
+				.get(position);
+		String item = StaticVariables.currentTrainer.getName();
+		startActivity(new Intent(LocalTrainersActivity.this,
+				TrainerActivity.class));
 	}
 
 	private void setListAdapter() {

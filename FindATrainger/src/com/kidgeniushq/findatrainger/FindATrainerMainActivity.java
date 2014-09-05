@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,12 +37,13 @@ import com.parse.ParseQuery;
 public class FindATrainerMainActivity extends ListActivity {
 	ImageView iv;
 	TextView tv;
+	ProgressBar picProgressBar;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_find_atrainer_main);
 		
-		
+		picProgressBar= (ProgressBar)findViewById(R.id.picProgressBar);
 		String username =retrieveUsername();
 		tv=(TextView)findViewById(R.id.usernameTextView);
 		tv.setText("Welcome "+username);
@@ -55,6 +57,7 @@ public class FindATrainerMainActivity extends ListActivity {
 			query.findInBackground(new FindCallback<ParseObject>() {
 				@Override
 				public void done(List<ParseObject> scoreList, ParseException e) {
+					picProgressBar.setVisibility(ProgressBar.GONE);
 					if (e == null&&(scoreList.size()>0)) {
 						
 						//set name from parse

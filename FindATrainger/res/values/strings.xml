@@ -9,5 +9,6 @@
     <string name="title_activity_favorites">FavoritesActivity</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="title_activity_local_trainers">LocalTrainersActivity</string>
+    <string name="title_activity_trainer">TrainerActivity</string>
 
 </resources>
