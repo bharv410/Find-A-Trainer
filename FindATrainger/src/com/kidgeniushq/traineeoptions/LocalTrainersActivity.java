@@ -9,8 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.kidgeniushq.findatrainger.R;
 import com.kidgeniushq.findatrainger.TrainerActivity;
@@ -48,7 +46,7 @@ public class LocalTrainersActivity extends ListActivity {
 					Log.d("score", "Retrieved " + scoreList.size() + " scores");
 					int i = 0;
 					for (ParseObject trainer : scoreList) {
-						if (i < 5) {
+		
 							final Trainer currentTrainer = new Trainer();
 							currentTrainer.setName(trainer.getString("name"));
 							currentTrainer.setLat(trainer.getInt("lat"));
@@ -71,8 +69,6 @@ public class LocalTrainersActivity extends ListActivity {
 									}
 								}
 							});
-						}
-						i++;
 					}
 				}
 			}

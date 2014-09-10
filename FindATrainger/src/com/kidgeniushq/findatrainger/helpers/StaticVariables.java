@@ -7,4 +7,5 @@ import com.kidgeniushq.findatrainger.models.Trainer;
 public class StaticVariables {
 public static ArrayList<Trainer> allTrainers;
 public static Trainer currentTrainer;
+public static String username;
 }

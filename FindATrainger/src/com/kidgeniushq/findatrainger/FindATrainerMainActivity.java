@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kidgeniushq.findatrainger.helpers.StaticVariables;
 import com.kidgeniushq.findatrainger.models.Trainer;
 import com.kidgeniushq.traineeoptions.FavoritesActivity;
 import com.kidgeniushq.traineeoptions.LocalTrainersActivity;
@@ -47,7 +48,7 @@ public class FindATrainerMainActivity extends ListActivity {
 		String username =retrieveUsername();
 		tv=(TextView)findViewById(R.id.usernameTextView);
 		tv.setText("Welcome "+username);
-		
+		StaticVariables.username=username;
 		
 		if(username!=null && !username.equals("")){
 			Parse.initialize(this, "rW19JzkDkzkgH5ZuqDO9wgD43XIfqEdnznw8YftG", "sxRJveZXQvLlvlfWzf0949RFTyvIaJOvJeC1WtoI");
@@ -104,7 +105,7 @@ public class FindATrainerMainActivity extends ListActivity {
 	    
 	    switch (item) {
         case "Favorites":
-        	Toast.makeText(this, "Coming soon", Toast.LENGTH_LONG).show();
+        	startActivity(new Intent(FindATrainerMainActivity.this,FavoritesActivity.class));
         	break;
         case "Find Local Fitness Trainers":
         	startActivity(new Intent(FindATrainerMainActivity.this,LocalTrainersActivity.class));

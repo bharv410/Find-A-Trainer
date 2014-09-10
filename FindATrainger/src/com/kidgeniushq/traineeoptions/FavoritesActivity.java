@@ -1,29 +1,92 @@
 package com.kidgeniushq.traineeoptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.kidgeniushq.findatrainger.R;
+import com.kidgeniushq.findatrainger.TrainerActivity;
+import com.kidgeniushq.findatrainger.helpers.StaticVariables;
+import com.kidgeniushq.findatrainger.models.Trainer;
+import com.parse.FindCallback;
+import com.parse.GetDataCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 public class FavoritesActivity extends ListActivity {
+	ArrayList<String> favNames;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_favorites);
+
+		favNames = new ArrayList<String>();
+
+		Parse.initialize(this, "rW19JzkDkzkgH5ZuqDO9wgD43XIfqEdnznw8YftG",
+				"sxRJveZXQvLlvlfWzf0949RFTyvIaJOvJeC1WtoI");
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Favorites");
+		query.whereEqualTo("username", StaticVariables.username);
+		query.orderByDescending("createdAt");
+		query.findInBackground(new FindCallback<ParseObject>() {
+			@Override
+			public void done(List<ParseObject> scoreList, ParseException e) {
+				if (e == null) {
+					for (ParseObject trainer : scoreList) {
+						favNames.add(trainer.getString("favorite"));
+					}
+					ArrayAdapter<String> adapter = new ArrayAdapter<String>(FavoritesActivity.this,
+							android.R.layout.simple_list_item_1, favNames);
+					setListAdapter(adapter);
+				}
+			}
+		});
+
 		
-		String[] values = new String[] { "Billy Blanks", "Clayton Minott", "Buzz Brahman",};
-    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-        android.R.layout.simple_list_item_1, values);
-    setListAdapter(adapter);
 	}
+
 	@Override
-	  protected void onListItemClick(ListView l, View v, int position, long id) {
-	    String item = (String) getListAdapter().getItem(position);
-	    Toast.makeText(this, item + " selected", Toast.LENGTH_LONG).show();
-	  }
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		String item = (String) getListAdapter().getItem(position);
+		
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Trainer");
+		query.whereEqualTo("name", item);
+		query.findInBackground(new FindCallback<ParseObject>() {
+			@Override
+			public void done(List<ParseObject> scoreList, ParseException e) {
+				if (e == null) {
+					for (ParseObject trainer : scoreList) {
+							StaticVariables.currentTrainer = new Trainer();
+							StaticVariables.currentTrainer.setName(trainer.getString("name"));
+							StaticVariables.currentTrainer.setLat(trainer.getInt("lat"));
+							StaticVariables.currentTrainer.setLng(trainer.getInt("lng"));
+							StaticVariables.currentTrainer.setAboutMe(trainer
+									.getString("aboutme"));
+							// get pic
+							ParseFile proPic = trainer.getParseFile("pic");
+							proPic.getDataInBackground(new GetDataCallback() {
+								public void done(byte[] data, ParseException e) {
+									if (e == null) {
+										StaticVariables.currentTrainer.setImage(data);
+									}
+								}
+							});
+					}
+					startActivity(new Intent(FavoritesActivity.this,
+							TrainerActivity.class));
+				}
+			}
+		});
+	}
 }
