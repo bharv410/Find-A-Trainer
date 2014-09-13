@@ -15,6 +15,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+        android:background="#5CADFF"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="8dp"
         android:text="Get More Clients"
         android:onClick="isATrainer" />
 
@@ -26,16 +29,39 @@
         android:layout_alignParentLeft="true"
         android:layout_alignRight="@+id/isATrainerButton"
         android:text="Find Fitness Trainers"
+        android:background="#5CADFF"
+        android:textColor="#FFFFFF"
         android:onClick="needsATrainer" />
 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/needsATrainerButton"
         android:layout_alignLeft="@+id/needsATrainerButton"
+        android:layout_below="@+id/titlePartOneTextView"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/titlePartOneTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageView1"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/needsATrainerButton"
-        android:src="@drawable/fat1" />
+        android:text="Find A "
+        android:layout_marginLeft="20dp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="34dp" />
+
+    <TextView
+        android:id="@+id/titlePartTwoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/titlePartOneTextView"
+        android:layout_alignBottom="@+id/titlePartOneTextView"
+        android:layout_toRightOf="@+id/titlePartOneTextView"
+        android:text="Trainer"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#5CADFF"
+        android:textSize="34dp" />
 
 </RelativeLayout>

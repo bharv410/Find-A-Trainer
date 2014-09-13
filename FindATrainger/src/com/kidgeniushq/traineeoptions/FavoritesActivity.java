@@ -6,11 +6,11 @@ import java.util.List;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.kidgeniushq.findatrainger.R;
 import com.kidgeniushq.findatrainger.TrainerActivity;
@@ -30,6 +30,9 @@ public class FavoritesActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+		                                WindowManager.LayoutParams.FLAG_FULLSCREEN); 
 		setContentView(R.layout.activity_favorites);
 
 		favNames = new ArrayList<String>();
@@ -44,6 +47,7 @@ public class FavoritesActivity extends ListActivity {
 			public void done(List<ParseObject> scoreList, ParseException e) {
 				if (e == null) {
 					for (ParseObject trainer : scoreList) {
+						System.out.println(trainer.getString("favorite"));
 						favNames.add(trainer.getString("favorite"));
 					}
 					ArrayAdapter<String> adapter = new ArrayAdapter<String>(FavoritesActivity.this,
@@ -52,8 +56,6 @@ public class FavoritesActivity extends ListActivity {
 				}
 			}
 		});
-
-		
 	}
 
 	@Override

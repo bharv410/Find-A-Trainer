@@ -5,15 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
+import android.view.Window;
+import android.view.WindowManager;
 
 
 public class HomePageActivity extends Activity {
@@ -21,6 +20,9 @@ public class HomePageActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                                        WindowManager.LayoutParams.FLAG_FULLSCREEN); 
         setContentView(R.layout.activity_home_page);
         
         if(retrieveStatus().contains("trainer")){
@@ -31,9 +33,6 @@ public class HomePageActivity extends Activity {
         	Intent i=new Intent(this,FindATrainerMainActivity.class);
 	    	startActivity(i);
         }
-        
-        if (android.os.Build.VERSION.SDK_INT >= 11)
-    		getActionBar().setTitle("Find a Trainer");
      }
     public void needsATrainer(View v){    	
     	//if its the first time. set up sign up

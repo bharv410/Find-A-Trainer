@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
@@ -33,8 +34,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Filter;
@@ -53,7 +57,7 @@ import com.parse.SaveCallback;
 
 import eu.janmuller.android.simplecropimage.CropImage;
 
-public class SignUpActivity extends Activity {
+public class SignUpActivity extends Activity{
 	ImageView mSelectedImage;
 	byte[] imageBytes;
 	double lat,lng;
@@ -68,11 +72,12 @@ public class SignUpActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+		                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		BugSenseHandler.initAndStartSession(getApplicationContext(), "64fbe08c");
-		setContentView(R.layout.activity_sign_up);
 		
-		if (android.os.Build.VERSION.SDK_INT >= 11)
-		getActionBar().setTitle("Sign up!");
+		setContentView(R.layout.activity_sign_up);
 		
 		Parse.initialize(this, "rW19JzkDkzkgH5ZuqDO9wgD43XIfqEdnznw8YftG", "sxRJveZXQvLlvlfWzf0949RFTyvIaJOvJeC1WtoI");
 		mSelectedImage = (ImageView) findViewById(R.id.eventPhotoImage);
@@ -290,10 +295,12 @@ public class SignUpActivity extends Activity {
 		            				Toast.makeText(getApplicationContext(), "Saved",
 		        	        				Toast.LENGTH_SHORT).show();
 		        	        		finish();
+		        	        		startActivity(new Intent(SignUpActivity.this,HomePageActivity.class));
 		            			}else{
 		            				Toast.makeText(getApplicationContext(), "Error saving image",
 		        	        				Toast.LENGTH_SHORT).show();
 		        	        		finish();
+		        	        		startActivity(new Intent(SignUpActivity.this,HomePageActivity.class));
 		            			}
 		            			
 		            			}
@@ -313,29 +320,9 @@ public class SignUpActivity extends Activity {
 	        }
 	 }
 	 public void showDatePickerDialog(View v) {
-//		    DialogFragment newFragment = new DatePickerFrag();
-//		    newFragment.show(getFragmentManager(), "datePicker");
-		 Toast.makeText(getApplicationContext(), "Don't need yet", Toast.LENGTH_SHORT).show();
+		    DialogFragment newFragment = new DatePickerDialogFragment();
+		    newFragment.show(getFragmentManager(), "datePicker");
 		}
-	 public class DatePickerFrag extends DialogFragment
-	 implements DatePickerDialog.OnDateSetListener {
-
-	 @Override
-	 public Dialog onCreateDialog(Bundle savedInstanceState) {
-	 // Use the current date as the default date in the picker
-	 final Calendar c = Calendar.getInstance();
-	 int year = c.get(Calendar.YEAR);
-	 int month = c.get(Calendar.MONTH);
-	 int day = c.get(Calendar.DAY_OF_MONTH);
-
-	 // Create a new instance of DatePickerDialog and return it
-	 return new DatePickerDialog(getActivity(), this, year, month, day);
-	 }
-
-	 public void onDateSet(DatePicker view, int year, int month, int day) {
-	 // Do something with the date chosen by the user
-	 }
-}
 	 private void savePersonAs(String data) {
 		    try {
 		        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput("trainerortrainee.txt", Context.MODE_PRIVATE));
@@ -349,7 +336,7 @@ public class SignUpActivity extends Activity {
 	 
 	 private void useDefaultImage(){
 		 Resources res = getResources();
-			Drawable drawable = res.getDrawable(R.drawable.signupwithnophotopic);
+			Drawable drawable = res.getDrawable(R.drawable.dummypic);
 			Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
 			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -451,6 +438,28 @@ public class SignUpActivity extends Activity {
 		            }};
 		        return filter;
 		    }
+		}
+	 
+	 public class DatePickerDialogFragment extends DialogFragment {
+		 
+			private OnDateSetListener mDateSetListener;
+		 
+			public DatePickerDialogFragment() {
+				// nothing to see here, move along
+			}
+		 
+			public DatePickerDialogFragment(OnDateSetListener callback) {
+				mDateSetListener = (OnDateSetListener) callback;
+			}
+		 
+			public Dialog onCreateDialog(Bundle savedInstanceState) {
+				Calendar cal = Calendar.getInstance();
+		
+				return new DatePickerDialog(getActivity(),
+						mDateSetListener, cal.get(Calendar.YEAR), 
+						cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+			}
+		 
 		}
 	 
 }

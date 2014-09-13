@@ -5,16 +5,16 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.List;
 
 import android.app.ListActivity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -23,7 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kidgeniushq.findatrainger.helpers.StaticVariables;
-import com.kidgeniushq.findatrainger.models.Trainer;
 import com.kidgeniushq.traineeoptions.FavoritesActivity;
 import com.kidgeniushq.traineeoptions.LocalTrainersActivity;
 import com.parse.FindCallback;
@@ -42,6 +41,9 @@ public class FindATrainerMainActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+		                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_find_atrainer_main);
 		
 		picProgressBar= (ProgressBar)findViewById(R.id.picProgressBar);

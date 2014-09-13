@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">FindATrainger</string>
+    <string name="app_name">Find A Trainer</string>
     <string name="hello_world">Coming Soon!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_find_atrainer_main">FindATrainerMainActivity</string>
