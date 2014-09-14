@@ -76,16 +76,17 @@ public class SignUpActivity extends Activity{
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
 		                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		BugSenseHandler.initAndStartSession(getApplicationContext(), "64fbe08c");
-		
 		setContentView(R.layout.activity_sign_up);
 		
 		Parse.initialize(this, "rW19JzkDkzkgH5ZuqDO9wgD43XIfqEdnznw8YftG", "sxRJveZXQvLlvlfWzf0949RFTyvIaJOvJeC1WtoI");
+		
 		mSelectedImage = (ImageView) findViewById(R.id.eventPhotoImage);
 		editName = (EditText) findViewById(R.id.fullNameEditText);
 		aboutMeEditText = (EditText) findViewById(R.id.descriptBox);
 		autoCompView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
 	    autoCompView.setAdapter(new PlacesAutoCompleteAdapter(this, android.R.layout.simple_spinner_item));
 	}
+	
 	private void writeToFile(String data) {
 	    try {
 	        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput("username.txt", Context.MODE_PRIVATE));
@@ -98,41 +99,13 @@ public class SignUpActivity extends Activity{
 	}
 	public void save(View v) {
 		t = new Trainer();
-		
-		if (editName.getText() != null
-				&& !editName.getText().toString().equals("")) {
-			
-			t.setName(editName.getText().toString());
-			writeToFile(editName.getText().toString());
-			
-		} else {
-			Toast.makeText(getApplicationContext(), "Enter your name please.",
-					Toast.LENGTH_SHORT).show();
-			return;
-		}
-
-
-		// must add birthday
-		// must add birthday
-
-		
-		if (aboutMeEditText.getText() != null
-				&& !aboutMeEditText.getText().toString().equals("")) {
-
-			t.setAboutMe(aboutMeEditText.getText().toString());
-			
-		} else {
-			Toast.makeText(getApplicationContext(), "Add Fitness Goals",
-					Toast.LENGTH_SHORT).show();
-			return;
-		}
+		saveTrainerName(t);
+		saveTrainerGoals(t);
 		if(imageBytes==null){
 			useDefaultImage();
 		}else {
 			t.setImage(imageBytes);
-			return;
 		}
-		
 		if (autoCompView.getText() != null
 				&& !autoCompView.getText().toString().equals("")) {
 			new GeoCodeThis().execute(autoCompView.getText().toString());
@@ -142,11 +115,8 @@ public class SignUpActivity extends Activity{
 					Toast.LENGTH_SHORT).show();
 			return;
 		}
-		
-		
-		//IF STILL HERE THEN ALL REQUIRED FIELDS ARE FILLED IN
-		
-		}
+}
+	
 
 	public void choosePhoto(View v) {
 		Intent i = new Intent(Intent.ACTION_PICK,
@@ -172,6 +142,7 @@ public class SignUpActivity extends Activity{
 				&& resultCode == Activity.RESULT_OK) {
 			picturePath=getRealPathFromURI(data.getData());
             runCropImage();
+            return;
 		}
 		//onactivityresult for cropping image
 		if (requestCode == 2
@@ -196,7 +167,6 @@ public class SignUpActivity extends Activity{
 		
 	}
 	private void runCropImage() {
-
 	    // create explicit intent
 	    Intent intent = new Intent(this, CropImage.class);
 
@@ -231,26 +201,20 @@ public class SignUpActivity extends Activity{
 	    return bitmap;
 	}
 	 private class GeoCodeThis extends AsyncTask<String, Void, double[]> {
-
 	        @Override
 	        protected double[] doInBackground(String... params) {
 	            return GeoCoder.getLatLongFromAddress(params[0]);
 	        }
-
 	        @Override
 	        protected void onPostExecute(double[] result) {
 	            if(result.length>1){
 	            	lat=result[0];
 	            	lng=result[1];
 	            	System.out.println("lat: "+lat+"lng: "+lng);
-	            	
 	            	//save signup locally
 	            	if(getIntent().getStringExtra("option").contains("find")){
 	            		getSharedPreferences("findatrainersignin", 0).edit().putBoolean("my_first_time_searching", false).commit();
-	            		
-	            		
-	            		//save to local DB also!!
-	            		
+	            			            		
 	            		ParseObject trainerObject = new ParseObject("Trainee");
 	            		trainerObject.put("name", t.getName());
 		        		trainerObject.put("aboutme", t.getAboutMe());
@@ -263,18 +227,14 @@ public class SignUpActivity extends Activity{
 		            		public void done(ParseException e){
 		            			if(e==null){
 		            				savePersonAs("trainee");
-		            				
 		            				Toast.makeText(getApplicationContext(), "Saved",
 		        	        				Toast.LENGTH_SHORT).show();
 		        	        		finish();
 		        	        		startActivity(new Intent(SignUpActivity.this,HomePageActivity.class));
 		            			}else{
-		            				Toast.makeText(getApplicationContext(), "Error saving image",
+		            				Toast.makeText(getApplicationContext(), "Error saving. Try again.",
 		        	        				Toast.LENGTH_SHORT).show();
-		        	        		finish();
-		        	        		startActivity(new Intent(SignUpActivity.this,HomePageActivity.class));
-		            			}
-		            			
+		        	        	}
 		            			}
 		            		});
 		        		
@@ -300,23 +260,13 @@ public class SignUpActivity extends Activity{
 		            				Toast.makeText(getApplicationContext(), "Error saving image",
 		        	        				Toast.LENGTH_SHORT).show();
 		        	        		finish();
-		        	        		startActivity(new Intent(SignUpActivity.this,HomePageActivity.class));
 		            			}
-		            			
 		            			}
 		            		});
 	            	}
-	            	
-	            	
-	            	
-	            	
-	            	
-	        		
-	        		
 	            }else{
 	            	System.out.println("Didn't find address");
 	            }
-	            
 	        }
 	 }
 	 public void showDatePickerDialog(View v) {
@@ -461,5 +411,30 @@ public class SignUpActivity extends Activity{
 			}
 		 
 		}
-	 
+	 private void saveTrainerName(Trainer t){
+		//if name is NOT empty
+			if (editName.getText() != null
+					&& !editName.getText().toString().equals("")) {
+				//add name to trainer object and save locally
+				t.setName(editName.getText().toString());
+				writeToFile(editName.getText().toString());
+				
+			} else {
+				Toast.makeText(getApplicationContext(), "Enter your name please.",
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
+	 }
+	 private void saveTrainerGoals(Trainer t){
+		 if (aboutMeEditText.getText() != null
+					&& !aboutMeEditText.getText().toString().equals("")) {
+
+				t.setAboutMe(aboutMeEditText.getText().toString());
+				
+			} else {
+				Toast.makeText(getApplicationContext(), "Add Fitness Goals",
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
+	 }
 }
