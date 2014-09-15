@@ -2,6 +2,7 @@ package com.kidgeniushq.findatrainger;
 
 import android.app.Activity;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.kidgeniushq.findatrainger.helpers.StaticVariables;
 import com.kidgeniushq.findatrainger.models.Trainer;
@@ -39,6 +41,15 @@ public class TrainerActivity extends Activity {
 		byte[] bitmapdata = currentTrainer.getImage();
 		bigImageView.setImageBitmap(BitmapFactory.decodeByteArray(bitmapdata,
 				0, bitmapdata.length));
+		
+		
+		VideoView trainerIntro=(VideoView)findViewById(R.id.trainerIntroVideoView);
+		String path1="http://commonsware.com/misc/test2.3gp";
+		Uri video=Uri.parse(path1);
+		trainerIntro.setVideoURI(video);
+		trainerIntro.requestFocus();
+		trainerIntro.start();
+		
 
 	}
 

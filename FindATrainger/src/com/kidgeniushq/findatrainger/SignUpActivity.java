@@ -1,7 +1,9 @@
 package com.kidgeniushq.findatrainger;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -11,6 +13,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,6 +88,22 @@ public class SignUpActivity extends Activity{
 		aboutMeEditText = (EditText) findViewById(R.id.descriptBox);
 		autoCompView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
 	    autoCompView.setAdapter(new PlacesAutoCompleteAdapter(this, android.R.layout.simple_spinner_item));
+	
+	
+	
+	
+	
+	
+	    Intent videoPickerIntent = new Intent(Intent.ACTION_PICK);
+	    videoPickerIntent.setType("video/*");
+	    startActivityForResult(videoPickerIntent, 3); 
+	    
+	    
+	    
+	
+	
+	
+	
 	}
 	
 	private void writeToFile(String data) {
@@ -137,6 +156,23 @@ public class SignUpActivity extends Activity{
 	    return result;
 	}
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == 3){  
+            Uri video = data.getData();
+            InputStream videoStream;
+			try {
+				videoStream = getContentResolver().openInputStream(video);
+				byte[] recordData = IOUtils.toByteArray(videoStream);
+				
+				
+			} catch (FileNotFoundException e) {
+				Toast.makeText(getApplicationContext(), "filenotfound", Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			} catch (IOException e) {
+				Toast.makeText(getApplicationContext(), "io", Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			}
+           return;
+        }
 		//onactivityresult for choosing image
 		if (requestCode == 1
 				&& resultCode == Activity.RESULT_OK) {
@@ -164,6 +200,8 @@ public class SignUpActivity extends Activity{
 		e.printStackTrace();
 	}
 		}
+		
+		
 		
 	}
 	private void runCropImage() {

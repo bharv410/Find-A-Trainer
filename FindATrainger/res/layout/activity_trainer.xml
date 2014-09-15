@@ -9,44 +9,6 @@
     tools:context="com.kidgeniushq.findatrainger.TrainerActivity" >
 
     <TextView
-        android:id="@+id/aboutMeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/nameTextView"
-        android:paddingTop="40dp"
-        android:paddingBottom="20dp"
-        android:text="This is the section where the about me will show up"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <ImageView
-        android:id="@+id/trainerBigImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/aboutMeTextView"
-        android:layout_below="@+id/aboutMeTextView"
-        android:layout_marginLeft="14dp"
-        android:src="@drawable/ic_launcher" />
-
-    <Button
-        android:id="@+id/favoriteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:text="Favorite"
-        android:onClick="favoriteButtonClick" />
-
-    <Button
-        android:id="@+id/messageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/favoriteButton"
-        android:layout_toRightOf="@+id/favoriteButton"
-        android:text="Message"
-        android:onClick="messageButtonClick" />
-
-    <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,19 +22,52 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="17dp"
         android:layout_toRightOf="@+id/textView1"
         android:text="Name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:id="@+id/textView2"
+    <VideoView
+        android:id="@+id/trainerIntroVideoView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignTop="@+id/aboutMeTextView"
-        android:layout_marginTop="20dp"
-        android:text="Fitness Goals: "
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_above="@+id/favoriteButton"
+        android:layout_below="@+id/trainerBigImageView" />
+
+    <Button
+        android:id="@+id/favoriteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/videoView1"
+        android:layout_alignParentBottom="true"
+        android:onClick="favoriteButtonClick"
+        android:text="Favorite" />
+
+    <TextView
+        android:id="@+id/aboutMeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_below="@+id/textView1"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/trainerBigImageView"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:layout_alignRight="@+id/trainerIntroVideoView"
+        android:layout_alignTop="@+id/nameTextView"
+        android:scaleType="fitXY"
+        android:src="@drawable/dummypic" />
+
+    <Button
+        android:id="@+id/messageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/favoriteButton"
+        android:layout_alignBottom="@+id/favoriteButton"
+        android:layout_alignRight="@+id/trainerIntroVideoView"
+        android:onClick="messageButtonClick"
+        android:text="Message" />
 
 </RelativeLayout>
