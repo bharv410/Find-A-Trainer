@@ -45,6 +45,13 @@
                     android:onClick="choosePhoto"
                     android:text="Choose photo" />
 
+                <Button
+                    android:id="@+id/introChooseButton"
+                    android:layout_width="246dp"
+                    android:layout_height="wrap_content"
+                    android:text="Choose Intro Video"
+                    android:onClick="chooseVid" />
+
                 <EditText
                     android:id="@+id/fullNameEditText"
                     android:layout_width="match_parent"

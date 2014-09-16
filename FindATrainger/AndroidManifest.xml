@@ -54,6 +54,10 @@
             android:name=".TrainerActivity"
             android:label="@string/title_activity_trainer" >
         </activity>
+        <activity
+            android:name=".ChooseVideoActivity"
+            android:label="@string/title_activity_choose_video" >
+        </activity>
     </application>
 
 </manifest>

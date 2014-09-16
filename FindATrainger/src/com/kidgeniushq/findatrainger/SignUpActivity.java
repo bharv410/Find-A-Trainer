@@ -87,18 +87,7 @@ public class SignUpActivity extends Activity{
 		editName = (EditText) findViewById(R.id.fullNameEditText);
 		aboutMeEditText = (EditText) findViewById(R.id.descriptBox);
 		autoCompView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
-	    autoCompView.setAdapter(new PlacesAutoCompleteAdapter(this, android.R.layout.simple_spinner_item));
-	
-	
-	
-	
-	
-	
-	    Intent videoPickerIntent = new Intent(Intent.ACTION_PICK);
-	    videoPickerIntent.setType("video/*");
-	    startActivityForResult(videoPickerIntent, 3); 
-	    
-	    
+	    autoCompView.setAdapter(new PlacesAutoCompleteAdapter(this, android.R.layout.simple_spinner_item));  
 	    
 	
 	
@@ -115,11 +104,13 @@ public class SignUpActivity extends Activity{
 	    catch (IOException e) {
 	        Log.e("Exception", "File write failed: " + e.toString());
 	    } 
+	    
 	}
 	public void save(View v) {
 		t = new Trainer();
 		saveTrainerName(t);
 		saveTrainerGoals(t);
+		
 		if(imageBytes==null){
 			useDefaultImage();
 		}else {
@@ -156,23 +147,7 @@ public class SignUpActivity extends Activity{
 	    return result;
 	}
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(requestCode == 3){  
-            Uri video = data.getData();
-            InputStream videoStream;
-			try {
-				videoStream = getContentResolver().openInputStream(video);
-				byte[] recordData = IOUtils.toByteArray(videoStream);
-				
-				
-			} catch (FileNotFoundException e) {
-				Toast.makeText(getApplicationContext(), "filenotfound", Toast.LENGTH_SHORT).show();
-				e.printStackTrace();
-			} catch (IOException e) {
-				Toast.makeText(getApplicationContext(), "io", Toast.LENGTH_SHORT).show();
-				e.printStackTrace();
-			}
-           return;
-        }
+		
 		//onactivityresult for choosing image
 		if (requestCode == 1
 				&& resultCode == Activity.RESULT_OK) {
@@ -293,7 +268,9 @@ public class SignUpActivity extends Activity{
 		            				Toast.makeText(getApplicationContext(), "Saved",
 		        	        				Toast.LENGTH_SHORT).show();
 		        	        		finish();
-		        	        		startActivity(new Intent(SignUpActivity.this,HomePageActivity.class));
+		        	        		Intent i=new Intent(SignUpActivity.this,ChooseVideoActivity.class);
+		        	        		i.putExtra("name", t.getName());
+		        	        		startActivity(i);
 		            			}else{
 		            				Toast.makeText(getApplicationContext(), "Error saving image",
 		        	        				Toast.LENGTH_SHORT).show();
