@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -81,14 +82,14 @@ public class TrainerActivity extends Activity {
 										} catch (IOException e1) {
 												e1.printStackTrace();
 											}
-										
+										MediaController mc=new MediaController(TrainerActivity.this);
 										VideoView trainerIntro=(VideoView)findViewById(R.id.trainerIntroVideoView);
+										trainerIntro.setMediaController(mc);
 										trainerIntro.setVideoPath(file.getAbsolutePath());
 										trainerIntro.requestFocus();
 										trainerIntro.start();}
 								}
 							});
-					
 				}
 			}
 		});

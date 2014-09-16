@@ -23,6 +23,7 @@ import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -61,6 +62,7 @@ import com.parse.SaveCallback;
 import eu.janmuller.android.simplecropimage.CropImage;
 
 public class SignUpActivity extends Activity{
+	private ProgressDialog pd;
 	ImageView mSelectedImage;
 	byte[] imageBytes;
 	double lat,lng;
@@ -106,7 +108,18 @@ public class SignUpActivity extends Activity{
 	    } 
 	    
 	}
+	@Override 
+    protected void onDestroy() {
+    	if (pd!=null) {
+			pd.dismiss();
+		}
+    	super.onDestroy();
+    }
 	public void save(View v) {
+		
+		
+		Button saveButton = (Button)findViewById(R.id.saveButton);
+		saveButton.setClickable(false);
 		t = new Trainer();
 		saveTrainerName(t);
 		saveTrainerGoals(t);
@@ -118,6 +131,12 @@ public class SignUpActivity extends Activity{
 		}
 		if (autoCompView.getText() != null
 				&& !autoCompView.getText().toString().equals("")) {
+			pd = new ProgressDialog(this);
+			pd.setTitle("Loading...");
+			pd.setMessage("WORKING SOME THINGS OUT\n(pun not intended)");
+			pd.setCancelable(false);
+			pd.setIndeterminate(true);
+			pd.show();
 			new GeoCodeThis().execute(autoCompView.getText().toString());
 			
 		} else {
@@ -220,6 +239,9 @@ public class SignUpActivity extends Activity{
 	        }
 	        @Override
 	        protected void onPostExecute(double[] result) {
+	        	if(pd!=null)
+	        		pd.dismiss();
+	        	
 	            if(result.length>1){
 	            	lat=result[0];
 	            	lng=result[1];

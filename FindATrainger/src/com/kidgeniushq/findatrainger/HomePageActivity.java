@@ -41,13 +41,7 @@ public class HomePageActivity extends Activity {
     				i.putExtra("option", "find");
     		    	startActivity(i);
     			}else{
-    				
-    				
-    				
-    				
-    				
-    				
-    						//Load the login details
+    			
     				Intent i=new Intent(this,FindATrainerMainActivity.class);
     				
     		    	startActivity(i);

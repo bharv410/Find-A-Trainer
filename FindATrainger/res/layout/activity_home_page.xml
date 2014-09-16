@@ -33,11 +33,12 @@
         android:textColor="#FFFFFF"
         android:onClick="needsATrainer" />
 
-    <ImageView
+    <com.kidgeniushq.findatrainger.helpers.SquareImageView
         android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/needsATrainerButton"
+        android:layout_alignRight="@+id/needsATrainerButton"
         android:layout_below="@+id/titlePartOneTextView"
         android:src="@drawable/ic_launcher" />
 
