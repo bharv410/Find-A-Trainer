@@ -239,8 +239,7 @@ public class SignUpActivity extends Activity{
 	        }
 	        @Override
 	        protected void onPostExecute(double[] result) {
-	        	if(pd!=null)
-	        		pd.dismiss();
+	        	
 	        	
 	            if(result.length>1){
 	            	lat=result[0];
@@ -260,6 +259,8 @@ public class SignUpActivity extends Activity{
 		        		trainerObject.put("pic", chosenImage);
 		        		trainerObject.saveInBackground(new SaveCallback(){
 		            		public void done(ParseException e){
+		            			if(pd!=null)
+		        	        		pd.dismiss();
 		            			if(e==null){
 		            				savePersonAs("trainee");
 		            				Toast.makeText(getApplicationContext(), "Saved",
@@ -286,7 +287,10 @@ public class SignUpActivity extends Activity{
 		        		trainerObject.put("pic", chosenImage);
 		        		trainerObject.saveInBackground(new SaveCallback(){
 		            		public void done(ParseException e){
+		            			if(pd!=null)
+		        	        		pd.dismiss();
 		            			if(e==null){
+		            				
 		            				Toast.makeText(getApplicationContext(), "Saved",
 		        	        				Toast.LENGTH_SHORT).show();
 		        	        		finish();

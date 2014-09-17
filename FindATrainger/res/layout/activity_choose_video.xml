@@ -11,7 +11,7 @@
     <VideoView
         android:id="@+id/introVidSignUpView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
@@ -25,5 +25,24 @@
         android:textColor="#FFFFFF"
         android:text="Save"
         android:onClick="save" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_alignLeft="@+id/introVidSignUpView"
+        android:layout_below="@+id/introVidSignUpView"
+        android:text="Choose a square video (example- Instagram, Magisto etc.)\nto show potential clients what you can offer."
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/chooseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:onClick="chooseVideo"
+        android:text="choose" />
 
 </RelativeLayout>
