@@ -8,5 +8,7 @@
     <dimen name="rating">15dip</dimen>
     <dimen name="genre">13dip</dimen>
     <dimen name="year">12dip</dimen>
+    <!-- Default Parallax ImageView Height  -->
+    <dimen name="size_default_height">460dp</dimen>
  
 </resources>

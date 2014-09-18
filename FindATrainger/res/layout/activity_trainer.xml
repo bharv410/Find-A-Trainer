@@ -26,9 +26,9 @@
         android:text="Name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <VideoView
+    <com.kidgeniushq.findatrainger.helpers.CustomVideoView
         android:id="@+id/trainerIntroVideoView"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/favoriteButton"
         android:layout_below="@+id/trainerBigImageView" />

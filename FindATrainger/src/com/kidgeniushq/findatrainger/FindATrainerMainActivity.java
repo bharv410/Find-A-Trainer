@@ -7,14 +7,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -22,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kidgeniushq.findatrainger.helpers.ParallaxScollListView;
 import com.kidgeniushq.findatrainger.helpers.StaticVariables;
 import com.kidgeniushq.traineeoptions.FavoritesActivity;
 import com.kidgeniushq.traineeoptions.LocalTrainersActivity;
@@ -34,22 +38,53 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 
-public class FindATrainerMainActivity extends ListActivity {
-	ImageView iv;
+public class FindATrainerMainActivity extends Activity {
 	TextView tv;
-	ProgressBar picProgressBar;
+	private ParallaxScollListView mListView;
+	private ImageView mImageView;
+	String[] values;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-		                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.activity_find_atrainer_main);
-		
-		picProgressBar= (ProgressBar)findViewById(R.id.picProgressBar);
-		String username =retrieveUsername();
-		tv=(TextView)findViewById(R.id.usernameTextView);
-		tv.setText("Welcome "+username);
+		                                WindowManager.LayoutParams.FLAG_FULLSCREEN);		
+		setContentView(R.layout.activity_fatmain);
+
+        mListView = (ParallaxScollListView) findViewById(R.id.layout_listview);
+        View header = LayoutInflater.from(this).inflate(R.layout.listview_header, null);
+        mImageView = (ImageView) header.findViewById(R.id.layout_header_image);
+        
+        mListView.setParallaxImageView(mImageView);
+        mListView.addHeaderView(header);
+        mListView.setOnItemClickListener(new OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view,
+                    int position, long id) {
+
+            	String item = (String) values[position-1];
+        	    
+        	    switch (item) {
+                case "Favorites":
+                	startActivity(new Intent(FindATrainerMainActivity.this,FavoritesActivity.class));
+                	break;
+                case "Find Local Fitness Trainers":
+                	startActivity(new Intent(FindATrainerMainActivity.this,LocalTrainersActivity.class));
+                    break;
+                case "Messages":
+                	Toast.makeText(FindATrainerMainActivity.this, "Coming soon", Toast.LENGTH_LONG).show();
+                	break;
+                case "Contact us":
+                	emailClayton();
+                    break;
+                default:
+                	Toast.makeText(FindATrainerMainActivity.this, item + " selected", Toast.LENGTH_LONG).show();
+        	    }
+        	    }
+        });
+        
+        String username =retrieveUsername();
+//		tv=(TextView)findViewById(R.id.usernameTextView);
+//		tv.setText("Welcome "+username);
 		StaticVariables.username=username;
 		
 		if(username!=null && !username.equals("")){
@@ -60,21 +95,19 @@ public class FindATrainerMainActivity extends ListActivity {
 			query.findInBackground(new FindCallback<ParseObject>() {
 				@Override
 				public void done(List<ParseObject> scoreList, ParseException e) {
-					picProgressBar.setVisibility(ProgressBar.GONE);
 					if (e == null&&(scoreList.size()>0)) {
 						
 						//set name from parse
 			            ParseObject currentUser =scoreList.get(0);
-			            tv=(TextView)findViewById(R.id.usernameTextView);
-			    		iv=(ImageView)findViewById(R.id.imageView1);
-			    		tv.setText("Welcome "+currentUser.getString("name"));
+//			            tv=(TextView)findViewById(R.id.usernameTextView);
+			    		//tv.setText("Welcome "+currentUser.getString("name"));
 			    		
 			    		//set image from parse
 			    		ParseFile proPic=currentUser.getParseFile("pic");
 			    		proPic.getDataInBackground(new GetDataCallback() {
 			    			  public void done(byte[] data, ParseException e) {
 			    			    if (e == null) {
-			    			      iv.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, data.length));
+			    			    	mImageView.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, data.length));
 			    			    } else {
 			    			      // something went wrong
 			    			    }
@@ -95,34 +128,15 @@ public class FindATrainerMainActivity extends ListActivity {
 		
 		
 		
-		String[] values = new String[] { "Find Local Fitness Trainers", "Favorites", "Messages",
+		values = new String[] { "Find Local Fitness Trainers", "Favorites", "Messages",
 		        "Contact us"};
-		    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-		        R.layout.menulist, values);
-		    setListAdapter(adapter);
-	}
-	@Override
-	  protected void onListItemClick(ListView l, View v, int position, long id) {
-	    String item = (String) getListAdapter().getItem(position);
-	    
-	    switch (item) {
-        case "Favorites":
-        	startActivity(new Intent(FindATrainerMainActivity.this,FavoritesActivity.class));
-        	break;
-        case "Find Local Fitness Trainers":
-        	startActivity(new Intent(FindATrainerMainActivity.this,LocalTrainersActivity.class));
-            break;
-        case "Messages":
-        	Toast.makeText(this, "Coming soon", Toast.LENGTH_LONG).show();
-        	break;
-        case "Contact us":
-        	emailClayton();
-            break;
-        default:
-        	Toast.makeText(this, item + " selected", Toast.LENGTH_LONG).show();
-	    }
-	 }
-	
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_expandable_list_item_1,values
+        );
+        mListView.setAdapter(adapter);
+        
+		    
+	}	
 	private void emailClayton(){
 		Intent intent = new Intent(Intent.ACTION_SEND);
 	    intent.setType("text/html");
@@ -163,4 +177,12 @@ public class FindATrainerMainActivity extends ListActivity {
 
 	    return ret;
 	}
+	@Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        if (hasFocus) {
+            mListView.setViewsBounds(ParallaxScollListView.ZOOM_X2);
+        }
+    }
 }
