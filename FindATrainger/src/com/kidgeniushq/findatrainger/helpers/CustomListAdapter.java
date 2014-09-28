@@ -90,9 +90,19 @@ public class CustomListAdapter extends BaseAdapter {
 
 		// rating
 		rating.setText(String.valueOf(m.getLat()) + String.valueOf(m.getLng()));
-
+		if(m.getName().contains("Favorites")){
+			rating.setText("View trainers you've favorited");
+		}else if(m.getName().contains("Find Local Fitness Trainers")){
+			rating.setText("In person fitness training");
+		}else if(m.getName().contains("Messages")){
+			rating.setText("Be sure to utilize video chat");
+		}else if(m.getName().contains("Contact Us")){
+			rating.setText("Send us any feedback you have");
+		}
+		
+		
 		// genre
-		genre.setText("hi");
+		genre.setText("");
 
 		// release year
 		year.setText(String.valueOf(1999));

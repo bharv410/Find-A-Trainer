@@ -5,6 +5,8 @@ import java.util.List;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,9 +32,8 @@ public class LocalTrainersActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_local_trainers);
-
-		if (android.os.Build.VERSION.SDK_INT >= 11)
-			getActionBar().setTitle("Local Trainers");
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5CADFF")));
+		getActionBar().setTitle("Find-A-Trainer");
 
 		Parse.initialize(this, "rW19JzkDkzkgH5ZuqDO9wgD43XIfqEdnznw8YftG",
 				"sxRJveZXQvLlvlfWzf0949RFTyvIaJOvJeC1WtoI");

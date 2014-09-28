@@ -1,32 +1,36 @@
 package com.kidgeniushq.findatrainger;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kidgeniushq.findatrainger.helpers.CustomListAdapter;
 import com.kidgeniushq.findatrainger.helpers.ParallaxScollListView;
 import com.kidgeniushq.findatrainger.helpers.StaticVariables;
+import com.kidgeniushq.findatrainger.models.Trainer;
 import com.kidgeniushq.traineeoptions.FavoritesActivity;
 import com.kidgeniushq.traineeoptions.LocalTrainersActivity;
 import com.parse.FindCallback;
@@ -39,30 +43,29 @@ import com.parse.ParseQuery;
 
 
 public class FindATrainerMainActivity extends Activity {
+	private CustomListAdapter menuAdapter;
 	TextView tv;
 	private ParallaxScollListView mListView;
 	private ImageView mImageView;
-	String[] values;
+	String username ;
+	List<Trainer> values;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-		                                WindowManager.LayoutParams.FLAG_FULLSCREEN);		
+		super.onCreate(savedInstanceState);	
 		setContentView(R.layout.activity_fatmain);
-
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5CADFF")));
+		username=retrieveUsername();
+		getActionBar().setTitle("Welcome "+username);
         mListView = (ParallaxScollListView) findViewById(R.id.layout_listview);
         View header = LayoutInflater.from(this).inflate(R.layout.listview_header, null);
         mImageView = (ImageView) header.findViewById(R.id.layout_header_image);
-        
         mListView.setParallaxImageView(mImageView);
         mListView.addHeaderView(header);
         mListView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                     int position, long id) {
-
-            	String item = (String) values[position-1];
-        	    
+            	if(position>0){
+            	String item = (String) values.get(position-1).getName();
         	    switch (item) {
                 case "Favorites":
                 	startActivity(new Intent(FindATrainerMainActivity.this,FavoritesActivity.class));
@@ -80,9 +83,10 @@ public class FindATrainerMainActivity extends Activity {
                 	Toast.makeText(FindATrainerMainActivity.this, item + " selected", Toast.LENGTH_LONG).show();
         	    }
         	    }
+            }
         });
         
-        String username =retrieveUsername();
+        
 //		tv=(TextView)findViewById(R.id.usernameTextView);
 //		tv.setText("Welcome "+username);
 		StaticVariables.username=username;
@@ -126,14 +130,48 @@ public class FindATrainerMainActivity extends Activity {
 			});
 		}
 		
+		//test adding stuff
+		final Trainer menu1 = new Trainer();
+		menu1.setName(("Find Local Fitness Trainers"));
+		menu1.setLat(1);
+		menu1.setLng(3);
+		menu1.setAboutMe("JJ");
+		Drawable drawable= getResources().getDrawable(R.drawable.dummypic);
+		Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+		byte[] buffer= out.toByteArray();
+		menu1.setImage(buffer);
 		
+		final Trainer menu2 = new Trainer();
+		menu2.setName(("Favorites"));
+		menu2.setLat(1);
+		menu2.setLng(3);
+		menu2.setAboutMe("JJ");
+		menu2.setImage(buffer);
 		
-		values = new String[] { "Find Local Fitness Trainers", "Favorites", "Messages",
-		        "Contact us"};
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_expandable_list_item_1,values
+		final Trainer menu3 = new Trainer();
+		menu3.setName(("Messages"));
+		menu3.setLat(1);
+		menu3.setLng(3);
+		menu3.setAboutMe("JJ");
+		menu3.setImage(buffer);
+		
+		final Trainer menu4 = new Trainer();
+		menu4.setName(("Contact Us"));
+		menu4.setLat(1);
+		menu4.setLng(3);
+		menu4.setAboutMe("JJ");
+		menu4.setImage(buffer);
+		
+		values = new ArrayList<Trainer>();
+		values.add(menu1);
+		values.add(menu2);
+		values.add(menu3);
+		values.add(menu4);
+		menuAdapter = new CustomListAdapter(this,values
         );
-        mListView.setAdapter(adapter);
+        mListView.setAdapter(menuAdapter);
         
 		    
 	}	
