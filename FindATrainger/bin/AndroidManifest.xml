@@ -17,11 +17,13 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+         >
         <activity
             android:name=".HomePageActivity"
             android:label="@string/app_name"
-            android:noHistory="true" >
+            android:noHistory="true"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,31 +34,33 @@
         </activity>
         <activity
             android:name=".FindATrainerMainActivity"
-            android:label="@string/title_activity_find_atrainer_main" >
-        </activity>
-        <activity
-            android:name=".GetMoreClientsActivity"
-            android:label="@string/title_activity_get_more_clients" >
+            android:label="@string/title_activity_find_atrainer_main"
+            android:screenOrientation="portrait"  >
         </activity>
         <activity
             android:name="com.kidgeniushq.traineeoptions.FavoritesActivity"
-            android:label="@string/title_activity_favorites" >
+            android:label="@string/title_activity_favorites"
+            android:screenOrientation="portrait"  >
         </activity>
         <activity
             android:name=".SignUpActivity"
-            android:label="@string/title_activity_sign_up" >
+            android:label="@string/title_activity_sign_up"
+            android:screenOrientation="portrait"  >
         </activity>
         <activity
             android:name="com.kidgeniushq.traineeoptions.LocalTrainersActivity"
-            android:label="@string/title_activity_local_trainers" >
+            android:label="@string/title_activity_local_trainers"
+            android:screenOrientation="portrait"  >
         </activity>
         <activity
             android:name=".TrainerActivity"
-            android:label="@string/title_activity_trainer" >
+            android:label="@string/title_activity_trainer"
+            android:screenOrientation="portrait"  >
         </activity>
         <activity
             android:name=".ChooseVideoActivity"
-            android:label="@string/title_activity_choose_video" >
+            android:label="@string/title_activity_choose_video"
+            android:screenOrientation="portrait"  >
         </activity>
     </application>
 

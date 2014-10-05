@@ -76,8 +76,11 @@ public class FindATrainerMainActivity extends Activity {
                 case "Messages":
                 	Toast.makeText(FindATrainerMainActivity.this, "Coming soon", Toast.LENGTH_LONG).show();
                 	break;
-                case "Contact us":
+                case "Contact Us":
                 	emailClayton();
+                    break;
+                case "Update Profile":
+                	Toast.makeText(FindATrainerMainActivity.this, "Coming soon", Toast.LENGTH_LONG).show();
                     break;
                 default:
                 	Toast.makeText(FindATrainerMainActivity.this, item + " selected", Toast.LENGTH_LONG).show();
@@ -90,7 +93,7 @@ public class FindATrainerMainActivity extends Activity {
 //		tv=(TextView)findViewById(R.id.usernameTextView);
 //		tv.setText("Welcome "+username);
 		StaticVariables.username=username;
-		
+		if(getIntent().getStringExtra("occ").contains("trainee")){
 		if(username!=null && !username.equals("")){
 			Parse.initialize(this, "rW19JzkDkzkgH5ZuqDO9wgD43XIfqEdnznw8YftG", "sxRJveZXQvLlvlfWzf0949RFTyvIaJOvJeC1WtoI");
 			//problem with trainee and trainers. must distinguish vvvvvvvvvvvv
@@ -128,47 +131,111 @@ public class FindATrainerMainActivity extends Activity {
 					
 				}
 			});
+			//test adding stuff
+			final Trainer menu1 = new Trainer();
+			menu1.setName(("Find Local Fitness Trainers"));
+			menu1.setLat(1);
+			menu1.setLng(3);
+			menu1.setAboutMe("JJ");
+			Drawable drawable= getResources().getDrawable(R.drawable.dummypic);
+			Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+			byte[] buffer= out.toByteArray();
+			menu1.setImage(buffer);
+			
+			final Trainer menu2 = new Trainer();
+			menu2.setName(("Favorites"));
+			menu2.setLat(1);
+			menu2.setLng(3);
+			menu2.setAboutMe("JJ");
+			menu2.setImage(buffer);
+			
+			final Trainer menu3 = new Trainer();
+			menu3.setName(("Messages"));
+			menu3.setLat(1);
+			menu3.setLng(3);
+			menu3.setAboutMe("JJ");
+			menu3.setImage(buffer);
+			
+			final Trainer menu4 = new Trainer();
+			menu4.setName(("Contact Us"));
+			menu4.setLat(1);
+			menu4.setLng(3);
+			menu4.setAboutMe("JJ");
+			menu4.setImage(buffer);
+			
+			values = new ArrayList<Trainer>();
+			values.add(menu1);
+			values.add(menu2);
+			values.add(menu3);
+			values.add(menu4);
+		}
+		}else if(getIntent().getStringExtra("occ").contains("trainer")){
+			if(username!=null && !username.equals("")){
+				Parse.initialize(this, "rW19JzkDkzkgH5ZuqDO9wgD43XIfqEdnznw8YftG", "sxRJveZXQvLlvlfWzf0949RFTyvIaJOvJeC1WtoI");
+				//problem with trainee and trainers. must distinguish vvvvvvvvvvvv
+				ParseQuery<ParseObject> query = ParseQuery.getQuery("Trainer");
+				query.whereEqualTo("name", username);
+				query.findInBackground(new FindCallback<ParseObject>() {
+					@Override
+					public void done(List<ParseObject> scoreList, ParseException e) {
+						if (e == null) {
+				            ParseObject currentUser =scoreList.get(0);			    		
+
+				    		ParseFile proPic=currentUser.getParseFile("pic");
+				    		proPic.getDataInBackground(new GetDataCallback() {
+				    			  public void done(byte[] data, ParseException e) {
+				    			    if (e == null) {
+				    			      mImageView.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, data.length));
+				    			    } else {
+				    			      // something went wrong
+				    			    }
+				    			  }
+				    			});
+						} else {
+				            Log.d("score", "Error: " + e.getMessage());
+				        }
+						
+						
+					}
+				});
+			}
+			//test adding stuff
+			final Trainer menu1 = new Trainer();
+			menu1.setName(("Update Profile"));
+			menu1.setLat(1);
+			menu1.setLng(3);
+			menu1.setAboutMe("JJ");
+			Drawable drawable= getResources().getDrawable(R.drawable.dummypic);
+			Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+			byte[] buffer= out.toByteArray();
+			menu1.setImage(buffer);
+			
+			final Trainer menu3 = new Trainer();
+			menu3.setName(("Messages"));
+			menu3.setLat(1);
+			menu3.setLng(3);
+			menu3.setAboutMe("JJ");
+			menu3.setImage(buffer);
+			
+			final Trainer menu4 = new Trainer();
+			menu4.setName(("Contact Us"));
+			menu4.setLat(1);
+			menu4.setLng(3);
+			menu4.setAboutMe("JJ");
+			menu4.setImage(buffer);
+			
+			values = new ArrayList<Trainer>();
+			values.add(menu1);
+			values.add(menu3);
+			values.add(menu4);
 		}
 		
-		//test adding stuff
-		final Trainer menu1 = new Trainer();
-		menu1.setName(("Find Local Fitness Trainers"));
-		menu1.setLat(1);
-		menu1.setLng(3);
-		menu1.setAboutMe("JJ");
-		Drawable drawable= getResources().getDrawable(R.drawable.dummypic);
-		Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-		byte[] buffer= out.toByteArray();
-		menu1.setImage(buffer);
 		
-		final Trainer menu2 = new Trainer();
-		menu2.setName(("Favorites"));
-		menu2.setLat(1);
-		menu2.setLng(3);
-		menu2.setAboutMe("JJ");
-		menu2.setImage(buffer);
 		
-		final Trainer menu3 = new Trainer();
-		menu3.setName(("Messages"));
-		menu3.setLat(1);
-		menu3.setLng(3);
-		menu3.setAboutMe("JJ");
-		menu3.setImage(buffer);
-		
-		final Trainer menu4 = new Trainer();
-		menu4.setName(("Contact Us"));
-		menu4.setLat(1);
-		menu4.setLng(3);
-		menu4.setAboutMe("JJ");
-		menu4.setImage(buffer);
-		
-		values = new ArrayList<Trainer>();
-		values.add(menu1);
-		values.add(menu2);
-		values.add(menu3);
-		values.add(menu4);
 		menuAdapter = new CustomListAdapter(this,values
         );
         mListView.setAdapter(menuAdapter);

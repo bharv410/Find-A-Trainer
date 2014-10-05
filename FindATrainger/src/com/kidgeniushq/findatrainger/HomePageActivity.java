@@ -26,11 +26,13 @@ public class HomePageActivity extends Activity {
         setContentView(R.layout.activity_home_page);
         
         if(retrieveStatus().contains("trainer")){
-        	Intent i=new Intent(this,GetMoreClientsActivity.class);
+        	Intent i=new Intent(this,FindATrainerMainActivity.class);
+        	i.putExtra("occ", "trainer");
 	    	startActivity(i);
         }
         else if(retrieveStatus().contains("trainee")){
         	Intent i=new Intent(this,FindATrainerMainActivity.class);
+        	i.putExtra("occ", "trainee");
 	    	startActivity(i);
         }
      }
@@ -41,9 +43,8 @@ public class HomePageActivity extends Activity {
     				i.putExtra("option", "find");
     		    	startActivity(i);
     			}else{
-    			
     				Intent i=new Intent(this,FindATrainerMainActivity.class);
-    				
+    	        	i.putExtra("occ", "trainee");
     		    	startActivity(i);
     		    	}
     			}
@@ -53,18 +54,13 @@ public class HomePageActivity extends Activity {
 			i.putExtra("option", "post");
 	    	startActivity(i);
 		}else{
-			Intent i=new Intent(this,GetMoreClientsActivity.class);
+			Intent i=new Intent(this,FindATrainerMainActivity.class);
+        	i.putExtra("occ", "trainer");
 	    	startActivity(i);
 		}
-    	
-    	
-    	
-    	
     }
     private String retrieveStatus() {
-
 	    String ret = "";
-
 	    try {
 	        InputStream inputStream = openFileInput("trainerortrainee.txt");
 

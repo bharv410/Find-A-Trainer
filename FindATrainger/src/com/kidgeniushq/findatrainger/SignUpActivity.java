@@ -1,9 +1,7 @@
 package com.kidgeniushq.findatrainger;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -13,7 +11,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,7 +40,6 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -133,7 +129,7 @@ public class SignUpActivity extends Activity{
 				&& !autoCompView.getText().toString().equals("")) {
 			pd = new ProgressDialog(this);
 			pd.setTitle("Loading...");
-			pd.setMessage("WORKING SOME THINGS OUT\n(pun not intended)");
+			pd.setMessage("WORKING SOME THINGS OUT");
 			pd.setCancelable(false);
 			pd.setIndeterminate(true);
 			pd.show();
@@ -306,6 +302,10 @@ public class SignUpActivity extends Activity{
 		            		});
 	            	}
 	            }else{
+	            	if(pd!=null)
+    	        		pd.dismiss();
+	            	Toast.makeText(getApplicationContext(), "Error finding address",
+	        				Toast.LENGTH_SHORT).show();
 	            	System.out.println("Didn't find address");
 	            }
 	        }

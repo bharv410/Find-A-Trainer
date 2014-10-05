@@ -5,10 +5,10 @@ import java.util.List;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -29,12 +29,10 @@ public class FavoritesActivity extends ListActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-		                                WindowManager.LayoutParams.FLAG_FULLSCREEN); 
+		super.onCreate(savedInstanceState); 
 		setContentView(R.layout.activity_favorites);
-
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5CADFF")));
+		getActionBar().setTitle("Find-A-Trainer");
 		favNames = new ArrayList<String>();
 
 		Parse.initialize(this, "rW19JzkDkzkgH5ZuqDO9wgD43XIfqEdnznw8YftG",

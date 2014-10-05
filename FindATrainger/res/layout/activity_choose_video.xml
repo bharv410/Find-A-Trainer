@@ -33,7 +33,7 @@
         android:layout_margin="20dp"
         android:layout_alignLeft="@+id/introVidSignUpView"
         android:layout_below="@+id/introVidSignUpView"
-        android:text="Choose a square video (example- Instagram, Magisto etc.)\nto show potential clients what you can offer."
+        android:text="1. Record intro video on your phone. Tell your potential clients about yourself and what you have to offer(30 second limit) (We recommend VivaVideo).\n2. Press [upload video] and select desired video \n 3. Press save  "
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
@@ -43,6 +43,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:onClick="chooseVideo"
+        android:background="#5CADFF"
+        android:textColor="#FFFFFF"
         android:text="choose" />
 
 </RelativeLayout>

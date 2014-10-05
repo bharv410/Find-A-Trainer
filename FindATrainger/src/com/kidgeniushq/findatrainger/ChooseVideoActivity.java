@@ -7,6 +7,8 @@ import org.apache.commons.io.IOUtils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +27,8 @@ byte[] videoBytes;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_choose_video);
-		
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5CADFF")));
+		getActionBar().setTitle("Please choose a video");
 		//video bug IS BECAUSE FILTYPE IS UNSOPPORTED :(((  INSTAVIDS DONT WORK SOMEREASON
 		
 		 
