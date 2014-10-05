@@ -86,7 +86,7 @@ public class FindATrainerMainActivity extends Activity {
                 	Toast.makeText(FindATrainerMainActivity.this, item + " selected", Toast.LENGTH_LONG).show();
         	    }
         	    }
-            }
+            } 
         });
         
         

@@ -8,11 +8,15 @@ import java.io.InputStreamReader;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 
 
 public class HomePageActivity extends Activity {
@@ -37,27 +41,50 @@ public class HomePageActivity extends Activity {
         }
      }
     public void needsATrainer(View v){    	
-    	//if its the first time. set up sign up
+    	final Button button = (Button)findViewById(R.id.needsATrainerButton);
+    	button.setBackgroundColor(Color.WHITE);
+    	Handler hd = new Handler();
+    	hd.postDelayed(new Runnable(){
+
+			@Override
+			public void run() {
+				button.setBackgroundColor(Color.parseColor("#5CADFF"));	
+				//if its the first time. set up sign up
     			if (getSharedPreferences("findatrainersignin", 0).getBoolean("my_first_time_searching", true)) {
-    				Intent i=new Intent(this,SignUpActivity.class);
+    				Intent i=new Intent(HomePageActivity.this,SignUpActivity.class);
     				i.putExtra("option", "find");
     		    	startActivity(i);
     			}else{
-    				Intent i=new Intent(this,FindATrainerMainActivity.class);
+    				Intent i=new Intent(HomePageActivity.this,FindATrainerMainActivity.class);
     	        	i.putExtra("occ", "trainee");
     		    	startActivity(i);
-    		    	}
+    			}
+			}
+    		
+    	}, 500);
     			}
     public void isATrainer(View v){
-    	if (getSharedPreferences("findatrainersignin", 0).getBoolean("my_first_time", true)) {
-			Intent i=new Intent(this,SignUpActivity.class);
-			i.putExtra("option", "post");
-	    	startActivity(i);
-		}else{
-			Intent i=new Intent(this,FindATrainerMainActivity.class);
-        	i.putExtra("occ", "trainer");
-	    	startActivity(i);
-		}
+    	final Button button = (Button)findViewById(R.id.isATrainerButton);
+    	button.setBackgroundColor(Color.WHITE);
+    	Handler hd = new Handler();
+    	hd.postDelayed(new Runnable(){
+
+			@Override
+			public void run() {
+				button.setBackgroundColor(Color.parseColor("#5CADFF"));	
+				if (getSharedPreferences("findatrainersignin", 0).getBoolean("my_first_time", true)) {
+					Intent i=new Intent(HomePageActivity.this,SignUpActivity.class);
+					i.putExtra("option", "post");
+			    	startActivity(i);
+				}else{
+					Intent i=new Intent(HomePageActivity.this,FindATrainerMainActivity.class);
+		        	i.putExtra("occ", "trainer");
+			    	startActivity(i);
+				}				
+			}
+    		
+    	}, 500);
+    	
     }
     private String retrieveStatus() {
 	    String ret = "";
