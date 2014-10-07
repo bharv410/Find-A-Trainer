@@ -23,12 +23,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kidgeniushq.findatrainger.helpers.CustomListAdapter;
 import com.kidgeniushq.findatrainger.helpers.ParallaxScollListView;
+import com.kidgeniushq.findatrainger.helpers.SquareImageView;
 import com.kidgeniushq.findatrainger.helpers.StaticVariables;
 import com.kidgeniushq.findatrainger.models.Trainer;
 import com.kidgeniushq.traineeoptions.FavoritesActivity;
@@ -44,21 +44,27 @@ import com.parse.ParseQuery;
 
 public class FindATrainerMainActivity extends Activity {
 	private CustomListAdapter menuAdapter;
-	TextView tv;
+	private TextView tv;
 	private ParallaxScollListView mListView;
-	private ImageView mImageView;
+	private SquareImageView mImageView;
 	String username ;
 	List<Trainer> values;
+	Boolean isTrainer;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
 		setContentView(R.layout.activity_fatmain);
-		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5CADFF")));
+		
 		username=retrieveUsername();
 		getActionBar().setTitle("Welcome "+username);
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5CADFF")));
+		
         mListView = (ParallaxScollListView) findViewById(R.id.layout_listview);
+        
         View header = LayoutInflater.from(this).inflate(R.layout.listview_header, null);
-        mImageView = (ImageView) header.findViewById(R.id.layout_header_image);
+        mImageView = (SquareImageView) header.findViewById(R.id.layout_header_image);
+        tv=(TextView) header.findViewById(R.id.layout_header_text);
+        tv.setText(username);
         mListView.setParallaxImageView(mImageView);
         mListView.addHeaderView(header);
         mListView.setOnItemClickListener(new OnItemClickListener() {
@@ -89,26 +95,31 @@ public class FindATrainerMainActivity extends Activity {
             } 
         });
         
-        
-//		tv=(TextView)findViewById(R.id.usernameTextView);
-//		tv.setText("Welcome "+username);
 		StaticVariables.username=username;
-		if(getIntent().getStringExtra("occ").contains("trainee")){
+		
+		if(getIntent().getStringExtra("occ").contains("trainee"))
+				isTrainer=false;
+		else if(getIntent().getStringExtra("occ").contains("trainer"))
+				isTrainer=true;
+		else
+			Toast.makeText(getApplicationContext(), "Should never occer", Toast.LENGTH_SHORT).show();
+		
+		
 		if(username!=null && !username.equals("")){
+			String title;
+			if(isTrainer){
+				title="Trainer";
+			}else{
+				title="Trainee";
+			}
 			Parse.initialize(this, "rW19JzkDkzkgH5ZuqDO9wgD43XIfqEdnznw8YftG", "sxRJveZXQvLlvlfWzf0949RFTyvIaJOvJeC1WtoI");
-			//problem with trainee and trainers. must distinguish vvvvvvvvvvvv
-			ParseQuery<ParseObject> query = ParseQuery.getQuery("Trainee");
+			ParseQuery<ParseObject> query = ParseQuery.getQuery(title);
 			query.whereEqualTo("name", username);
 			query.findInBackground(new FindCallback<ParseObject>() {
 				@Override
 				public void done(List<ParseObject> scoreList, ParseException e) {
 					if (e == null&&(scoreList.size()>0)) {
-						
-						//set name from parse
-			            ParseObject currentUser =scoreList.get(0);
-//			            tv=(TextView)findViewById(R.id.usernameTextView);
-			    		//tv.setText("Welcome "+currentUser.getString("name"));
-			    		
+			            ParseObject currentUser =scoreList.get(0);			    		
 			    		//set image from parse
 			    		ParseFile proPic=currentUser.getParseFile("pic");
 			    		proPic.getDataInBackground(new GetDataCallback() {
@@ -116,29 +127,23 @@ public class FindATrainerMainActivity extends Activity {
 			    			    if (e == null) {
 			    			    	mImageView.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, data.length));
 			    			    } else {
-			    			      // something went wrong
 			    			    }
 			    			  }
 			    			});
-			    		
-			    		
-			    		
-			            
 					} else {
 			            Log.d("score", "Error: " + e.getMessage());
 			        }
-					
-					
 				}
 			});
+			if(!isTrainer){
 			//test adding stuff
 			final Trainer menu1 = new Trainer();
 			menu1.setName(("Find Local Fitness Trainers"));
 			menu1.setLat(1);
 			menu1.setLng(3);
 			menu1.setAboutMe("JJ");
-			Drawable drawable= getResources().getDrawable(R.drawable.dummypic);
-			Bitmap bitmap = ((BitmapDrawable)drawable).getBitmap();
+			Drawable drawable= getResources().getDrawable(R.drawable.favoritespic);
+			Bitmap bitmap = Bitmap.createScaledBitmap(((BitmapDrawable)drawable).getBitmap(), 64, 64, false);
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
 			byte[] buffer= out.toByteArray();
@@ -170,37 +175,7 @@ public class FindATrainerMainActivity extends Activity {
 			values.add(menu2);
 			values.add(menu3);
 			values.add(menu4);
-		}
-		}else if(getIntent().getStringExtra("occ").contains("trainer")){
-			if(username!=null && !username.equals("")){
-				Parse.initialize(this, "rW19JzkDkzkgH5ZuqDO9wgD43XIfqEdnznw8YftG", "sxRJveZXQvLlvlfWzf0949RFTyvIaJOvJeC1WtoI");
-				//problem with trainee and trainers. must distinguish vvvvvvvvvvvv
-				ParseQuery<ParseObject> query = ParseQuery.getQuery("Trainer");
-				query.whereEqualTo("name", username);
-				query.findInBackground(new FindCallback<ParseObject>() {
-					@Override
-					public void done(List<ParseObject> scoreList, ParseException e) {
-						if (e == null) {
-				            ParseObject currentUser =scoreList.get(0);			    		
-
-				    		ParseFile proPic=currentUser.getParseFile("pic");
-				    		proPic.getDataInBackground(new GetDataCallback() {
-				    			  public void done(byte[] data, ParseException e) {
-				    			    if (e == null) {
-				    			      mImageView.setImageBitmap(BitmapFactory.decodeByteArray(data, 0, data.length));
-				    			    } else {
-				    			      // something went wrong
-				    			    }
-				    			  }
-				    			});
-						} else {
-				            Log.d("score", "Error: " + e.getMessage());
-				        }
-						
-						
-					}
-				});
-			}
+		}else{
 			//test adding stuff
 			final Trainer menu1 = new Trainer();
 			menu1.setName(("Update Profile"));
@@ -236,9 +211,9 @@ public class FindATrainerMainActivity extends Activity {
 		
 		
 		
-		menuAdapter = new CustomListAdapter(this,values
-        );
+		menuAdapter = new CustomListAdapter(this,values);
         mListView.setAdapter(menuAdapter);
+		}
         
 		    
 	}	

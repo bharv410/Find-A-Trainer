@@ -12,6 +12,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class ParallaxScollListView extends ListView implements OnScrollListener {
 
@@ -107,8 +108,10 @@ public class ParallaxScollListView extends ListView implements OnScrollListener 
     public void setViewsBounds(double zoomRatio) {
         if (mImageViewHeight == -1) {
             mImageViewHeight = mImageView.getHeight();
+            Toast.makeText(getContext(), "here1", Toast.LENGTH_SHORT).show();
             if (mImageViewHeight <= 0) {
-                mImageViewHeight = mDefaultImageViewHeight;
+                mImageViewHeight = mDefaultImageViewHeight/2;
+                Toast.makeText(getContext(), "here2", Toast.LENGTH_SHORT).show();
             }
             double ratio = ((double) mImageView.getDrawable().getIntrinsicWidth()) / ((double) mImageView.getWidth());
 

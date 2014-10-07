@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -24,10 +25,7 @@ public class HomePageActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-                                        WindowManager.LayoutParams.FLAG_FULLSCREEN); 
-        setContentView(R.layout.activity_home_page);
+       
         
         if(retrieveStatus().contains("trainer")){
         	Intent i=new Intent(this,FindATrainerMainActivity.class);
@@ -38,6 +36,11 @@ public class HomePageActivity extends Activity {
         	Intent i=new Intent(this,FindATrainerMainActivity.class);
         	i.putExtra("occ", "trainee");
 	    	startActivity(i);
+        }else{
+        	 requestWindowFeature(Window.FEATURE_NO_TITLE);
+             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                                             WindowManager.LayoutParams.FLAG_FULLSCREEN); 
+             setContentView(R.layout.activity_home_page);
         }
      }
     public void needsATrainer(View v){    	
@@ -113,4 +116,15 @@ public class HomePageActivity extends Activity {
 
 	    return ret;
 	}
+    
+    
+    private class GetProfileInfoTask extends AsyncTask<String,Void,Void>{
+
+		@Override
+		protected Void doInBackground(String... arg0) {
+			return null;
+		}
+    	
+    	
+    }
 }

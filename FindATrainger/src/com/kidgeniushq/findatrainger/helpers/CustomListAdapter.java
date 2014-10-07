@@ -1,6 +1,7 @@
 package com.kidgeniushq.findatrainger.helpers;
 
 import java.util.List;
+import java.util.Random;
 
 import android.app.Activity;
 import android.content.Context;
@@ -89,7 +90,28 @@ public class CustomListAdapter extends BaseAdapter {
 		title.setText(m.getName());
 
 		// rating
-		rating.setText(String.valueOf(m.getLat()) + String.valueOf(m.getLng()));
+		
+		
+		Random rd= new Random();
+		int randomNum=rd.nextInt(4);
+		
+		if(randomNum==0){
+			rating.setText("Basketball Trainer");
+		}else if(randomNum==1){
+			rating.setText("Cardio Specialty");
+		}else if(randomNum==2){
+			rating.setText("Agility/Speed Trainer");
+		}else if(randomNum==3){
+			rating.setText("Body Building");
+		}
+		
+		
+		
+		
+		
+		
+		
+		
 		if(m.getName().contains("Favorites")){
 			rating.setText("View trainers you've favorited");
 		}else if(m.getName().contains("Find Local Fitness Trainers")){
@@ -104,8 +126,7 @@ public class CustomListAdapter extends BaseAdapter {
 		// genre
 		genre.setText("");
 
-		// release year
-		year.setText(String.valueOf(1999));
+		year.setText("");
 
 		return convertView;
 	}

@@ -1097,16 +1097,20 @@ containing a value of this type.
         public static final int camera_crop_width=0x7f02005a;
         public static final int claytonheader=0x7f02005b;
         public static final int dummypic=0x7f02005c;
-        public static final int ic_launcher=0x7f02005d;
-        public static final int ic_rotate_left=0x7f02005e;
-        public static final int ic_rotate_right=0x7f02005f;
-        public static final int img_header=0x7f020060;
-        public static final int indicator_autocrop=0x7f020061;
-        public static final int list_row_bg=0x7f020062;
-        public static final int list_row_bg_hover=0x7f020063;
-        public static final int list_row_selector=0x7f020064;
-        public static final int selector_crop_button=0x7f020065;
-        public static final int signupwithnophotopic=0x7f020066;
+        public static final int favoritespic=0x7f02005d;
+        public static final int ic_launcher=0x7f02005e;
+        public static final int ic_rotate_left=0x7f02005f;
+        public static final int ic_rotate_right=0x7f020060;
+        public static final int img_header=0x7f020061;
+        public static final int indicator_autocrop=0x7f020062;
+        public static final int list_row_bg=0x7f020063;
+        public static final int list_row_bg_hover=0x7f020064;
+        public static final int list_row_selector=0x7f020065;
+        public static final int locationpic=0x7f020066;
+        public static final int messagespic=0x7f020067;
+        public static final int selector_crop_button=0x7f020068;
+        public static final int signupwithnophotopic=0x7f020069;
+        public static final int updateprofilepic=0x7f02006a;
     }
     public static final class id {
         public static final int aboutMeTextView=0x7f060057;
@@ -1121,7 +1125,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f060016;
         public static final int action_menu_presenter=0x7f060017;
         public static final int action_mode_close_button=0x7f060024;
-        public static final int action_settings=0x7f060062;
+        public static final int action_settings=0x7f060063;
         public static final int activity_chooser_view_content=0x7f060025;
         public static final int always=0x7f06000b;
         public static final int autoCompleteTextView1=0x7f06004f;
@@ -1156,6 +1160,7 @@ containing a value of this type.
         public static final int introVidSignUpView=0x7f06003c;
         public static final int isATrainerButton=0x7f060045;
         public static final int layout_header_image=0x7f060061;
+        public static final int layout_header_text=0x7f060062;
         public static final int layout_listview=0x7f060040;
         public static final int listMode=0x7f060001;
         public static final int list_item=0x7f060029;

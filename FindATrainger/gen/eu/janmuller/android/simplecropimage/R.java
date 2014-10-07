@@ -12,10 +12,10 @@ public final class R {
 		public static final int btn_crop_pressed = 0x7f020058;
 		public static final int camera_crop_height = 0x7f020059;
 		public static final int camera_crop_width = 0x7f02005a;
-		public static final int ic_rotate_left = 0x7f02005e;
-		public static final int ic_rotate_right = 0x7f02005f;
-		public static final int indicator_autocrop = 0x7f020061;
-		public static final int selector_crop_button = 0x7f020065;
+		public static final int ic_rotate_left = 0x7f02005f;
+		public static final int ic_rotate_right = 0x7f020060;
+		public static final int indicator_autocrop = 0x7f020062;
+		public static final int selector_crop_button = 0x7f020068;
 	}
 	public static final class id {
 		public static final int discard = 0x7f060059;
