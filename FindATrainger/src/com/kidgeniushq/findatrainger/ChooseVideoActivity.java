@@ -16,6 +16,7 @@ import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.bugsense.trace.BugSenseHandler;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -26,6 +27,7 @@ byte[] videoBytes;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		BugSenseHandler.initAndStartSession(getApplicationContext(), "64fbe08c");
 		setContentView(R.layout.activity_choose_video);
 		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5CADFF")));
 		getActionBar().setTitle("Please choose a video");

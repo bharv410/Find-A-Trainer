@@ -26,6 +26,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bugsense.trace.BugSenseHandler;
 import com.kidgeniushq.findatrainger.helpers.CustomListAdapter;
 import com.kidgeniushq.findatrainger.helpers.ParallaxScollListView;
 import com.kidgeniushq.findatrainger.helpers.SquareImageView;
@@ -53,6 +54,7 @@ public class FindATrainerMainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);	
+		BugSenseHandler.initAndStartSession(getApplicationContext(), "64fbe08c");
 		setContentView(R.layout.activity_fatmain);
 		
 		username=retrieveUsername();

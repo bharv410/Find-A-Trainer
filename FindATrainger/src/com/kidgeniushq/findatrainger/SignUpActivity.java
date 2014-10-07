@@ -27,14 +27,20 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -44,10 +50,19 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.bugsense.trace.BugSenseHandler;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.kidgeniushq.findatrainger.helpers.AccountUtils;
+import com.kidgeniushq.findatrainger.helpers.StaticVariables;
+import com.kidgeniushq.findatrainger.helpers.AccountUtils.UserProfile;
 import com.kidgeniushq.findatrainger.helpers.GeoCoder;
+import com.kidgeniushq.findatrainger.helpers.MyLocation;
+import com.kidgeniushq.findatrainger.helpers.MyLocation.LocationResult;
 import com.kidgeniushq.findatrainger.models.Trainer;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -64,7 +79,7 @@ public class SignUpActivity extends Activity{
 	double lat,lng;
 	Trainer t;
 	String picturePath;
-	EditText editName,aboutMeEditText;
+	EditText editName;
 	private final int IMAGE_MAX_SIZE=600;
 	AutoCompleteTextView autoCompView;
 	private static final String LOG_TAG = "Places log";
@@ -73,26 +88,25 @@ public class SignUpActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-		                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		//set up bugtracker
 		BugSenseHandler.initAndStartSession(getApplicationContext(), "64fbe08c");
 		setContentView(R.layout.activity_sign_up);
 		
+		//set actionbar to lightblue
+		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5CADFF")));
+		getActionBar().setTitle("Sign Up");
+		//initialize cloud database
 		Parse.initialize(this, "rW19JzkDkzkgH5ZuqDO9wgD43XIfqEdnznw8YftG", "sxRJveZXQvLlvlfWzf0949RFTyvIaJOvJeC1WtoI");
 		
-		mSelectedImage = (ImageView) findViewById(R.id.eventPhotoImage);
+		//init layout views to be used in code
 		editName = (EditText) findViewById(R.id.fullNameEditText);
-		aboutMeEditText = (EditText) findViewById(R.id.descriptBox);
+		mSelectedImage = (ImageView) findViewById(R.id.eventPhotoImage);
 		autoCompView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
 	    autoCompView.setAdapter(new PlacesAutoCompleteAdapter(this, android.R.layout.simple_spinner_item));  
 	    
-	
-	
-	
+	    tryToSetHints();
 	
 	}
-	
 	private void writeToFile(String data) {
 	    try {
 	        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput("username.txt", Context.MODE_PRIVATE));
@@ -102,7 +116,6 @@ public class SignUpActivity extends Activity{
 	    catch (IOException e) {
 	        Log.e("Exception", "File write failed: " + e.toString());
 	    } 
-	    
 	}
 	@Override 
     protected void onDestroy() {
@@ -112,13 +125,22 @@ public class SignUpActivity extends Activity{
     	super.onDestroy();
     }
 	public void save(View v) {
-		
-		
 		Button saveButton = (Button)findViewById(R.id.saveButton);
 		saveButton.setClickable(false);
 		t = new Trainer();
-		saveTrainerName(t);
-		saveTrainerGoals(t);
+		//if name is NOT empty
+		if (editName.getText() != null
+				&& !editName.getText().toString().equals("")) {
+			//add name to trainer object and save locally
+			t.setName(editName.getText().toString());
+			writeToFile(editName.getText().toString());
+			
+		} else {
+			saveButton.setClickable(true);
+			YoYo.with(Techniques.Wobble)
+	    	.duration(1100).playOn(editName);
+			return;
+		}
 		
 		if(imageBytes==null){
 			useDefaultImage();
@@ -129,17 +151,18 @@ public class SignUpActivity extends Activity{
 				&& !autoCompView.getText().toString().equals("")) {
 			pd = new ProgressDialog(this);
 			pd.setTitle("Loading...");
-			pd.setMessage("WORKING SOME THINGS OUT");
+			pd.setMessage("please wait");
 			pd.setCancelable(false);
 			pd.setIndeterminate(true);
 			pd.show();
-			new GeoCodeThis().execute(autoCompView.getText().toString());
-			
 		} else {
-			Toast.makeText(getApplicationContext(), "Add full address",
-					Toast.LENGTH_SHORT).show();
+			saveButton.setClickable(true);
+			YoYo.with(Techniques.Wobble)
+	    	.duration(1100).playOn(autoCompView);
 			return;
 		}
+		
+		new GeoCodeThis().execute(autoCompView.getText().toString());
 }
 	
 
@@ -235,7 +258,8 @@ public class SignUpActivity extends Activity{
 	        }
 	        @Override
 	        protected void onPostExecute(double[] result) {
-	        	
+	        	Button saveButton = (Button)findViewById(R.id.saveButton);
+	    		saveButton.setClickable(true);
 	        	
 	            if(result.length>1){
 	            	lat=result[0];
@@ -247,7 +271,6 @@ public class SignUpActivity extends Activity{
 	            			            		
 	            		ParseObject trainerObject = new ParseObject("Trainee");
 	            		trainerObject.put("name", t.getName());
-		        		trainerObject.put("aboutme", t.getAboutMe());
 		        		trainerObject.put("lat", lat);
 		        		trainerObject.put("lng", lng);
 		        		trainerObject.put("address", autoCompView.getText().toString());
@@ -277,7 +300,6 @@ public class SignUpActivity extends Activity{
 	            		trainerObject.put("name", t.getName());
 		        		trainerObject.put("lat", lat);
 		        		trainerObject.put("lng", lng);
-		        		trainerObject.put("aboutme", t.getAboutMe());
 		        		trainerObject.put("address", autoCompView.getText().toString());
 		        		ParseFile chosenImage=new ParseFile("profilepic.jpg", imageBytes);
 		        		trainerObject.put("pic", chosenImage);
@@ -286,7 +308,6 @@ public class SignUpActivity extends Activity{
 		            			if(pd!=null)
 		        	        		pd.dismiss();
 		            			if(e==null){
-		            				
 		            				Toast.makeText(getApplicationContext(), "Saved",
 		        	        				Toast.LENGTH_SHORT).show();
 		        	        		finish();
@@ -310,10 +331,6 @@ public class SignUpActivity extends Activity{
 	            }
 	        }
 	 }
-	 public void showDatePickerDialog(View v) {
-		    DialogFragment newFragment = new DatePickerDialogFragment();
-		    newFragment.show(getFragmentManager(), "datePicker");
-		}
 	 private void savePersonAs(String data) {
 		    try {
 		        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput("trainerortrainee.txt", Context.MODE_PRIVATE));
@@ -430,52 +447,13 @@ public class SignUpActivity extends Activity{
 		        return filter;
 		    }
 		}
-	 
-	 public class DatePickerDialogFragment extends DialogFragment {
+	 private void tryToSetHints(){
 		 
-			private OnDateSetListener mDateSetListener;
-		 
-			public DatePickerDialogFragment() {
-				// nothing to see here, move along
-			}
-		 
-			public DatePickerDialogFragment(OnDateSetListener callback) {
-				mDateSetListener = (OnDateSetListener) callback;
-			}
-		 
-			public Dialog onCreateDialog(Bundle savedInstanceState) {
-				Calendar cal = Calendar.getInstance();
-		
-				return new DatePickerDialog(getActivity(),
-						mDateSetListener, cal.get(Calendar.YEAR), 
-						cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
-			}
-		 
-		}
-	 private void saveTrainerName(Trainer t){
-		//if name is NOT empty
-			if (editName.getText() != null
-					&& !editName.getText().toString().equals("")) {
-				//add name to trainer object and save locally
-				t.setName(editName.getText().toString());
-				writeToFile(editName.getText().toString());
-				
-			} else {
-				Toast.makeText(getApplicationContext(), "Enter your name please.",
-						Toast.LENGTH_SHORT).show();
-				return;
-			}
-	 }
-	 private void saveTrainerGoals(Trainer t){
-		 if (aboutMeEditText.getText() != null
-					&& !aboutMeEditText.getText().toString().equals("")) {
-
-				t.setAboutMe(aboutMeEditText.getText().toString());
-				
-			} else {
-				Toast.makeText(getApplicationContext(), "Add Fitness Goals",
-						Toast.LENGTH_SHORT).show();
-				return;
+		    editName.setText(StaticVariables.guessName);
+		    try{//try to set location
+		    	autoCompView.setText(StaticVariables.currentLocation);
+			}catch(Exception e){
+				e.printStackTrace();
 			}
 	 }
 }

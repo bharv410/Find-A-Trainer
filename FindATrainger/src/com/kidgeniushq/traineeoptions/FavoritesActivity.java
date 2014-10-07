@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.bugsense.trace.BugSenseHandler;
 import com.kidgeniushq.findatrainger.R;
 import com.kidgeniushq.findatrainger.TrainerActivity;
 import com.kidgeniushq.findatrainger.helpers.StaticVariables;
@@ -30,6 +32,7 @@ public class FavoritesActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState); 
+		BugSenseHandler.initAndStartSession(getApplicationContext(), "64fbe08c");
 		setContentView(R.layout.activity_favorites);
 		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5CADFF")));
 		getActionBar().setTitle("Find-A-Trainer");
@@ -54,6 +57,13 @@ public class FavoritesActivity extends ListActivity {
 				}
 			}
 		});
+		
+		//if no favs, set a hint
+		if(favNames.size()<1){
+			TextView favoritesTextView = (TextView)findViewById(R.id.favoritesTextView);
+			favoritesTextView.setText("You haven't favorited any trainers yet. Go to a trainer's profile & click the 'favorite' button and you will see a list of those trainer's here.");
+		}
+			
 	}
 
 	@Override

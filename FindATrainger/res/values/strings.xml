@@ -11,5 +11,6 @@
     <string name="title_activity_local_trainers">LocalTrainersActivity</string>
     <string name="title_activity_trainer">TrainerActivity</string>
     <string name="title_activity_choose_video">ChooseVideoActivity</string>
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
 
 </resources>

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
+import com.bugsense.trace.BugSenseHandler;
 import com.kidgeniushq.findatrainger.R;
 import com.kidgeniushq.findatrainger.TrainerActivity;
 import com.kidgeniushq.findatrainger.helpers.CustomListAdapter;
@@ -31,6 +32,7 @@ public class LocalTrainersActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		BugSenseHandler.initAndStartSession(getApplicationContext(), "64fbe08c");
 		setContentView(R.layout.activity_local_trainers);
 		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5CADFF")));
 		getActionBar().setTitle("Find-A-Trainer");

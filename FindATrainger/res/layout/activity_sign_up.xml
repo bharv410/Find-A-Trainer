@@ -43,6 +43,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:background="#5CADFF"
+                    android:layout_margin="20dp"
         android:textColor="#FFFFFF"
                     android:onClick="choosePhoto"
                     android:text="Choose photo" />
@@ -53,25 +54,20 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Full Name"
-                    android:nextFocusDown="@+id/youtubeLinkEditText"
+                    android:gravity="center"
+                    android:layout_marginBottom="20dp"
+                    android:selectAllOnFocus="true"
+                    android:nextFocusDown="@+id/autoCompleteTextView1"
                     android:paddingBottom="5dp"
-                    android:singleLine="true" />
+                    android:singleLine="true" >
+                    <requestFocus />
+                </EditText>
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" >
-
-                    <Button
-                        android:id="@+id/dateButton"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:onClick="showDatePickerDialog"
-                        android:background="#5CADFF"
-        android:textColor="#FFFFFF"
-                        android:text="Birthdate" />
                 </LinearLayout>
 
                 <AutoCompleteTextView
@@ -79,21 +75,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:hint="Address" >
+                    android:gravity="center"
+                    android:layout_marginBottom="20dp"
+                    android:imeOptions="actionDone"
+                    android:hint="Address"
+                    android:selectAllOnFocus="true" />
 
-                </AutoCompleteTextView>
-
-                
-
-
-                <EditText
-                    android:id="@+id/descriptBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="start"
-                    android:ems="10"
-                    android:gravity="left"
-                    android:hint="Fitness Goals" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -14,10 +14,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+
+import com.bugsense.trace.BugSenseHandler;
 
 
 public class HomePageActivity extends Activity {
@@ -25,7 +26,7 @@ public class HomePageActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       
+        BugSenseHandler.initAndStartSession(getApplicationContext(), "64fbe08c");
         
         if(retrieveStatus().contains("trainer")){
         	Intent i=new Intent(this,FindATrainerMainActivity.class);

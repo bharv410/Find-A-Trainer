@@ -16,7 +16,7 @@ import com.kidgeniushq.findatrainger.models.Trainer;
 public class StaticVariables {
 public static ArrayList<Trainer> allTrainers;
 public static Trainer currentTrainer;
-public static String username;
+public static String username, currentLocation, guessName;
 
 public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
     Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap
