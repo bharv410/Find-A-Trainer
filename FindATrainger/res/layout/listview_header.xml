@@ -24,8 +24,9 @@
 	    android:layout_alignLeft="@+id/layout_header_image"
 	    android:layout_alignRight="@+id/layout_header_image"
 	    android:background="#99000000"
-	    android:text=""
+	    android:text="View Profile"
 	    android:gravity="center"
+	    android:textColor="#FFF"
 	    android:textAppearance="?android:attr/textAppearanceLarge" />
 	
 </RelativeLayout>

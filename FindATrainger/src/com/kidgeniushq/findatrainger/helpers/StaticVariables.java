@@ -1,7 +1,13 @@
 package com.kidgeniushq.findatrainger.helpers;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
@@ -10,6 +16,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.Log;
 
 import com.kidgeniushq.findatrainger.models.Trainer;
 
@@ -38,5 +45,35 @@ public static Bitmap getRoundedCornerBitmap(Bitmap bitmap, int pixels) {
     canvas.drawBitmap(bitmap, rect, rect, paint);
 
     return output;
+}
+
+public static String retrieveUsername(Context ctx) {
+
+    String ret = "";
+
+    try {
+        InputStream inputStream = ctx.openFileInput("username.txt");
+
+        if ( inputStream != null ) {
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String receiveString = "";
+            StringBuilder stringBuilder = new StringBuilder();
+
+            while ( (receiveString = bufferedReader.readLine()) != null ) {
+                stringBuilder.append(receiveString);
+            }
+
+            inputStream.close();
+            ret = stringBuilder.toString();
+        }
+    }
+    catch (FileNotFoundException e) {
+        Log.e("login activity", "File not found: " + e.toString());
+    } catch (IOException e) {
+        Log.e("login activity", "Can not read file: " + e.toString());
+    }
+
+    return ret;
 }
 }

@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,12 +54,10 @@ public class CustomListAdapter extends BaseAdapter {
 
 		ImageView thumbNail = (ImageView) convertView
 				.findViewById(R.id.thumbnail);
+		thumbNail.setBackgroundColor(Color.WHITE);
 		TextView title = (TextView) convertView.findViewById(R.id.title);
 		TextView rating = (TextView) convertView.findViewById(R.id.rating);
-		TextView genre = (TextView) convertView.findViewById(R.id.genre);
-		TextView year = (TextView) convertView.findViewById(R.id.releaseYear);
 
-		// getting movie data for the row
 		Trainer m = trainers.get(position);
 
 		// thumbnail image
@@ -76,14 +75,7 @@ public class CustomListAdapter extends BaseAdapter {
 		Bitmap songImage1 = BitmapFactory.decodeByteArray(m.getImage(), 0,
 				m.getImage().length, options);// Decode image, "thumbnail" is
 												// the object of image file
-		Bitmap songImage = Bitmap.createScaledBitmap(songImage1, 100, 100, true);// convert
-																				// decoded
-																				// bitmap
-																				// into
-																				// well
-																				// scalled
-																				// Bitmap
-																				// format.
+		Bitmap songImage = Bitmap.createScaledBitmap(songImage1, 100, 100, true);
 
 		thumbNail.setImageBitmap(songImage);
 		// title
@@ -105,28 +97,17 @@ public class CustomListAdapter extends BaseAdapter {
 			rating.setText("Body Building");
 		}
 		
-		
-		
-		
-		
-		
-		
-		
 		if(m.getName().contains("Favorites")){
 			rating.setText("View trainers you've favorited");
-		}else if(m.getName().contains("Find Local Fitness Trainers")){
-			rating.setText("In person fitness training");
+		}else if(m.getName().contains("Find Fitness Trainers")){
+			rating.setText("Trainers within 25 miles");
 		}else if(m.getName().contains("Messages")){
 			rating.setText("Be sure to utilize video chat");
 		}else if(m.getName().contains("Contact Us")){
 			rating.setText("Send us any feedback you have");
+		}else if(m.getName().contains("Update Profile")){
+			rating.setText("Change pic, location etc.");
 		}
-		
-		
-		// genre
-		genre.setText("");
-
-		year.setText("");
 
 		return convertView;
 	}

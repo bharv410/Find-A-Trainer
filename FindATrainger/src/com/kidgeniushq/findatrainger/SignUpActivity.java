@@ -102,7 +102,7 @@ public class SignUpActivity extends Activity{
 		editName = (EditText) findViewById(R.id.fullNameEditText);
 		mSelectedImage = (ImageView) findViewById(R.id.eventPhotoImage);
 		autoCompView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
-	    autoCompView.setAdapter(new PlacesAutoCompleteAdapter(this, android.R.layout.simple_spinner_item));  
+	    autoCompView.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.menulist));  
 	    
 	    tryToSetHints();
 	

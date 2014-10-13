@@ -47,7 +47,6 @@ public class LocalTrainersActivity extends ListActivity {
 				if (e == null) {
 					StaticVariables.allTrainers = new ArrayList<Trainer>();
 					Log.d("score", "Retrieved " + scoreList.size() + " scores");
-					int i = 0;
 					for (ParseObject trainer : scoreList) {
 		
 							final Trainer currentTrainer = new Trainer();

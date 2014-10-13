@@ -12,57 +12,73 @@
         android:id="@+id/isATrainerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_below="@+id/needsATrainerButton"
         android:layout_alignParentRight="true"
-        android:background="#5CADFF"
-        android:textColor="#FFFFFF"
         android:layout_marginTop="8dp"
+        android:background="#5CADFF"
+        android:onClick="isATrainer"
         android:text="Get More Clients"
-        android:onClick="isATrainer" />
+        android:textColor="#FFFFFF" />
 
-    <Button
-        android:id="@+id/needsATrainerButton"
+    <RelativeLayout
+        android:id="@+id/titleLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/isATrainerButton"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/isATrainerButton"
-        android:text="Find Fitness Trainers"
-        android:background="#5CADFF"
-        android:textColor="#FFFFFF"
-        android:onClick="needsATrainer" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" >
+
+        <TextView
+            android:id="@+id/middleView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/titlePartOneTextView"
+            android:layout_alignBottom="@+id/titlePartOneTextView"
+            android:layout_centerHorizontal="true"
+            android:text=" " />
+
+        <TextView
+            android:id="@+id/titlePartTwoTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/middleView"
+            android:text="Trainer"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#5CADFF"
+            android:textSize="34dp" />
+
+        <TextView
+            android:id="@+id/titlePartOneTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/titlePartTwoTextView"
+            android:text="Find A "
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="34dp" />
+
+    </RelativeLayout>
 
     <com.kidgeniushq.findatrainger.helpers.SquareImageView
         android:id="@+id/imageView1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/needsATrainerButton"
-        android:layout_alignRight="@+id/needsATrainerButton"
-        android:layout_below="@+id/titlePartOneTextView"
+        android:layout_below="@+id/titleLayout"
         android:src="@drawable/ic_launcher" />
 
-    <TextView
-        android:id="@+id/titlePartOneTextView"
+    <Button
+        android:id="@+id/needsATrainerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imageView1"
-        android:layout_alignParentTop="true"
-        android:text="Find A "
-        android:layout_marginLeft="20dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="34dp" />
-
-    <TextView
-        android:id="@+id/titlePartTwoTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/titlePartOneTextView"
-        android:layout_alignBottom="@+id/titlePartOneTextView"
-        android:layout_toRightOf="@+id/titlePartOneTextView"
-        android:text="Trainer"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#5CADFF"
-        android:textSize="34dp" />
+        android:layout_alignLeft="@+id/isATrainerButton"
+        android:layout_alignRight="@+id/isATrainerButton"
+        android:layout_below="@+id/imageView1"
+        android:background="#5CADFF"
+        android:onClick="needsATrainer"
+        android:text="Find Fitness Trainers"
+        android:textColor="#FFFFFF" />
 
 </RelativeLayout>

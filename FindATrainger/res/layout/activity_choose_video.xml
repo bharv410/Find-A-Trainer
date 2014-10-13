@@ -16,35 +16,37 @@
         android:layout_alignParentTop="true" />
 
     <Button
-        android:id="@+id/button100"
+        android:id="@+id/chooseButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/introVidSignUpView"
+        android:layout_alignRight="@+id/introVidSignUpView"
+        android:layout_below="@+id/introVidSignUpView"
         android:background="#5CADFF"
-        android:textColor="#FFFFFF"
-        android:text="Save"
-        android:onClick="save" />
+        android:onClick="chooseVideo"
+        android:text="Choose Video From Gallery"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/chooseButton"
+        android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
-        android:layout_alignLeft="@+id/introVidSignUpView"
-        android:layout_below="@+id/introVidSignUpView"
-        android:text="1. Record intro video on your phone. Tell your potential clients about yourself and what you have to offer(30 second limit) (We recommend VivaVideo).\n2. Press [upload video] and select desired video \n 3. Press save  "
+        android:text="E-mail me the exact text you&apos;d like to be used here"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
-        android:id="@+id/chooseButton"
+        android:id="@+id/saveVideoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:onClick="chooseVideo"
         android:background="#5CADFF"
-        android:textColor="#FFFFFF"
-        android:text="choose" />
+        android:onClick="save"
+        android:text="Save"
+        android:clickable="false"
+        android:textColor="#FFFFFF" />
 
 </RelativeLayout>

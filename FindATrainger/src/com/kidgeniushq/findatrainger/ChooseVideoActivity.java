@@ -12,6 +12,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -24,6 +25,7 @@ import com.parse.SaveCallback;
 
 public class ChooseVideoActivity extends Activity {
 byte[] videoBytes;
+Button bt;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,15 +34,17 @@ byte[] videoBytes;
 		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5CADFF")));
 		getActionBar().setTitle("Please choose a video");
 		//video bug IS BECAUSE FILTYPE IS UNSOPPORTED :(((  INSTAVIDS DONT WORK SOMEREASON
-		
+		bt = (Button)findViewById(R.id.saveVideoButton);
 		 
 	}
 	public void chooseVideo(View v){
+		bt.setClickable(true);
 		Intent videoPickerIntent = new Intent(Intent.ACTION_PICK);
 	    videoPickerIntent.setType("video/*");
 	    startActivityForResult(videoPickerIntent, 3);
 	}
 	public void save(View v){
+		bt.setClickable(false);
 		ParseObject videosObject = new ParseObject("Videos");
 		videosObject.put("name", getIntent().getStringExtra("name"));
 		ParseFile chosenView=new ParseFile("video", videoBytes);

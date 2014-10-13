@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -23,6 +24,7 @@ import android.widget.VideoView;
 import com.bugsense.trace.BugSenseHandler;
 import com.kidgeniushq.findatrainger.helpers.StaticVariables;
 import com.kidgeniushq.findatrainger.models.Trainer;
+import com.kidgeniushq.traineeoptions.VideoCallActivity;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.Parse;
@@ -115,6 +117,9 @@ public class TrainerActivity extends Activity {
 	public void messageButtonClick(View v) {
 		Toast.makeText(getApplicationContext(), "Coming soon",
 				Toast.LENGTH_SHORT).show();
+		
+		Intent i= new Intent(TrainerActivity.this,VideoCallActivity.class);
+		startActivity(i);
 
 	}
 

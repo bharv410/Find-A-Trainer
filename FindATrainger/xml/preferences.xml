@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <EditTextPreference
+        android:key="username"
+        android:summary="Enter Your Name"
+        android:title="Full Name" />
+    
+    <EditTextPreference
+        android:key="goals"
+        android:summary="Summary of your goals"
+        android:title="Fitness Goals" />
+
+    <CheckBoxPreference
+        android:key="fullscreen"
+        android:summary="Check the box"
+        android:title="Fullscreen" />
+
+    <ListPreference
+        android:entries="@array/colorNames"
+        android:entryValues="@array/colorValues"
+        android:key="color"
+        android:title="Set The Color" />
+
+</PreferenceScreen>

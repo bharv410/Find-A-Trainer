@@ -10,19 +10,37 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECORD_VIDEO" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-sdk
         android:minSdkVersion="13"
         android:targetSdkVersion="19" />
 
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <!-- Tell the system this app requires OpenGL ES 2.0. -->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="AppId"
+            android:value="\ 12349983352060" />
+        <meta-data
+            android:name="AppToken"
+            android:value="MDAxMDAxAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACD0VuDrzYf3zgT7YeDw%2BsOL%2FGzfzRkc%2BZeh9eGlDruBU%2FZM5ftBx5%2BS8oUWBr9zxG0GtSgIyeW0J5YpuBsRpm5pmd3bgQ0NQXJnyBA2C7mJ3cj%2BGvf2AbIKQQ0zenSU30%3D" />
+
         <activity
             android:name=".HomePageActivity"
             android:label="@string/app_name"
@@ -63,13 +81,31 @@
         </activity>
         <activity
             android:name=".SplashScreenActivity"
-            android:label="@string/title_activity_splash_screen" >
+            android:label="@string/app_name"
+            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".UpdateProfileActivity"
+            android:label="@string/title_activity_update_profile"
+            android:parentActivityName="android.support.v7.app.ActionBarActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.support.v7.app.ActionBarActivity" />
+        </activity>
+        <activity
+            android:name="com.kidgeniushq.traineeoptions.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name="com.kidgeniushq.traineeoptions.VideoCallActivity"
+            android:label="@string/title_activity_video_call" >
+        </activity>
+        <activity android:name=".oovoo.LiveVideoActivity"></activity>
     </application>
 
 </manifest>
