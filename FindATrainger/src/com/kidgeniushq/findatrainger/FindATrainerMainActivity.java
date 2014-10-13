@@ -30,6 +30,7 @@ import com.kidgeniushq.findatrainger.models.Trainer;
 import com.kidgeniushq.traineeoptions.FavoritesActivity;
 import com.kidgeniushq.traineeoptions.LocalTrainersActivity;
 import com.kidgeniushq.traineeoptions.SettingsActivity;
+import com.kidgeniushq.traineeoptions.VideoCallActivity;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.Parse;
@@ -82,13 +83,12 @@ public class FindATrainerMainActivity extends Activity {
                 	startActivity(new Intent(FindATrainerMainActivity.this,LocalTrainersActivity.class));
                     break;
                 case "Messages":
-                	startActivity(new Intent(FindATrainerMainActivity.this,HomePageActivity.class));
+                	startActivity(new Intent(FindATrainerMainActivity.this,VideoCallActivity.class));
                 	break;
                 case "Contact Us":
                 	emailClayton();
                     break;
                 case "Update Profile":
-                	Toast.makeText(FindATrainerMainActivity.this, "Coming soon", Toast.LENGTH_LONG).show();
                     break;
                 default:
                 	Toast.makeText(FindATrainerMainActivity.this, item + " selected", Toast.LENGTH_LONG).show();
