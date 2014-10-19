@@ -31,7 +31,7 @@ public class MessengerActivity extends ListActivity implements IMessengerListene
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);	
 		setContentView(R.layout.messenger);
-		
+		getActionBar().hide();
 		mConferenceManager = ConferenceManager.getInstance(getApplicationContext());
 		
 		MessengerController.getInstance().setListener(this);
@@ -68,6 +68,10 @@ public class MessengerActivity extends ListActivity implements IMessengerListene
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	public void backToVideo(View v){
+		finish();
 	}
 	
 	public void sendMessage(View v)

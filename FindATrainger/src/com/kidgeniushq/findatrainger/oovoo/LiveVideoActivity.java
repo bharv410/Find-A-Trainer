@@ -18,6 +18,7 @@ import com.kidgeniushq.findatrainger.oovoo.ConferenceManager.SessionListener;
 import com.kidgeniushq.findatrainger.oovoo.ConferenceManager.SessionParticipantsListener;
 import com.kidgeniushq.findatrainger.oovoo.ParticipantHolder.VideoParticipant;
 import com.kidgeniushq.findatrainger.oovoo.ParticipantVideoSurface.States;
+import com.kidgeniushq.traineeoptions.VideoCallActivity;
 import com.oovoo.core.ConferenceCore.FrameSize;
 import com.oovoo.core.IConferenceCore.CameraResolutionLevel;
 import com.oovoo.core.IConferenceCore.ConferenceCoreError;
@@ -197,6 +198,9 @@ public class LiveVideoActivity extends Activity implements OnClickListener,
 		});
 
 		showMessagesButton();
+		
+		//quick hack to go to messages activity
+		startActivity(new Intent(LiveVideoActivity.this,MessengerActivity.class));
 	}
 	
 	private void showMessagesButton() {

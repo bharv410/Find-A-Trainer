@@ -46,6 +46,7 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		BugSenseHandler.initAndStartSession(getApplicationContext(), "64fbe08c");
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		getActionBar().hide();
 
 		initView();
 		new InitConferenceManager().execute();
