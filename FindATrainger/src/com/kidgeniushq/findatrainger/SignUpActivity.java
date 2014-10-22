@@ -81,7 +81,6 @@ public class SignUpActivity extends Activity{
 	String picturePath;
 	EditText editName;
 	private final int IMAGE_MAX_SIZE=600;
-	AutoCompleteTextView autoCompView;
 	private static final String LOG_TAG = "Places log";
 	private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place/autocomplete/json";
 	private static final String API_KEY = "AIzaSyBDodh_fM-Bro-_gUNrGTZBJgKx3n3MQ6M";
@@ -100,9 +99,7 @@ public class SignUpActivity extends Activity{
 		
 		//init layout views to be used in code
 		editName = (EditText) findViewById(R.id.fullNameEditText);
-		mSelectedImage = (ImageView) findViewById(R.id.eventPhotoImage);
-		autoCompView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView1);
-	    autoCompView.setAdapter(new PlacesAutoCompleteAdapter(this, R.layout.menulist));  
+		mSelectedImage = (ImageView) findViewById(R.id.eventPhotoImage); 
 	    
 	    tryToSetHints();
 	
@@ -124,21 +121,20 @@ public class SignUpActivity extends Activity{
 		}
     	super.onDestroy();
     }
+	private boolean isValidName(String pass) {
+		if (pass != null && pass.length() > 4 &&pass.length()<26) {
+			return true;
+		}
+		return false;
+	}
 	public void save(View v) {
 		Button saveButton = (Button)findViewById(R.id.saveButton);
 		saveButton.setClickable(false);
 		t = new Trainer();
-		//if name is NOT empty
-		if (editName.getText() != null
-				&& !editName.getText().toString().equals("")) {
-			//add name to trainer object and save locally
-			t.setName(editName.getText().toString());
-			writeToFile(editName.getText().toString());
-			
-		} else {
+		if (!isValidName(editName.getText().toString())) {
 			saveButton.setClickable(true);
-			YoYo.with(Techniques.Wobble)
-	    	.duration(1100).playOn(editName);
+			YoYo.with(Techniques.Wobble).duration(1100).playOn(editName);
+			editName.setError("Enter your name");
 			return;
 		}
 		
@@ -147,25 +143,44 @@ public class SignUpActivity extends Activity{
 		}else {
 			t.setImage(imageBytes);
 		}
-		if (autoCompView.getText() != null
-				&& !autoCompView.getText().toString().equals("")) {
+		
 			pd = new ProgressDialog(this);
 			pd.setTitle("Loading...");
 			pd.setMessage("please wait");
 			pd.setCancelable(false);
 			pd.setIndeterminate(true);
 			pd.show();
-		} else {
-			saveButton.setClickable(true);
-			YoYo.with(Techniques.Wobble)
-	    	.duration(1100).playOn(autoCompView);
-			return;
-		}
 		
-		new GeoCodeThis().execute(autoCompView.getText().toString());
-}
-	
-
+			getSharedPreferences("findatrainersignin", 0).edit().putBoolean("my_first_time_searching", false).commit();
+    		
+    		ParseObject trainerObject = new ParseObject("Trainee");
+    		trainerObject.put("name", t.getName());
+    		trainerObject.put("goals",t.getAboutMe());
+       		ParseFile chosenImage=new ParseFile("profilepic.jpg", imageBytes);
+    		trainerObject.put("pic", chosenImage);
+    		trainerObject.saveInBackground(new SaveCallback(){
+        		public void done(ParseException e){
+        			Button saveButton = (Button)findViewById(R.id.saveButton);
+    	    		saveButton.setClickable(true);
+    	    		if(pd!=null)
+    	        		pd.dismiss();
+    	    		
+    	    		
+        			
+        			if(e==null){
+        				
+        				savePersonAs("trainee");
+        				Toast.makeText(getApplicationContext(), "Saved",
+    	        				Toast.LENGTH_SHORT).show();
+    	        		finish();
+    	        		startActivity(new Intent(SignUpActivity.this,HomePageActivity.class));
+        			}else{
+        				Toast.makeText(getApplicationContext(), "Error saving. Try again.",
+    	        				Toast.LENGTH_SHORT).show();
+    	        	}
+        			}
+        		});
+	}
 	public void choosePhoto(View v) {
 		Intent i = new Intent(Intent.ACTION_PICK,
 				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -213,9 +228,6 @@ public class SignUpActivity extends Activity{
 		e.printStackTrace();
 	}
 		}
-		
-		
-		
 	}
 	private void runCropImage() {
 	    // create explicit intent
@@ -251,86 +263,7 @@ public class SignUpActivity extends Activity{
 	    bitmap = BitmapFactory.decodeFile(path, opts);
 	    return bitmap;
 	}
-	 private class GeoCodeThis extends AsyncTask<String, Void, double[]> {
-	        @Override
-	        protected double[] doInBackground(String... params) {
-	            return GeoCoder.getLatLongFromAddress(params[0]);
-	        }
-	        @Override
-	        protected void onPostExecute(double[] result) {
-	        	Button saveButton = (Button)findViewById(R.id.saveButton);
-	    		saveButton.setClickable(true);
-	        	
-	            if(result.length>1){
-	            	lat=result[0];
-	            	lng=result[1];
-	            	System.out.println("lat: "+lat+"lng: "+lng);
-	            	//save signup locally
-	            	if(getIntent().getStringExtra("option").contains("find")){
-	            		getSharedPreferences("findatrainersignin", 0).edit().putBoolean("my_first_time_searching", false).commit();
-	            			            		
-	            		ParseObject trainerObject = new ParseObject("Trainee");
-	            		trainerObject.put("name", t.getName());
-		        		trainerObject.put("lat", lat);
-		        		trainerObject.put("lng", lng);
-		        		trainerObject.put("address", autoCompView.getText().toString());
-		        		ParseFile chosenImage=new ParseFile("profilepic.jpg", imageBytes);
-		        		trainerObject.put("pic", chosenImage);
-		        		trainerObject.saveInBackground(new SaveCallback(){
-		            		public void done(ParseException e){
-		            			if(pd!=null)
-		        	        		pd.dismiss();
-		            			if(e==null){
-		            				savePersonAs("trainee");
-		            				Toast.makeText(getApplicationContext(), "Saved",
-		        	        				Toast.LENGTH_SHORT).show();
-		        	        		finish();
-		        	        		startActivity(new Intent(SignUpActivity.this,HomePageActivity.class));
-		            			}else{
-		            				Toast.makeText(getApplicationContext(), "Error saving. Try again.",
-		        	        				Toast.LENGTH_SHORT).show();
-		        	        	}
-		            			}
-		            		});
-		        		
-	            	}else if(getIntent().getStringExtra("option").contains("post")){
-	            		savePersonAs("trainer");
-	            		getSharedPreferences("findatrainersignin", 0).edit().putBoolean("my_first_time", false).commit();
-	            		ParseObject trainerObject = new ParseObject("Trainer");
-	            		trainerObject.put("name", t.getName());
-		        		trainerObject.put("lat", lat);
-		        		trainerObject.put("lng", lng);
-		        		trainerObject.put("address", autoCompView.getText().toString());
-		        		ParseFile chosenImage=new ParseFile("profilepic.jpg", imageBytes);
-		        		trainerObject.put("pic", chosenImage);
-		        		trainerObject.saveInBackground(new SaveCallback(){
-		            		public void done(ParseException e){
-		            			if(pd!=null)
-		        	        		pd.dismiss();
-		            			if(e==null){
-		            				Toast.makeText(getApplicationContext(), "Saved",
-		        	        				Toast.LENGTH_SHORT).show();
-		        	        		finish();
-		        	        		Intent i=new Intent(SignUpActivity.this,ChooseVideoActivity.class);
-		        	        		i.putExtra("name", t.getName());
-		        	        		startActivity(i);
-		            			}else{
-		            				Toast.makeText(getApplicationContext(), "Error saving image",
-		        	        				Toast.LENGTH_SHORT).show();
-		        	        		finish();
-		            			}
-		            			}
-		            		});
-	            	}
-	            }else{
-	            	if(pd!=null)
-    	        		pd.dismiss();
-	            	Toast.makeText(getApplicationContext(), "Error finding address",
-	        				Toast.LENGTH_SHORT).show();
-	            	System.out.println("Didn't find address");
-	            }
-	        }
-	 }
+	 
 	 private void savePersonAs(String data) {
 		    try {
 		        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput("trainerortrainee.txt", Context.MODE_PRIVATE));
@@ -352,108 +285,9 @@ public class SignUpActivity extends Activity{
 			imageBytes=bitMapData;
 			t.setImage(imageBytes);
 	 }
-	 private ArrayList<String> autocomplete(String input) {
-		    ArrayList<String> resultList = null;
-
-		    HttpURLConnection conn = null;
-		    StringBuilder jsonResults = new StringBuilder();
-		    try {
-		        StringBuilder sb = new StringBuilder(PLACES_API_BASE);
-		        sb.append("?key=" + API_KEY);
-		        sb.append("&components=country:us");
-		        sb.append("&input=" + URLEncoder.encode(input, "utf8"));
-
-		        URL url = new URL(sb.toString());
-		        conn = (HttpURLConnection) url.openConnection();
-		        InputStreamReader in = new InputStreamReader(conn.getInputStream());
-
-		        // Load the results into a StringBuilder
-		        int read;
-		        char[] buff = new char[1024];
-		        while ((read = in.read(buff)) != -1) {
-		            jsonResults.append(buff, 0, read);
-		        }
-		    } catch (MalformedURLException e) {
-		        Log.e(LOG_TAG, "Error processing Places API URL", e);
-		        return resultList;
-		    } catch (IOException e) {
-		        Log.e(LOG_TAG, "Error connecting to Places API", e);
-		        return resultList;
-		    } finally {
-		        if (conn != null) {
-		            conn.disconnect();
-		        }
-		    }
-
-		    try {
-		        // Create a JSON object hierarchy from the results
-		        JSONObject jsonObj = new JSONObject(jsonResults.toString());
-		        JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
-
-		        // Extract the Place descriptions from the results
-		        resultList = new ArrayList<String>(predsJsonArray.length());
-		        for (int i = 0; i < predsJsonArray.length(); i++) {
-		            resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
-		        }
-		    } catch (JSONException e) {
-		        Log.e(LOG_TAG, "Cannot process JSON results", e);
-		    }
-
-		    return resultList;
-		}
-	 private class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
-		    private ArrayList<String> resultList;
-
-		    public PlacesAutoCompleteAdapter(Context context, int textViewResourceId) {
-		        super(context, textViewResourceId);
-		    }
-
-		    @Override
-		    public int getCount() {
-		        return resultList.size();
-		    }
-
-		    @Override
-		    public String getItem(int index) {
-		        return resultList.get(index);
-		    }
-
-		    @Override
-		    public Filter getFilter() {
-		        Filter filter = new Filter() {
-		            @Override
-		            protected FilterResults performFiltering(CharSequence constraint) {
-		                FilterResults filterResults = new FilterResults();
-		                if (constraint != null) {
-		                    // Retrieve the autocomplete results.
-		                    resultList = autocomplete(constraint.toString());
-
-		                    // Assign the data to the FilterResults
-		                    filterResults.values = resultList;
-		                    filterResults.count = resultList.size();
-		                }
-		                return filterResults;
-		            }
-
-		            @Override
-		            protected void publishResults(CharSequence constraint, FilterResults results) {
-		                if (results != null && results.count > 0) {
-		                    notifyDataSetChanged();
-		                }
-		                else {
-		                    notifyDataSetInvalidated();
-		                }
-		            }};
-		        return filter;
-		    }
-		}
 	 private void tryToSetHints(){
 		 
 		    editName.setText(StaticVariables.guessName);
-		    try{//try to set location
-		    	autoCompView.setText(StaticVariables.currentLocation);
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+		    
 	 }
 }
