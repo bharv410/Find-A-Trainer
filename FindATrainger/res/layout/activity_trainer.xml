@@ -37,12 +37,13 @@
         android:id="@+id/favoriteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/videoView1"
+        android:layout_alignLeft="@+id/trainerIntroVideoView"
         android:layout_alignParentBottom="true"
-        android:onClick="favoriteButtonClick"
+        android:layout_toLeftOf="@+id/blankView2"
         android:background="#5CADFF"
-        android:textColor="#FFFFFF"
-        android:text="Favorite" />
+        android:onClick="favoriteButtonClick"
+        android:text="Favorite"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/aboutMeTextView"
@@ -70,9 +71,18 @@
         android:layout_alignBaseline="@+id/favoriteButton"
         android:layout_alignBottom="@+id/favoriteButton"
         android:layout_alignRight="@+id/trainerIntroVideoView"
-        android:onClick="messageButtonClick"
+        android:layout_toRightOf="@+id/blankView2"
         android:background="#5CADFF"
-        android:textColor="#FFFFFF"
-        android:text="Message" />
+        android:onClick="messageButtonClick"
+        android:text="Message"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/blankView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/trainerIntroVideoView"
+        android:layout_centerHorizontal="true"
+        android:text="     " />
 
 </RelativeLayout>

@@ -63,7 +63,8 @@ public class TrainerActivity extends Activity {
 		query.findInBackground(new FindCallback<ParseObject>() {
 			@Override
 			public void done(List<ParseObject> scoreList, ParseException e) {
-				if (e == null) {
+				if (e == null && scoreList.size()>0) {
+					
 					ParseObject trainer = scoreList.get(0);
 		
 							ParseFile proPic = trainer.getParseFile("vid");
@@ -92,6 +93,8 @@ public class TrainerActivity extends Activity {
 										trainerIntro.start();}
 								}
 							});
+				}else{
+					Toast.makeText(getApplicationContext(), "Error loading video", Toast.LENGTH_LONG).show();
 				}
 			}
 		});

@@ -8,19 +8,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.kidgeniushq.findatrainger.HomePageActivity" >
 
-    <Button
-        android:id="@+id/isATrainerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/needsATrainerButton"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="8dp"
-        android:background="#5CADFF"
-        android:onClick="isATrainer"
-        android:text="Get More Clients"
-        android:textColor="#FFFFFF" />
-
     <RelativeLayout
         android:id="@+id/titleLayout"
         android:layout_width="wrap_content"
@@ -75,10 +62,23 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/isATrainerButton"
         android:layout_alignRight="@+id/isATrainerButton"
-        android:layout_below="@+id/imageView1"
+        android:layout_above="@+id/isATrainerButton"
         android:background="#5CADFF"
         android:onClick="needsATrainer"
         android:text="Find Fitness Trainers"
+        android:layout_marginBottom="6dp"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/isATrainerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/titleLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/titleLayout"
+        android:background="#5CADFF"
+        android:onClick="isATrainer"
+        android:text="Get More Clients"
         android:textColor="#FFFFFF" />
 
 </RelativeLayout>

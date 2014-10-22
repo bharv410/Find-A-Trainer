@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#686868"
+    android:id="@+id/blurrBackground"
     >
 	<com.kidgeniushq.findatrainger.helpers.SquareImageView 
 	    android:id="@+id/layout_header_image"
