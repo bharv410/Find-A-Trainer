@@ -1,7 +1,7 @@
 package com.kidgeniushq.findatrainger.models;
 
 public class Trainer {
-String fullName, youtubeLink,birthDate,email,aboutMe;
+String fullName, website,birthDate,email,aboutMe;
 int phoneNumber;
 double lat,lng;
 byte[] image;
@@ -16,10 +16,10 @@ public String getName(){
 	return fullName;
 }
 public void setYoutubeLink(String text){
-	this.youtubeLink=text;
+	this.website=text;
 }
 public String getYoutubeLink(){
-	return youtubeLink;
+	return website;
 }
 public void setBirthDate(String text){
 	this.birthDate=text;

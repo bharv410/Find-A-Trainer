@@ -1,0 +1,125 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#D3D3D3"
+        android:scaleType="centerCrop" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:background="#060"
+                android:scaleType="centerCrop" />
+
+           <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="35dp" >
+
+                <ImageView
+                    android:id="@+id/eventPhotoImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="center"
+                    android:src="@drawable/dummypic" />
+
+                <Button
+                    android:id="@+id/eventPhotoButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="#5CADFF"
+                    android:layout_margin="20dp"
+        android:textColor="#FFFFFF"
+                    android:onClick="choosePhoto"
+                    android:text="Choose photo" />
+
+                <EditText
+                    android:id="@+id/fullNameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Full Name"
+                    android:gravity="center"
+                    android:layout_marginBottom="20dp"
+                    android:selectAllOnFocus="true"
+                    android:nextFocusDown="@+id/autoCompleteTextView1"
+                    android:paddingBottom="5dp"
+                    android:singleLine="true" >
+                    <requestFocus />
+                </EditText>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+                </LinearLayout>
+
+                <AutoCompleteTextView
+                     android:id="@+id/autoCompleteTextView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:layout_marginBottom="20dp"
+                    android:imeOptions="actionNext"
+                    android:nextFocusDown="@+id/professionEditText"
+                    android:hint="Address"
+                    android:selectAllOnFocus="true" />
+
+                <EditText
+                    android:id="@+id/professionEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Profession" 
+                    android:layout_marginBottom="20dp"
+                    android:imeOptions="actionNext"
+                    android:nextFocusDown="@+id/websiteEditText"
+                    android:gravity="center"/>
+                <EditText
+                    android:id="@+id/websiteEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:ems="10"
+                    android:hint="Website"
+                    android:imeOptions="actionDone"
+                    android:gravity="center" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/saveButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.70"
+                        android:background="#5CADFF"
+        android:textColor="#FFFFFF"
+                        android:onClick="save"
+                        android:text="CHOOSE VIDEO" />
+
+                    
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

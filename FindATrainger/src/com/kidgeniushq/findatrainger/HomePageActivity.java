@@ -77,8 +77,7 @@ public class HomePageActivity extends Activity {
 			public void run() {
 				button.setBackgroundColor(Color.parseColor("#5CADFF"));	
 				if (getSharedPreferences("findatrainersignin", 0).getBoolean("my_first_time", true)) {
-					Intent i=new Intent(HomePageActivity.this,SignUpActivity.class);
-					i.putExtra("option", "post");
+					Intent i=new Intent(HomePageActivity.this,TrainerSignUpActivity.class);
 			    	startActivity(i);
 				}else{
 					Intent i=new Intent(HomePageActivity.this,FindATrainerMainActivity.class);

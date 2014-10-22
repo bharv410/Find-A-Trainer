@@ -149,16 +149,18 @@ public class FindATrainerMainActivity extends Activity {
 			    		//set image from parse
 			    		ParseFile proPic=currentUser.getParseFile("pic");
 			    		proPic.getDataInBackground(new GetDataCallback() {
-			    			  public void done(byte[] data, ParseException e) {
-			    			    if (e == null) {
-			    			    	bitmapDataThatGetsLoaded=data;
-			    			    	Bitmap bm=BitmapFactory.decodeByteArray(data, 0, data.length);
-			    			    	mImageView.setImageBitmap(bm);
-			    			    	Drawable dr = new BitmapDrawable(fastblur(bm,5));
-			    			    	rl.setBackgroundDrawable(dr);
-			    			    } else {
-			    			    }
-			    			  }
+							public void done(byte[] data, ParseException e) {
+								if (e == null) {
+									bitmapDataThatGetsLoaded = data;
+									Bitmap bm = BitmapFactory.decodeByteArray(
+											data, 0, data.length);
+									mImageView.setImageBitmap(bm);
+									Drawable dr = new BitmapDrawable(fastblur(
+											bm, 5));
+									rl.setBackgroundDrawable(dr);
+								} else {
+								}
+							}
 			    			});
 					} else {
 			            Log.d("score", "Error: " + e.getMessage());

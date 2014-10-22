@@ -105,8 +105,18 @@
             android:name="com.kidgeniushq.traineeoptions.VideoCallActivity"
             android:label="@string/title_activity_video_call" >
         </activity>
-        <activity android:name=".oovoo.LiveVideoActivity"></activity>
-        <activity android:name=".oovoo.MessengerActivity"></activity>
+        <activity android:name=".oovoo.LiveVideoActivity" >
+        </activity>
+        <activity android:name=".oovoo.MessengerActivity" >
+        </activity>
+        <activity
+            android:name=".TrainerSignUpActivity"
+            android:label="@string/title_activity_trainer_sign_up"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
     </application>
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
 </manifest>

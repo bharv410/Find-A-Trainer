@@ -18,15 +18,15 @@ public final class R {
 		public static final int selector_crop_button = 0x7f02003e;
 	}
 	public static final class id {
-		public static final int discard = 0x7f0c0024;
-		public static final int image = 0x7f0c0023;
-		public static final int rotateLeft = 0x7f0c0025;
-		public static final int rotateRight = 0x7f0c0026;
-		public static final int save = 0x7f0c0027;
+		public static final int discard = 0x7f0c0026;
+		public static final int image = 0x7f0c0025;
+		public static final int rotateLeft = 0x7f0c0027;
+		public static final int rotateRight = 0x7f0c0028;
+		public static final int save = 0x7f0c0029;
 	}
 	public static final class layout {
-		public static final int cropimage = 0x7f03000c;
-		public static final int main = 0x7f030010;
+		public static final int cropimage = 0x7f03000d;
+		public static final int main = 0x7f030011;
 	}
 	public static final class string {
 		public static final int cancel = 0x7f060000;
