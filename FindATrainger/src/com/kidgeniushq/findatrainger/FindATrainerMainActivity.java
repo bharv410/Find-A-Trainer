@@ -31,7 +31,6 @@ import com.kidgeniushq.findatrainger.helpers.StaticVariables;
 import com.kidgeniushq.findatrainger.models.Trainer;
 import com.kidgeniushq.traineeoptions.FavoritesActivity;
 import com.kidgeniushq.traineeoptions.LocalTrainersActivity;
-import com.kidgeniushq.traineeoptions.SettingsActivity;
 import com.kidgeniushq.traineeoptions.VideoCallActivity;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -186,7 +185,7 @@ public class FindATrainerMainActivity extends Activity {
 			menu2.setLat(1);
 			menu2.setLng(3);
 			menu2.setAboutMe("JJ");
-			Drawable drawable2= getResources().getDrawable(R.drawable.favoritesbutton);
+			Drawable drawable2= getResources().getDrawable(R.drawable.favoritepng);
 			Bitmap bitmap2 = Bitmap.createScaledBitmap(((BitmapDrawable)drawable2).getBitmap(), 64, 64, false);
 			ByteArrayOutputStream out2 = new ByteArrayOutputStream();
 			correctWhiteBackground(bitmap2).compress(Bitmap.CompressFormat.JPEG, 100, out2);
