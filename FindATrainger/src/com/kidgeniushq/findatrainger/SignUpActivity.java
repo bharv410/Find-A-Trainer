@@ -2,24 +2,9 @@ package com.kidgeniushq.findatrainger;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Calendar;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -31,38 +16,20 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.location.Location;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnKeyListener;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.bugsense.trace.BugSenseHandler;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.kidgeniushq.findatrainger.helpers.AccountUtils;
 import com.kidgeniushq.findatrainger.helpers.StaticVariables;
-import com.kidgeniushq.findatrainger.helpers.AccountUtils.UserProfile;
-import com.kidgeniushq.findatrainger.helpers.GeoCoder;
-import com.kidgeniushq.findatrainger.helpers.MyLocation;
-import com.kidgeniushq.findatrainger.helpers.MyLocation.LocationResult;
 import com.kidgeniushq.findatrainger.models.Trainer;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -79,7 +46,7 @@ public class SignUpActivity extends Activity{
 	double lat,lng;
 	Trainer t;
 	String picturePath;
-	EditText editName;
+	EditText editName,aboutMe;
 	private final int IMAGE_MAX_SIZE=600;
 	private static final String LOG_TAG = "Places log";
 	private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place/autocomplete/json";
@@ -99,6 +66,8 @@ public class SignUpActivity extends Activity{
 		
 		//init layout views to be used in code
 		editName = (EditText) findViewById(R.id.fullNameEditText);
+		
+		aboutMe= (EditText) findViewById(R.id.goalsEditText);
 		mSelectedImage = (ImageView) findViewById(R.id.eventPhotoImage); 
 	    
 	    tryToSetHints();
@@ -137,6 +106,17 @@ public class SignUpActivity extends Activity{
 			editName.setError("Enter your name");
 			return;
 		}
+		t = new Trainer();
+
+		// add name to trainer object and save locally
+		t.setName(editName.getText().toString());
+		writeToFile(editName.getText().toString());
+		try{
+		t.setAboutMe(aboutMe.getText().toString());
+	}catch(Exception e){
+		
+		e.printStackTrace();
+	}
 		
 		if(imageBytes==null){
 			useDefaultImage();
@@ -155,7 +135,12 @@ public class SignUpActivity extends Activity{
     		
     		ParseObject trainerObject = new ParseObject("Trainee");
     		trainerObject.put("name", t.getName());
+try{
     		trainerObject.put("goals",t.getAboutMe());
+}catch(Exception e){
+	
+	e.printStackTrace();
+}
        		ParseFile chosenImage=new ParseFile("profilepic.jpg", imageBytes);
     		trainerObject.put("pic", chosenImage);
     		trainerObject.saveInBackground(new SaveCallback(){

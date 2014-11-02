@@ -34,6 +34,7 @@
             android:text="Trainer"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#5CADFF"
+            android:textStyle="bold"
             android:textSize="34dp" />
 
         <TextView
@@ -43,6 +44,7 @@
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/titlePartTwoTextView"
             android:text="Find A "
+            android:textStyle="bold"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="34dp" />
 

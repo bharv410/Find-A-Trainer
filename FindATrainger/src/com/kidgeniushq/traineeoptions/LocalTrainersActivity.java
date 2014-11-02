@@ -53,8 +53,8 @@ public class LocalTrainersActivity extends ListActivity {
 							currentTrainer.setName(trainer.getString("name"));
 							currentTrainer.setLat(trainer.getInt("lat"));
 							currentTrainer.setLng(trainer.getInt("lng"));
-							currentTrainer.setAboutMe(trainer
-									.getString("aboutme"));
+							currentTrainer.setAboutMe(trainer.getString("profession"));
+							currentTrainer.setYoutubeLink(trainer.getString("website"));
 							// get pic
 							ParseFile proPic = trainer.getParseFile("pic");
 							proPic.getDataInBackground(new GetDataCallback() {

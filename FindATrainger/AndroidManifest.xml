@@ -44,7 +44,6 @@
         <activity
             android:name=".HomePageActivity"
             android:label="@string/app_name"
-            android:noHistory="true"
             android:screenOrientation="portrait" >
         </activity>
         <activity android:name="eu.janmuller.android.simplecropimage.CropImage" >

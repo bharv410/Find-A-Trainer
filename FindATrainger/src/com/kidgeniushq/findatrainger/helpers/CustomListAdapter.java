@@ -84,18 +84,7 @@ public class CustomListAdapter extends BaseAdapter {
 		// rating
 		
 		
-		Random rd= new Random();
-		int randomNum=rd.nextInt(4);
-		
-		if(randomNum==0){
-			rating.setText("Basketball Trainer");
-		}else if(randomNum==1){
-			rating.setText("Cardio Specialty");
-		}else if(randomNum==2){
-			rating.setText("Agility/Speed Trainer");
-		}else if(randomNum==3){
-			rating.setText("Body Building");
-		}
+		rating.setText(m.getAboutMe());
 		
 		if(m.getName().contains("Favorites")){
 			rating.setText("View trainers you've favorited");
