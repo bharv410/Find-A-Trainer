@@ -2,15 +2,18 @@ package com.kidgeniushq.findatrainger;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 
 import org.apache.commons.io.IOUtils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.MediaController;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bugsense.trace.BugSenseHandler;
+import com.kidgeniushq.findatrainger.helpers.CustomVideoView;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -37,8 +41,9 @@ public class ChooseVideoActivity extends Activity {
 				new ColorDrawable(Color.parseColor("#5CADFF")));
 		getActionBar().setTitle("Please choose a video");
 		// video bug IS BECAUSE FILTYPE IS UNSOPPORTED :((( INSTAVIDS DONT WORK
-		// SOMEREASON
+		// SOMEREASON b b
 		bt = (Button) findViewById(R.id.saveVideoButton);
+		savePersonAs(getIntent().getStringExtra("name"));
 
 	}
 
@@ -58,6 +63,7 @@ public class ChooseVideoActivity extends Activity {
 		videosObject.saveInBackground(new SaveCallback() {
 			public void done(ParseException e) {
 				if (e == null) {
+					savePersonAs("trainer");
 					Toast.makeText(getApplicationContext(), "Saved",
 							Toast.LENGTH_SHORT).show();
 					finish();
@@ -81,11 +87,21 @@ public class ChooseVideoActivity extends Activity {
 				e1.printStackTrace();
 			}
 			MediaController mc = new MediaController(ChooseVideoActivity.this);
-			VideoView trainerIntro = (VideoView) findViewById(R.id.introVidSignUpView);
+			CustomVideoView trainerIntro = (CustomVideoView) findViewById(R.id.introVidSignUpView);
 			trainerIntro.setMediaController(mc);
 			trainerIntro.setVideoURI(video);
 			trainerIntro.requestFocus();
 			trainerIntro.start();
+		}
+	}
+	private void savePersonAs(String data) {
+		try {
+			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
+					openFileOutput("trainerortrainee.txt", Context.MODE_PRIVATE));
+			outputStreamWriter.write(data);
+			outputStreamWriter.close();
+		} catch (IOException e) {
+			Log.e("Exception", "File write failed: " + e.toString());
 		}
 	}
 }

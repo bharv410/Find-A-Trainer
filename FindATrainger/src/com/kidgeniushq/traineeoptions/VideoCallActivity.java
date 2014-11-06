@@ -112,7 +112,11 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 				LogSdk.i(TAG, "loadDataFromSettings ->");
 				mConferenceManager.loadDataFromSettings();
 				LogSdk.i(TAG, "<- loadDataFromSettings");
-
+				
+//once they are logged in then start the conference!!!
+				onJoinSession();
+				
+				
 			} catch (Exception e) {
 				AlertsManager.getInstance().addAlert(
 						"An Error occured while trying to select Devices");

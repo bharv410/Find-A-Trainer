@@ -5,17 +5,9 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
+    android:background="#e6e6e6"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.kidgeniushq.findatrainger.TrainerActivity" >
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/nameTextView"
-        android:layout_alignParentLeft="true"
-        android:text="Name:  "
-        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/nameTextView"
@@ -25,44 +17,6 @@
         android:layout_toRightOf="@+id/textView1"
         android:text="Name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <com.kidgeniushq.findatrainger.helpers.CustomVideoView
-        android:id="@+id/trainerIntroVideoView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/favoriteButton"
-        android:layout_below="@+id/trainerBigImageView" />
-
-    <Button
-        android:id="@+id/favoriteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/trainerIntroVideoView"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/blankView2"
-        android:background="#5CADFF"
-        android:onClick="favoriteButtonClick"
-        android:text="Favorite"
-        android:textColor="#FFFFFF" />
-
-    <TextView
-        android:id="@+id/aboutMeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        
-        android:layout_below="@+id/textView1"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <ImageView
-        android:id="@+id/trainerBigImageView"
-        android:layout_width="82dp"
-        android:layout_height="82dp"
-        android:layout_alignRight="@+id/trainerIntroVideoView"
-        android:layout_alignTop="@+id/nameTextView"
-        android:scaleType="fitXY"
-        android:src="@drawable/dummypic" />
 
     <Button
         android:id="@+id/messageButton"
@@ -83,6 +37,70 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/trainerIntroVideoView"
         android:layout_centerHorizontal="true"
-        android:text="     " />
+        android:text=" " />
+
+    <TextView
+        android:id="@+id/websiteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/favoriteButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/messageButton"
+        android:text="Trainer hasn't provided a website" 
+        android:gravity="center"
+        android:autoLink="web"
+        android:onClick="goToSite"/>
+
+    <com.kidgeniushq.findatrainger.helpers.SquareImageView
+        android:id="@+id/trainerBigImageView"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="6dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/dummypic" />
+
+    <com.kidgeniushq.findatrainger.helpers.CustomVideoView
+        android:id="@+id/trainerIntroVideoView"
+        android:layout_width="fill_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+    <Button
+        android:id="@+id/favoriteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/websiteTextView"
+        android:layout_alignLeft="@+id/trainerIntroVideoView"
+        android:layout_toLeftOf="@+id/blankView2"
+        android:background="#5CADFF"
+        android:onClick="favoriteButtonClick"
+        android:text="Favorite"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#5CADFF"
+        android:layout_alignBaseline="@+id/nameTextView"
+        android:layout_alignBottom="@+id/nameTextView"
+        android:layout_alignLeft="@+id/trainerIntroVideoView"
+        android:text="Name:  "
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/aboutMeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_marginLeft="24dp"
+        android:layout_below="@+id/nameTextView"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

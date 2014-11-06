@@ -15,6 +15,25 @@ public final class R {
         public static final int pref_sync_frequency_values=0x7f0a0003;
     }
     public static final class attr {
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int border_color=0x7f010004;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int border_width=0x7f010003;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -167,97 +186,98 @@ containing a value of this type.
         public static final int white_name_border=0x7f020047;
     }
     public static final class id {
-        public static final int aboutMeTextView=0x7f0c001b;
-        public static final int activeUsersLabel=0x7f0c002d;
-        public static final int activeUsersList=0x7f0c002e;
-        public static final int alert_row=0x7f0c0024;
-        public static final int alertsList=0x7f0c0025;
+        public static final int aboutMeTextView=0x7f0c001d;
+        public static final int activeUsersLabel=0x7f0c002e;
+        public static final int activeUsersList=0x7f0c002f;
+        public static final int alert_row=0x7f0c0025;
+        public static final int alertsList=0x7f0c0026;
         public static final int autoCompleteTextView1=0x7f0c0013;
         public static final int blankView2=0x7f0c001a;
-        public static final int blurrBackground=0x7f0c0032;
-        public static final int bottom_write_bar=0x7f0c0035;
-        public static final int bubbleButton=0x7f0c0044;
-        public static final int button1=0x7f0c0037;
-        public static final int cameraButton=0x7f0c0040;
+        public static final int blurrBackground=0x7f0c0033;
+        public static final int bottom_write_bar=0x7f0c0036;
+        public static final int bubbleButton=0x7f0c0045;
+        public static final int button1=0x7f0c0038;
+        public static final int cameraButton=0x7f0c0041;
         public static final int chooseButton=0x7f0c0001;
-        public static final int devicesControlLayout=0x7f0c003d;
-        public static final int discard=0x7f0c0027;
-        public static final int displayNameLabel=0x7f0c0021;
-        public static final int displayNameText=0x7f0c0022;
-        public static final int endOfCallButton=0x7f0c0041;
+        public static final int devicesControlLayout=0x7f0c003e;
+        public static final int discard=0x7f0c0028;
+        public static final int displayNameLabel=0x7f0c0022;
+        public static final int displayNameText=0x7f0c0023;
+        public static final int endOfCallButton=0x7f0c0042;
         public static final int eventPhotoButton=0x7f0c0011;
         public static final int eventPhotoImage=0x7f0c0010;
         public static final int favoriteButton=0x7f0c0018;
         public static final int favoritesTextView=0x7f0c0005;
-        public static final int filterSpinner=0x7f0c0043;
+        public static final int filterSpinner=0x7f0c0044;
         public static final int fullNameEditText=0x7f0c0012;
         public static final int goalsEditText=0x7f0c0014;
-        public static final int image=0x7f0c0026;
+        public static final int image=0x7f0c0027;
         public static final int imageView1=0x7f0c000d;
         public static final int introVidSignUpView=0x7f0c0000;
         public static final int isATrainerButton=0x7f0c000f;
-        public static final int joinButton1=0x7f0c0023;
-        public static final int layout_header_image=0x7f0c0033;
-        public static final int layout_header_text=0x7f0c0034;
+        public static final int joinButton1=0x7f0c0024;
+        public static final int layout_header_image=0x7f0c0034;
+        public static final int layout_header_text=0x7f0c0035;
         public static final int layout_listview=0x7f0c0004;
-        public static final int menu_alerts=0x7f0c0059;
-        public static final int menu_information=0x7f0c005a;
-        public static final int menu_settings=0x7f0c0058;
-        public static final int messageButton=0x7f0c001c;
-        public static final int message_label=0x7f0c003c;
-        public static final int message_text=0x7f0c003b;
-        public static final int message_timestamp=0x7f0c003a;
-        public static final int microphoneButton=0x7f0c003e;
+        public static final int menu_alerts=0x7f0c005a;
+        public static final int menu_information=0x7f0c005b;
+        public static final int menu_settings=0x7f0c0059;
+        public static final int messageButton=0x7f0c0017;
+        public static final int message_label=0x7f0c003d;
+        public static final int message_text=0x7f0c003c;
+        public static final int message_timestamp=0x7f0c003b;
+        public static final int microphoneButton=0x7f0c003f;
         public static final int middleView=0x7f0c000a;
-        public static final int myAvatar=0x7f0c0047;
-        public static final int myVideoSurface=0x7f0c0048;
+        public static final int myAvatar=0x7f0c0048;
+        public static final int myVideoSurface=0x7f0c0049;
         public static final int nameTextView=0x7f0c0016;
         public static final int needsATrainerButton=0x7f0c000e;
-        public static final int participantId=0x7f0c0038;
-        public static final int participants_controller=0x7f0c0045;
-        public static final int previewName=0x7f0c004a;
-        public static final int preview_layout_id=0x7f0c0046;
-        public static final int professionEditText=0x7f0c001d;
-        public static final int rating=0x7f0c0031;
+        public static final int participantId=0x7f0c0039;
+        public static final int participants_controller=0x7f0c0046;
+        public static final int previewName=0x7f0c004b;
+        public static final int preview_layout_id=0x7f0c0047;
+        public static final int professionEditText=0x7f0c001e;
+        public static final int rating=0x7f0c0032;
         public static final int relativeLayout2=0x7f0c0006;
-        public static final int resolutionSpinner=0x7f0c0042;
-        public static final int rotateLeft=0x7f0c0028;
-        public static final int rotateRight=0x7f0c0029;
-        public static final int save=0x7f0c002a;
+        public static final int resolutionSpinner=0x7f0c0043;
+        public static final int rotateLeft=0x7f0c0029;
+        public static final int rotateRight=0x7f0c002a;
+        public static final int save=0x7f0c002b;
         public static final int saveButton=0x7f0c0015;
         public static final int saveVideoButton=0x7f0c0003;
-        public static final int sessionIdInformationLabel=0x7f0c002b;
-        public static final int sessionIdInformationValueLabel=0x7f0c002c;
-        public static final int sessionIdSettingsLabel=0x7f0c001f;
-        public static final int sessionIdText=0x7f0c0020;
-        public static final int speakersButton=0x7f0c003f;
-        public static final int switch1=0x7f0c0039;
-        public static final int text=0x7f0c0036;
+        public static final int sessionIdInformationLabel=0x7f0c002c;
+        public static final int sessionIdInformationValueLabel=0x7f0c002d;
+        public static final int sessionIdSettingsLabel=0x7f0c0020;
+        public static final int sessionIdText=0x7f0c0021;
+        public static final int speakersButton=0x7f0c0040;
+        public static final int switch1=0x7f0c003a;
+        public static final int text=0x7f0c0037;
         public static final int textView1=0x7f0c0002;
-        public static final int thumbnail=0x7f0c002f;
-        public static final int title=0x7f0c0030;
+        public static final int thumbnail=0x7f0c0030;
+        public static final int title=0x7f0c0031;
         public static final int titleLayout=0x7f0c0009;
         public static final int titlePartOneTextView=0x7f0c000b;
         public static final int titlePartTwoTextView=0x7f0c000c;
-        public static final int trainerBigImageView=0x7f0c0019;
-        public static final int trainerIntroVideoView=0x7f0c0017;
+        public static final int trainerBigImageView=0x7f0c001c;
+        public static final int trainerIntroVideoView=0x7f0c0019;
         public static final int trainerPicImageView=0x7f0c0007;
         public static final int trainerUsernameTextView=0x7f0c0008;
-        public static final int user1Avatar=0x7f0c004d;
-        public static final int user1Name=0x7f0c004f;
-        public static final int user1VideoSurface=0x7f0c004e;
-        public static final int user1_layout_id=0x7f0c004c;
-        public static final int user2Avatar=0x7f0c0051;
-        public static final int user2Name=0x7f0c0053;
-        public static final int user2VideoSurface=0x7f0c0052;
-        public static final int user2_layout_id=0x7f0c0050;
-        public static final int user3Avatar=0x7f0c0055;
-        public static final int user3Name=0x7f0c0057;
-        public static final int user3VideoSurface=0x7f0c0056;
-        public static final int user3_layout_id=0x7f0c0054;
-        public static final int userSmallUnusedPreview=0x7f0c004b;
-        public static final int video_info=0x7f0c0049;
-        public static final int websiteEditText=0x7f0c001e;
+        public static final int user1Avatar=0x7f0c004e;
+        public static final int user1Name=0x7f0c0050;
+        public static final int user1VideoSurface=0x7f0c004f;
+        public static final int user1_layout_id=0x7f0c004d;
+        public static final int user2Avatar=0x7f0c0052;
+        public static final int user2Name=0x7f0c0054;
+        public static final int user2VideoSurface=0x7f0c0053;
+        public static final int user2_layout_id=0x7f0c0051;
+        public static final int user3Avatar=0x7f0c0056;
+        public static final int user3Name=0x7f0c0058;
+        public static final int user3VideoSurface=0x7f0c0057;
+        public static final int user3_layout_id=0x7f0c0055;
+        public static final int userSmallUnusedPreview=0x7f0c004c;
+        public static final int video_info=0x7f0c004a;
+        public static final int websiteEditText=0x7f0c001f;
+        public static final int websiteTextView=0x7f0c001b;
     }
     public static final class layout {
         public static final int activity_choose_video=0x7f030000;
@@ -436,6 +456,52 @@ containing a value of this type.
         public static final int pref_notification=0x7f040003;
     }
     public static final class styleable {
+        /** Attributes that can be used with a CircleImageView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #CircleImageView_border_color com.kidgeniushq.findatrainger:border_color}</code></td><td></td></tr>
+           <tr><td><code>{@link #CircleImageView_border_width com.kidgeniushq.findatrainger:border_width}</code></td><td></td></tr>
+           </table>
+           @see #CircleImageView_border_color
+           @see #CircleImageView_border_width
+         */
+        public static final int[] CircleImageView = {
+            0x7f010003, 0x7f010004
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.kidgeniushq.findatrainger.R.attr#border_color}
+          attribute's value can be found in the {@link #CircleImageView} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.kidgeniushq.findatrainger:border_color
+        */
+        public static final int CircleImageView_border_color = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.kidgeniushq.findatrainger.R.attr#border_width}
+          attribute's value can be found in the {@link #CircleImageView} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.kidgeniushq.findatrainger:border_width
+        */
+        public static final int CircleImageView_border_width = 0;
         /**   
     <declare-styleable name="ButtonBarContainerTheme">
         <attr name="buttonBarStyle" format="reference" />

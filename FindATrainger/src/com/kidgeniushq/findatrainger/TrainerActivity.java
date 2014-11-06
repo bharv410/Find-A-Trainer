@@ -22,6 +22,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bugsense.trace.BugSenseHandler;
+import com.kidgeniushq.findatrainger.helpers.SquareImageView;
 import com.kidgeniushq.findatrainger.helpers.StaticVariables;
 import com.kidgeniushq.findatrainger.models.Trainer;
 import com.kidgeniushq.traineeoptions.VideoCallActivity;
@@ -34,8 +35,8 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 public class TrainerActivity extends Activity {
-	TextView nameTextView, aboutMeTextView;
-	ImageView bigImageView;
+	TextView nameTextView, aboutMeTextView,websiteTextView;
+	SquareImageView bigImageView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +50,13 @@ public class TrainerActivity extends Activity {
 
 		nameTextView = (TextView) findViewById(R.id.nameTextView);
 		aboutMeTextView = (TextView) findViewById(R.id.aboutMeTextView);
-		bigImageView = (ImageView) findViewById(R.id.trainerBigImageView);
+		bigImageView = (SquareImageView) findViewById(R.id.trainerBigImageView);
+		websiteTextView=(TextView)findViewById(R.id.websiteTextView);
 		Trainer currentTrainer = StaticVariables.currentTrainer;
 		nameTextView.setText(currentTrainer.getName());
 		aboutMeTextView.setText(currentTrainer.getAboutMe());
+		if(currentTrainer.getYoutubeLink()!=null)
+			websiteTextView.setText(currentTrainer.getYoutubeLink());
 		byte[] bitmapdata = currentTrainer.getImage();
 		bigImageView.setImageBitmap(BitmapFactory.decodeByteArray(bitmapdata,
 				0, bitmapdata.length));
@@ -98,8 +102,6 @@ public class TrainerActivity extends Activity {
 				}
 			}
 		});
-		
-
 	}
 
 	public void favoriteButtonClick(View v) {
@@ -116,7 +118,9 @@ public class TrainerActivity extends Activity {
 						+ " added to favorites", Toast.LENGTH_SHORT).show();
 
 	}
-
+public void goToSite(View v){
+	
+}
 	public void messageButtonClick(View v) {
 		Toast.makeText(getApplicationContext(), "Coming soon",
 				Toast.LENGTH_SHORT).show();

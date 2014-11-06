@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bugsense.trace.BugSenseHandler;
+import com.kidgeniushq.findatrainger.helpers.CircleImageView;
 import com.kidgeniushq.findatrainger.helpers.CustomListAdapter;
 import com.kidgeniushq.findatrainger.helpers.ParallaxScollListView;
 import com.kidgeniushq.findatrainger.helpers.SquareImageView;
@@ -44,7 +45,7 @@ import com.parse.ParseQuery;
 public class FindATrainerMainActivity extends Activity {
 	private CustomListAdapter menuAdapter;
 	private ParallaxScollListView mListView;
-	private SquareImageView mImageView;
+	private CircleImageView mImageView;
 	String username ;
 	List<Trainer> values;
 	Boolean isTrainer;
@@ -63,7 +64,7 @@ public class FindATrainerMainActivity extends Activity {
         
         View header = LayoutInflater.from(this).inflate(R.layout.listview_header, null);
         rl = (RelativeLayout) header.findViewById(R.id.blurrBackground);
-        mImageView = (SquareImageView) header.findViewById(R.id.layout_header_image);
+        mImageView = (CircleImageView) header.findViewById(R.id.layout_header_image);
         mImageView.setOnClickListener(new OnClickListener() {
         public void onClick(View v) {
         	if(getIntent().getStringExtra("occ").contains("trainer")){

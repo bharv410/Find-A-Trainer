@@ -140,7 +140,7 @@ public class TrainerSignUpActivity extends Activity {
 	}
 	// validating password with retype password
 		private boolean isValidAddress(String pass) {
-			if (pass != null && pass.length() > 10 &&pass.length()<56) {
+			if (pass != null && pass.length() > 6 &&pass.length()<156) {
 				return true;
 			}
 			return false;
@@ -319,7 +319,6 @@ public class TrainerSignUpActivity extends Activity {
 			if (result.length > 1) {
 				lat = result[0];
 				lng = result[1];
-				savePersonAs("trainer");
 				getSharedPreferences("findatrainersignin", 0).edit()
 						.putBoolean("my_first_time", false).commit();
 				ParseObject trainerObject = new ParseObject("Trainer");
@@ -357,17 +356,6 @@ public class TrainerSignUpActivity extends Activity {
 						"Error finding address", Toast.LENGTH_SHORT).show();
 				System.out.println("Didn't find address");
 			}
-		}
-	}
-
-	private void savePersonAs(String data) {
-		try {
-			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
-					openFileOutput("trainerortrainee.txt", Context.MODE_PRIVATE));
-			outputStreamWriter.write(data);
-			outputStreamWriter.close();
-		} catch (IOException e) {
-			Log.e("Exception", "File write failed: " + e.toString());
 		}
 	}
 

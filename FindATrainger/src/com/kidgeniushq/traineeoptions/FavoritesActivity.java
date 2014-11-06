@@ -55,14 +55,18 @@ public class FavoritesActivity extends ListActivity {
 							android.R.layout.simple_list_item_1, favNames);
 					setListAdapter(adapter);
 				}
+				
+				TextView favoritesTextView = (TextView)findViewById(R.id.favoritesTextView);
+				//if no favs, set a hint
+				if(favNames.size()<1){
+					favoritesTextView.setText("You haven't favorited any trainers yet. Go to a trainer's profile & click the 'favorite' button and you will see a list of those trainer's here.");
+				}else{
+					favoritesTextView.setText("Favorited Trainers:");
+				}
 			}
 		});
 		
-		//if no favs, set a hint
-		if(favNames.size()<1){
-			TextView favoritesTextView = (TextView)findViewById(R.id.favoritesTextView);
-			favoritesTextView.setText("You haven't favorited any trainers yet. Go to a trainer's profile & click the 'favorite' button and you will see a list of those trainer's here.");
-		}
+		
 			
 	}
 

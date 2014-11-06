@@ -37,7 +37,12 @@ public class HomePageActivity extends Activity {
         	Intent i=new Intent(this,FindATrainerMainActivity.class);
         	i.putExtra("occ", "trainee");
 	    	startActivity(i);
+        }else if(retrieveStatus().contains("")){
+        	Intent i=new Intent(this,ChooseVideoActivity.class);
+        	i.putExtra("name", retrieveStatus());
+	    	startActivity(i);
         }else{
+        
         	 requestWindowFeature(Window.FEATURE_NO_TITLE);
              getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
                                              WindowManager.LayoutParams.FLAG_FULLSCREEN); 

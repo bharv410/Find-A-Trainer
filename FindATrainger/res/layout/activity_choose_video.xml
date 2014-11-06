@@ -24,6 +24,7 @@
         android:layout_below="@+id/introVidSignUpView"
         android:background="#5CADFF"
         android:onClick="chooseVideo"
+        android:layout_marginTop="8dp"
         android:text="Choose Video From Gallery"
         android:textColor="#FFFFFF" />
 
@@ -34,19 +35,20 @@
         android:layout_below="@+id/chooseButton"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
-        android:text="E-mail me the exact text you&apos;d like to be used here"
+        android:text="Record a 30 second video telling potential clients about yourself and what you have to offer."
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
         android:id="@+id/saveVideoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/chooseButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:background="#5CADFF"
-        android:onClick="save"
-        android:text="Save"
         android:clickable="false"
+        android:onClick="save"
+        android:text="Finish and Save"
         android:textColor="#FFFFFF" />
 
 </RelativeLayout>
