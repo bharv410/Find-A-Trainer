@@ -70,7 +70,7 @@ public class FindATrainerMainActivity extends Activity {
         	if(getIntent().getStringExtra("occ").contains("trainer")){
         		Trainer currentTrainer = new Trainer();
 				currentTrainer.setName(username);
-				currentTrainer.setAboutMe("testtesttest");
+				currentTrainer.setAboutMe("Users will see your about me in this space");
 				if(bitmapDataThatGetsLoaded!=null){
 					currentTrainer.setImage(bitmapDataThatGetsLoaded);
 				}else{

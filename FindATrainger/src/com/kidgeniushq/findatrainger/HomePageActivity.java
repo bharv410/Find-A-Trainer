@@ -28,16 +28,16 @@ public class HomePageActivity extends Activity {
         super.onCreate(savedInstanceState);
         BugSenseHandler.initAndStartSession(getApplicationContext(), "64fbe08c");
         
-        if(retrieveStatus().contains("trainer")){
+        if(retrieveStatus().contains("trainer")){//if they are a trainer
         	Intent i=new Intent(this,FindATrainerMainActivity.class);
         	i.putExtra("occ", "trainer");
 	    	startActivity(i);
         }
-        else if(retrieveStatus().contains("trainee")){
+        else if(retrieveStatus().contains("trainee")){// if they NEED a trainer
         	Intent i=new Intent(this,FindATrainerMainActivity.class);
         	i.putExtra("occ", "trainee");
 	    	startActivity(i);
-        }else if(retrieveStatus().contains("")){
+        }else if((retrieveStatus()!=null)&&(!retrieveStatus().equals(""))){ // if they started trainer signup
         	Intent i=new Intent(this,ChooseVideoActivity.class);
         	i.putExtra("name", retrieveStatus());
 	    	startActivity(i);
