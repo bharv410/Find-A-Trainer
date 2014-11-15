@@ -15,6 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,7 +28,6 @@ import com.bugsense.trace.BugSenseHandler;
 import com.kidgeniushq.findatrainger.helpers.CircleImageView;
 import com.kidgeniushq.findatrainger.helpers.CustomListAdapter;
 import com.kidgeniushq.findatrainger.helpers.ParallaxScollListView;
-import com.kidgeniushq.findatrainger.helpers.SquareImageView;
 import com.kidgeniushq.findatrainger.helpers.StaticVariables;
 import com.kidgeniushq.findatrainger.models.Trainer;
 import com.kidgeniushq.traineeoptions.FavoritesActivity;
@@ -39,7 +39,9 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 
 public class FindATrainerMainActivity extends Activity {
@@ -107,7 +109,15 @@ public class FindATrainerMainActivity extends Activity {
                 	startActivity(new Intent(FindATrainerMainActivity.this,LocalTrainersActivity.class));
                     break;
                 case "Messages":
+                	if(StaticVariables.currentTrainer!=null)
                 	startActivity(new Intent(FindATrainerMainActivity.this,VideoCallActivity.class));
+                	else{
+                		Toast tst=Toast.makeText(getApplicationContext(), "Message who?",Toast.LENGTH_LONG);
+                		tst.setGravity(Gravity.CENTER
+                		, 0, 0);
+                		tst.show();
+                		startActivity(new Intent(FindATrainerMainActivity.this,LocalTrainersActivity.class));
+                	}
                 	break;
                 case "Contact Us":
                 	emailClayton();
@@ -138,7 +148,6 @@ public class FindATrainerMainActivity extends Activity {
 			}else{
 				title="Trainee";
 			}
-			Parse.initialize(this, "rW19JzkDkzkgH5ZuqDO9wgD43XIfqEdnznw8YftG", "sxRJveZXQvLlvlfWzf0949RFTyvIaJOvJeC1WtoI");
 			ParseQuery<ParseObject> query = ParseQuery.getQuery(title);
 			query.whereEqualTo("name", username);
 			query.findInBackground(new FindCallback<ParseObject>() {
@@ -156,7 +165,7 @@ public class FindATrainerMainActivity extends Activity {
 											data, 0, data.length);
 									mImageView.setImageBitmap(bm);
 									Drawable dr = new BitmapDrawable(fastblur(
-											bm, 5));
+											bm, 15));
 									rl.setBackgroundDrawable(dr);
 								} else {
 								}

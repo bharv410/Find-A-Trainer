@@ -4,7 +4,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import com.kidgeniushq.findatrainger.R;
+import com.kidgeniushq.findatrainger.helpers.StaticVariables;
 import com.oovoo.core.Utils.LogSdk;
+import com.parse.ParseException;
+import com.parse.ParsePush;
+import com.parse.SendCallback;
 
 import android.app.ActionBar;
 import android.app.ListActivity;
@@ -13,6 +17,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MessengerActivity extends ListActivity implements IMessengerListener {
 	

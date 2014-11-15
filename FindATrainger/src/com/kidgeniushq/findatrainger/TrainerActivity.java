@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +31,9 @@ import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
+import com.parse.SendCallback;
 
 public class TrainerActivity extends Activity {
 	TextView nameTextView, aboutMeTextView,websiteTextView;
@@ -122,12 +123,23 @@ public void goToSite(View v){
 	
 }
 	public void messageButtonClick(View v) {
-		Toast.makeText(getApplicationContext(), "Coming soon",
-				Toast.LENGTH_SHORT).show();
-		
-		Intent i= new Intent(TrainerActivity.this,VideoCallActivity.class);
-		startActivity(i);
-
+		final String trainerName =StaticVariables.currentTrainer.getName();
+		ParsePush push = new ParsePush();
+		push.setChannel(trainerName.replaceAll(" ", "7"));
+		push.setMessage(StaticVariables.username+" wants to chat now! Click now");
+		push.sendInBackground(new SendCallback() {
+			@Override
+			public void done(ParseException arg0) {
+				if (arg0 == null) {
+					Toast.makeText(getApplicationContext(), "Waiting for trainer to connect...", Toast.LENGTH_LONG).show();
+				} else {
+					Toast.makeText(getApplicationContext(), "Error. trainer may be offline", Toast.LENGTH_LONG).show();
+				}
+				Intent i= new Intent(TrainerActivity.this,VideoCallActivity.class);
+				i.putExtra("channel", trainerName);
+				i.putExtra("username", StaticVariables.username);
+				startActivity(i);
+			}
+		});
 	}
-
 }

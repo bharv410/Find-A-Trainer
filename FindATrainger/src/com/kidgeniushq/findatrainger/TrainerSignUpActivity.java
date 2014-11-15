@@ -49,10 +49,11 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.kidgeniushq.findatrainger.helpers.GeoCoder;
 import com.kidgeniushq.findatrainger.helpers.StaticVariables;
 import com.kidgeniushq.findatrainger.models.Trainer;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.SaveCallback;
 
 import eu.janmuller.android.simplecropimage.CropImage;
@@ -86,9 +87,6 @@ public class TrainerSignUpActivity extends Activity {
 		getActionBar().setBackgroundDrawable(
 				new ColorDrawable(Color.parseColor("#5CADFF")));
 		getActionBar().setTitle("Trainer Sign Up");
-		// initialize cloud database
-		Parse.initialize(this, "rW19JzkDkzkgH5ZuqDO9wgD43XIfqEdnznw8YftG",
-				"sxRJveZXQvLlvlfWzf0949RFTyvIaJOvJeC1WtoI");
 
 		// init layout views to be used in code
 		editName = (EditText) findViewById(R.id.fullNameEditText);
@@ -193,10 +191,23 @@ public class TrainerSignUpActivity extends Activity {
 		}
 
 		t = new Trainer();
-
+		String name=editName.getText().toString();
+		
+		//subscribe for push notification messages based on your name. switching spaces for underscores
+				ParsePush.subscribeInBackground(name.replaceAll(" ", "7"),new SaveCallback(){
+					@Override
+					public void done(ParseException pe) {
+						if(pe==null)
+							System.out.println("Registred for push");
+						else{
+							pe.printStackTrace();
+						}
+					}
+				});
+		
 		// add name to trainer object and save locally
-		t.setName(editName.getText().toString());
-		writeToFile(editName.getText().toString());
+		t.setName(name);
+		writeToFile(name);
 		t.setAboutMe(professionEditText.getText().toString());
 		t.setYoutubeLink(websiteEditText.getText().toString());
 
@@ -323,8 +334,7 @@ public class TrainerSignUpActivity extends Activity {
 						.putBoolean("my_first_time", false).commit();
 				ParseObject trainerObject = new ParseObject("Trainer");
 				trainerObject.put("name", t.getName());
-				trainerObject.put("lat", lat);
-				trainerObject.put("lng", lng);
+				trainerObject.put("location", new ParseGeoPoint(lat, lng));
 				trainerObject.put("address", autoCompView.getText().toString());
 				trainerObject.put("website", t.getYoutubeLink());
 				trainerObject.put("profession", t.getAboutMe());
@@ -471,10 +481,5 @@ public class TrainerSignUpActivity extends Activity {
 
 	private void tryToSetHints() {
 		editName.setText(StaticVariables.guessName);
-		try {// try to set location
-			autoCompView.setText(StaticVariables.currentLocation);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }

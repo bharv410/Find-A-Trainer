@@ -11,20 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-import com.bugsense.trace.BugSenseHandler;
-import com.kidgeniushq.findatrainger.R;
-import com.kidgeniushq.findatrainger.oovoo.ConferenceManager.SessionControlsListener;
-import com.kidgeniushq.findatrainger.oovoo.ConferenceManager.SessionListener;
-import com.kidgeniushq.findatrainger.oovoo.ConferenceManager.SessionParticipantsListener;
-import com.kidgeniushq.findatrainger.oovoo.ParticipantHolder.VideoParticipant;
-import com.kidgeniushq.findatrainger.oovoo.ParticipantVideoSurface.States;
-import com.kidgeniushq.traineeoptions.VideoCallActivity;
-import com.oovoo.core.ConferenceCore.FrameSize;
-import com.oovoo.core.IConferenceCore.CameraResolutionLevel;
-import com.oovoo.core.IConferenceCore.ConferenceCoreError;
-import com.oovoo.core.Utils.LogSdk;
-import com.oovoo.core.device.deviceconfig.VideoFilterData;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -44,6 +30,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.bugsense.trace.BugSenseHandler;
+import com.kidgeniushq.findatrainger.R;
+import com.kidgeniushq.findatrainger.oovoo.ConferenceManager.SessionControlsListener;
+import com.kidgeniushq.findatrainger.oovoo.ConferenceManager.SessionListener;
+import com.kidgeniushq.findatrainger.oovoo.ConferenceManager.SessionParticipantsListener;
+import com.kidgeniushq.findatrainger.oovoo.ParticipantHolder.VideoParticipant;
+import com.kidgeniushq.findatrainger.oovoo.ParticipantVideoSurface.States;
+import com.oovoo.core.ConferenceCore.FrameSize;
+import com.oovoo.core.IConferenceCore.CameraResolutionLevel;
+import com.oovoo.core.IConferenceCore.ConferenceCoreError;
+import com.oovoo.core.Utils.LogSdk;
+import com.oovoo.core.device.deviceconfig.VideoFilterData;
 
 // Video presenter entity
 public class LiveVideoActivity extends Activity implements OnClickListener,

@@ -23,6 +23,7 @@ import com.parse.GetDataCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -37,10 +38,12 @@ public class LocalTrainersActivity extends ListActivity {
 		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5CADFF")));
 		getActionBar().setTitle("Find-A-Trainer");
 
-		Parse.initialize(this, "rW19JzkDkzkgH5ZuqDO9wgD43XIfqEdnznw8YftG",
-				"sxRJveZXQvLlvlfWzf0949RFTyvIaJOvJeC1WtoI");
+		ParseGeoPoint point = new ParseGeoPoint(StaticVariables.lat, StaticVariables.lng);
+		
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Trainer");
 		query.orderByDescending("createdAt");
+		query.whereNear("location", point);
+		query.setLimit(10);
 		query.findInBackground(new FindCallback<ParseObject>() {
 			@Override
 			public void done(List<ParseObject> scoreList, ParseException e) {
@@ -79,7 +82,6 @@ public class LocalTrainersActivity extends ListActivity {
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-
 		StaticVariables.currentTrainer = StaticVariables.allTrainers
 				.get(position);
 		String item = StaticVariables.currentTrainer.getName();

@@ -1,24 +1,17 @@
 package com.kidgeniushq.findatrainger;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.bugsense.trace.BugSenseHandler;
 import com.kidgeniushq.findatrainger.helpers.AccountUtils;
-import com.kidgeniushq.findatrainger.helpers.MyLocation;
 import com.kidgeniushq.findatrainger.helpers.AccountUtils.UserProfile;
+import com.kidgeniushq.findatrainger.helpers.MyLocation;
 import com.kidgeniushq.findatrainger.helpers.MyLocation.LocationResult;
 import com.kidgeniushq.findatrainger.helpers.StaticVariables;
-import com.kidgeniushq.traineeoptions.VideoCallActivity;
 
 public class SplashScreenActivity extends Activity {
 
@@ -32,42 +25,29 @@ public class SplashScreenActivity extends Activity {
 		LocationResult locationResult = new LocationResult(){
 		    @Override
 		    public void gotLocation(Location location){ 
-		    	if(location==null)
-		    		StaticVariables.currentLocation="";
-		    	else{
-		    		//found location. attempt to geocode
-		    		Geocoder geocoder;
-		    		List<Address> addresses;
-		    		geocoder = new Geocoder(SplashScreenActivity.this, Locale.getDefault());
-		    		try {
-						addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-						String address = addresses.get(0).getAddressLine(0);
-			    		String city = addresses.get(0).getAddressLine(1);
-			    		String country = addresses.get(0).getAddressLine(2);
-			    		StaticVariables.currentLocation=address+" "+city+" "+country;
-		    		} catch (IOException e) {
-		    			//error geocoding. set as blank & start next activity
-						StaticVariables.currentLocation="";
-						e.printStackTrace();
-					}
-		    	}
-		    	//after trying to find location try to find name
-		    	GetNameTask gnt = new GetNameTask();
-				gnt.execute();
+		    	if(location==null){
+		    		StaticVariables.lat=39;
+	    		StaticVariables.lng=76.7;
+		    	}else{
+		    		StaticVariables.lat=location.getLatitude();
+		    		StaticVariables.lng=location.getLongitude();
+		    	}		    	
 		    }
-		};
-		
-		
+		};	
+		//get username
 		String username=StaticVariables.retrieveUsername(this);
 		StaticVariables.username=username;
-		if(username==null){
-		//first time here so get location and name for signup help
-		//call the find location method that is declared above ^^^^
+		
+		//try to fill if not there
+		GetNameTask gnt = new GetNameTask();
+		gnt.execute();
+
+		//call the find location method that is declared above 
 		MyLocation myLocation = new MyLocation();
-		myLocation.getLocation(this, locationResult);
-		}else{
-			startActivity(new Intent(SplashScreenActivity.this,HomePageActivity.class));
+		if(myLocation.getLocation(this, locationResult)){
+			startActivity(new Intent(this,HomePageActivity.class));
 		}
+		
 	}
 	
 	private class GetNameTask extends AsyncTask<Void,Void,Void>{

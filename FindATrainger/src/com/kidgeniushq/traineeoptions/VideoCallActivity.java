@@ -64,8 +64,9 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 		// Retrieve and display SDK version
 		mSessionIdView = (EditText) findViewById(R.id.sessionIdText);
 		mDisplayNameView = (EditText) findViewById(R.id.displayNameText);
-		mSessionIdView.setText(StaticVariables.username);
-		mDisplayNameView.setText(StaticVariables.username);
+		
+		mSessionIdView.setText(getIntent().getStringExtra("channel"));
+		mDisplayNameView.setText(getIntent().getStringExtra("username"));
 		
 		ActionBar ab = getActionBar();
 		if (ab != null) {
@@ -92,7 +93,6 @@ public class VideoCallActivity extends Activity implements OnClickListener,
 				LogSdk.i(TAG, "Init ConferenceManager");
 				mConferenceManager = ConferenceManager
 						.getInstance(getApplicationContext());
-
 				mConferenceManager.initConference();
 			} else
 				LogSdk.d(TAG, "ConferenceManager already initialized");
