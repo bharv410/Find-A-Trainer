@@ -27,7 +27,7 @@
   to match your app's package name + ".permission.C2D_MESSAGE".
 -->
 <permission android:protectionLevel="signature"
-    android:name="com.kidgeniushq.findatrainger.practiceproject.permission.C2D_MESSAGE" />
+    android:name="com.kidgeniushq.findatrainger.permission.C2D_MESSAGE" />
 <uses-permission android:name="com.kidgeniushq.findatrainger.permission.C2D_MESSAGE" />
 
     <uses-sdk

@@ -33,6 +33,7 @@ import com.kidgeniushq.findatrainger.helpers.StaticVariables;
 import com.kidgeniushq.findatrainger.models.Trainer;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.SaveCallback;
@@ -140,18 +141,6 @@ public class SignUpActivity extends Activity {
 
 		getSharedPreferences("findatrainersignin", 0).edit()
 				.putBoolean("my_first_time_searching", false).commit();
-		
-		//subscribe for push notification messages based on your name. switching spaces for underscores
-				ParsePush.subscribeInBackground(name.replaceAll(" ", "7").toLowerCase(),new SaveCallback(){
-					@Override
-					public void done(ParseException pe) {
-						if(pe==null)
-							System.out.println("Registred for push");
-						else{
-							pe.printStackTrace();
-						}
-					}
-				});
 
 		ParseObject trainerObject = new ParseObject("Trainee");
 		trainerObject.put("name", t.getName());

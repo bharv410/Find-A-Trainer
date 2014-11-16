@@ -52,6 +52,7 @@ import com.kidgeniushq.findatrainger.models.Trainer;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.SaveCallback;
@@ -193,17 +194,16 @@ public class TrainerSignUpActivity extends Activity {
 		t = new Trainer();
 		String name=editName.getText().toString();
 		
-		//subscribe for push notification messages based on your name. switching spaces for underscores
-				ParsePush.subscribeInBackground(name.replaceAll(" ", "7"),new SaveCallback(){
-					@Override
-					public void done(ParseException pe) {
-						if(pe==null)
-							System.out.println("Registred for push");
-						else{
-							pe.printStackTrace();
-						}
-					}
-				});
+		ParsePush.subscribeInBackground(name.replaceAll(" ", "7"), new SaveCallback() {
+			  @Override
+			  public void done(ParseException e) {
+			    if (e == null) {
+			      Log.d("com.parse.push", "successfully subscribed to the broadcast channel.");
+			    } else {
+			      Log.e("com.parse.push", "failed to subscribe for push", e);
+			    }
+			  }
+			});
 		
 		// add name to trainer object and save locally
 		t.setName(name);

@@ -35,9 +35,9 @@ import com.kidgeniushq.traineeoptions.LocalTrainersActivity;
 import com.kidgeniushq.traineeoptions.VideoCallActivity;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
-import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
@@ -58,7 +58,7 @@ public class FindATrainerMainActivity extends Activity {
 		super.onCreate(savedInstanceState);	
 		BugSenseHandler.initAndStartSession(getApplicationContext(), "64fbe08c");
 		setContentView(R.layout.activity_fatmain);
-		username=StaticVariables.retrieveUsername(this);
+		username=StaticVariables.retrieveUsername(this);		
 		getActionBar().setTitle("Welcome "+username);
 		getActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5CADFF")));
 		
@@ -295,8 +295,6 @@ public class FindATrainerMainActivity extends Activity {
 		menuAdapter = new CustomListAdapter(this,values);
         mListView.setAdapter(menuAdapter);
 		}
-        
-		    
 	}
 	private Bitmap correctWhiteBackground(Bitmap myBitmap){
 		int [] allpixels = new int [ myBitmap.getHeight()*myBitmap.getWidth()];
