@@ -193,14 +193,16 @@ public class TrainerSignUpActivity extends Activity {
 
 		t = new Trainer();
 		String name=editName.getText().toString();
-		
+		ParseInstallation.getCurrentInstallation().saveInBackground();
 		ParsePush.subscribeInBackground(name.replaceAll(" ", "7"), new SaveCallback() {
 			  @Override
 			  public void done(ParseException e) {
 			    if (e == null) {
 			      Log.d("com.parse.push", "successfully subscribed to the broadcast channel.");
+			      Toast.makeText(getApplicationContext(), "successfully subscribed to the broadcast channel.", Toast.LENGTH_LONG).show();
 			    } else {
 			      Log.e("com.parse.push", "failed to subscribe for push", e);
+			      Toast.makeText(getApplicationContext(), "didnt work", Toast.LENGTH_LONG).show();
 			    }
 			  }
 			});
